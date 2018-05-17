@@ -11,41 +11,42 @@ export default class FloorsAndTables extends React.Component {
     this.state = {
       floors: getFloors(),
       floorSelected: null,
-      floorDetails:null,
+      floorDetails:[],
       floorList: getFloorList()
     }
   }
  
-// hello
+
   fillTable() {
     Actions.OrderMenu();
   }
 
-  changeFloor(index){
-    //change to select floor
-    console.log(index);    
-    let floorDetails;
-     this.state.floors.forEach(element => {
-      console.log(element.floorID);
-      if(element.floorID==index){
-        floorDetails= this.state.floors[index].tables;
-      }
+  changeFloor(val){
+    //change to select floor  
+    console.log(this.state.floors);    
+    let selectedValue=val.match(/\d+/)[0];    
+    let FloorDetails;
+     this.state.floors.forEach((element,index) => {
+      if(element.floorID==selectedValue){             
+        FloorDetails= this.state.floors[index].tables;
+        console.log(FloorDetails);   
+      }      
     });
-    this.setState({floorSelected: index, floorDetails: floorDetails});    
+    this.setState({floorSelected: val, floorDetails: FloorDetails});    
   }
 
   render() {
-let tables = [];
+let tables = this.state.floorDetails;
+console.log(tables);
     if(this.state.floorDetails){
-    for (let index = 1; index <= floorDetails.tables.length; index++) {
+    for (let index = 1; index <= tables; index++) {
       tables.push("Table " + index);
     }
   }
-  
     return (
       <View style={styles.container}>
         <View style={{ height: 100, backgroundColor: 'skyblue', flex: 1 }}>
-          <Dropdown style={{ justifyContent: 'flex-start' }} onChange={() => this.changeFloor(index)}
+          <Dropdown style={{ justifyContent: 'flex-start' }} onChangeText={this.changeFloor.bind(this)}
             label='Select Floor'
             data={this.state.floorList}
           />
