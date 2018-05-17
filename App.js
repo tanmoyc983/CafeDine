@@ -1,36 +1,34 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Router, Scene } from 'react-native-router-flux';
-// export default class App extends React.Component {
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <Text>Open up App.js to start working on your app!</Text>
-//       </View>
-//     );
-//   }
-// }
+import { StyleSheet, Text, View, Platform, StatusBar } from 'react-native';
+import { Router, Scene, Drawer } from 'react-native-router-flux';
 
 import CustomerComponent from "./Components/Container/CustomerComponent";
 import FloorsAndTables from "./Components/Container/FloorsAndTables";
+import DrawerComponent from "./Components/Container/DrawerComponent";
 import "expo";
 
 const App = () => {
+  
     return (
-      <Router>
-        <Scene key="root">
-          <Scene key="Customer"
-            component={CustomerComponent}
-            title="Customer Info"
-            initial
-          />
-          <Scene
-            key="Floor"
-            component={FloorsAndTables}
-            title="Floor Schema"
-          />
-        </Scene>
-      </Router>
+        <Router>
+          <Scene key="root">
+            <Scene key="drawer" contentComponent={DrawerComponent} initial drawer= {true} drawerPosition="left" hideNavBar drawerWidth={200} drawerLabel="Open">
+                <Scene key="main">
+                    <Scene key="Customer" component={CustomerComponent} title={'Customer'} style={{paddingTop:10}}/>
+                    <Scene key="Floor" component={FloorsAndTables} title={'Floor'} style={{paddingTop:10}}/>
+                </Scene>
+            </Scene>
+            <Scene key="Customer"
+              component={CustomerComponent}
+              title="Customer Info"
+            />
+            <Scene
+              key="Floor"
+              component={FloorsAndTables}
+              title="Floor Schema"
+            />
+          </Scene>
+        </Router>
     );
   }
 

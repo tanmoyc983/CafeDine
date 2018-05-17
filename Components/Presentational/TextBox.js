@@ -6,7 +6,8 @@ import { TextField } from 'react-native-material-textfield';
 export default class Customer extends React.Component {
 
    txtChange(event){
-    this.props.changeField(event.nativeEvent.value, this.props.type);
+     
+    this.props.changeField(event.nativeEvent.text, this.props.type);
    }
 
   render() {
