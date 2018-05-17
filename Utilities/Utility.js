@@ -1,12 +1,15 @@
 var floors;
 var menuItems = [];
+var floorList = [];
 
 export function saveFloors() {
     fetch('http://onestaapi.azurewebsites.net/api/Floor')
         .then(response => { return response.json() })
         .then(res => {
-            console.log(res);
             floors = res;
+            res.forEach(element => {
+                floorList.push({value: 'Floor' + element.floorID});
+            });
         });
 }
 
@@ -19,11 +22,10 @@ export function setMenuItems() {
 
     fetch('http://onestaapi.azurewebsites.net/onesta/item/all')
         .then(res => { return res.json() })
-        .then(response => {
-            console.log(response);            
+        .then(response => {          
             response.forEach(temp => {
                 temp.quantity = 0;
-                menuItems.push(temp)
+                menuItems.push(temp);
             });
         })
 
@@ -33,3 +35,6 @@ export function getMenuItems() {
     return menuItems;
 }
 
+export function getFloorList(){
+    return floorList;
+}
