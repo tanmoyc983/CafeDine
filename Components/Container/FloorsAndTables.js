@@ -3,62 +3,72 @@ import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity } from '
 import { Dropdown } from 'react-native-material-dropdown';
 import { Card, ListItem, Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
-import { setMenuItems, getFloors, setFullOrders } from "../../Utilities/Utility";
+import { setMenuItems, getFloors, setFullOrders, getFloorList } from "../../Utilities/Utility";
 
 export default class FloorsAndTables extends React.Component {
-  constructor(){
+  constructor() {
     super();
-
     this.state = {
       floors: getFloors(),
-      floorSelected: null
+      floorSelected: null,
+      floorDetails: null,
+      floorList: getFloorList()
     }
   }
 
-  reviewOrder(){
+  reviewOrder() {
     setFullOrders();
   }
 
-  componentWillMount(){
-    ///For hussey da, manipulate data here
-  }
-
   fillTable() {
-    console.log('Sumant');
     Actions.OrderMenu();
   }
 
-  changeFloor(data){
+  changeFloor(index) {
     //change to select floor
-    this.setState({floorSelected: data});
+    console.log(index);
+    let floorDetails;
+    this.state.floors.forEach(element => {
+      console.log(element.floorID);
+      if (element.floorID == index) {
+        floorDetails = this.state.floors[index].tables;
+      }
+    });
+    this.setState({ floorSelected: index, floorDetails: floorDetails });
   }
 
   render() {
+    let tables = [];
+    if (this.state.floorDetails) {
+      for (let index = 1; index <= floorDetails.tables.length; index++) {
+        tables.push("Table " + index);
+      }
+    }
+
     return (
       <View style={styles.container}>
         <View style={{ height: 100, backgroundColor: 'skyblue', flex: 1 }}>
           <Dropdown style={{ justifyContent: 'flex-start' }} onChange={() => this.changeFloor(index)}
             label='Select Floor'
-            data={data}
+            data={this.state.floorList}
           />
         </View>
-
         <View style={{ backgroundColor: 'skyblue', flex: 5 }} >
           <FlatList
-            data={tables}
+            data={this.state.floorDetails}
             renderItem={({ item }) => (
               <TouchableOpacity onPress={this.fillTable.bind(this)} style={{ justifyContent: 'center' }}>
-                <Card  >
+                <Card>
                   <View style={{ flex: 1, flexDirection: 'row' }}>
                     <Text style={{ flex: 8, textAlign: 'center' }}>
-                      {item}
+                      Table {item.tableID}
                     </Text>
                   </View>
                 </Card>
               </TouchableOpacity>
             )}
           />
-          <Button title= 'Review Order' onPress={this.reviewOrder.bind(this)}></Button>
+          <Button title='Review Order' onPress={this.reviewOrder.bind(this)}></Button>
         </View>
       </View>
 
