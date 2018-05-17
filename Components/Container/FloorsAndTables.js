@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity } from '
 import { Dropdown } from 'react-native-material-dropdown';
 import { Card, ListItem, Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
-import { setMenuItems, getFloors } from "../../Utilities/Utility";
+import { setMenuItems, getFloors, setFullOrders } from "../../Utilities/Utility";
 
 export default class FloorsAndTables extends React.Component {
   constructor(){
@@ -14,6 +14,11 @@ export default class FloorsAndTables extends React.Component {
       floorSelected: null
     }
   }
+
+  reviewOrder(){
+    setFullOrders();
+  }
+
   componentWillMount(){
     ///For hussey da, manipulate data here
   }
@@ -29,11 +34,6 @@ export default class FloorsAndTables extends React.Component {
   }
 
   render() {
-//use below loop for pushing data
-    // let tables = [];
-    // for (let index = 0; index < 20; index++) {
-    //   tables.push("Table " + index);
-    // }
     return (
       <View style={styles.container}>
         <View style={{ height: 100, backgroundColor: 'skyblue', flex: 1 }}>
@@ -58,6 +58,7 @@ export default class FloorsAndTables extends React.Component {
               </TouchableOpacity>
             )}
           />
+          <Button title= 'Review Order' onPress={this.reviewOrder.bind(this)}></Button>
         </View>
       </View>
 

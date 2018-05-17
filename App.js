@@ -6,6 +6,7 @@ import CustomerComponent from "./Components/Container/CustomerComponent";
 import FloorsAndTables from "./Components/Container/FloorsAndTables";
 import DrawerComponent from "./Components/Container/DrawerComponent";
 import OrderComponent from "./Components/Container/OrderComponent";
+import ReviewOrderComponent from "./Components/Container/ReviewOrderComponent";
 import "expo";
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
             <Scene key="Customer" component={CustomerComponent} title={'Customer'} style={{ paddingTop: 10 }} />
             <Scene key="Floor" component={FloorsAndTables} title={'Floor'} style={{ paddingTop: 10 }} />
             <Scene key="OrderMenu" component={OrderComponent} title={'Order'} style={{ paddingTop: 10 }} />
+            {/* <Scene key="ReviewOrder" component={ReviewOrderComponent} title={'Review Order'} style={{ paddingTop: 10 }} /> */}
           </Scene>
         </Scene>
         <Scene key="Customer"
@@ -30,6 +32,7 @@ const App = () => {
           title="Floor Schema"
         />
          <Scene key="OrderMenu" component={OrderComponent} title={'Order'} style={{ paddingTop: 10 }} />
+         <Scene key="ReviewOrder" component={ReviewOrderComponent} title={'Review Order'} style={{ paddingTop: 10 }} /> 
       </Scene>
     </Router>
   );
