@@ -2,6 +2,8 @@ var floors;
 var menuItems = [];
 var fullOrder = [];
 var floorList = [];
+var Customer;
+var selectedTable;
 
 export function saveFloors() {
     fetch('http://onestaapi.azurewebsites.net/api/Floor')
@@ -37,8 +39,11 @@ export function getMenuItems() {
 }
 
 export function setFullOrders() {
+    fullOrder = [];
     menuItems.forEach((temp) => {
-        if (temp.quantity > 0) fullOrder.push(temp);
+        if (temp.quantity > 0) {
+            fullOrder.push(temp);
+        }
     });
 }
 
@@ -48,4 +53,20 @@ export function getFullOrder() {
 
 export function getFloorList() {
     return floorList;
+}
+
+export function setCustomer(data){
+    Customer=data;
+}
+
+export function getCustomer(){
+    return Customer;
+}
+
+export function setSelectedTable(data){
+    selectedTable = data;
+}
+
+export function getSelectedTable(){
+    return selectedTable;
 }

@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity, TouchableHighlight } from 'react-native';
 import { Card, ListItem, Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
-import { getFullOrder } from "../../Utilities/Utility";
+import { getFullOrder, getCustomer, getSelectedTable } from "../../Utilities/Utility";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class ReviewOrderComponent extends React.Component {
   constructor() {
@@ -14,12 +15,17 @@ export default class ReviewOrderComponent extends React.Component {
   }
 
   submitOrder(data) {
-    //change to select floor
-    this.setState({ floorSelected: data });
+    let Customer = getCustomer();
+    let selectedTable = getSelectedTable();
+    let allItems = {
+      items: this.state.order,
+      tableID: selectedTable,
+      customerID: Customer.customerID
+    }
   }
 
   updateIndex(item, index) {
-    let menuList = Object.assign([], this.state.menuItems);
+    let menuList = Object.assign([], this.state.order);
     let itemIndex = menuList.indexOf(item);
     if (index == 0 && menuList[itemIndex].quantity > 0) menuList[itemIndex].quantity = parseInt(menuList[itemIndex].quantity) - 1;
     else if (index == 1) menuList[itemIndex].quantity = parseInt(menuList[itemIndex].quantity) + 1;
@@ -29,7 +35,7 @@ export default class ReviewOrderComponent extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={{ backgroundColor: 'skyblue', flex: 5 }} >
+        <View>
           <FlatList
             data={this.state.order}
             renderItem={({ item }) => (
@@ -52,6 +58,7 @@ export default class ReviewOrderComponent extends React.Component {
             )}
           />
         </View>
+        <Button title='Submit Order' style={{ marginTop: 10 }} backgroundColor='blue' onPress={this.submitOrder.bind(this)}></Button>
       </View>
 
     );
@@ -62,6 +69,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    backgroundColor: 'skyblue'
   },
 });
