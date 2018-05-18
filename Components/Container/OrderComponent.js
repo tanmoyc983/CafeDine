@@ -55,7 +55,7 @@ export default class OrderComponent extends React.Component {
                         )}
                     />
                 </View>
-                <Button title='Review Order' style={{ backgroundColor: 'red'}} backgroundColor= 'blue' onPress={this.reviewOrder.bind(this)}></Button>
+                <Button title='Review Order' backgroundColor= '#2196F3' onPress={this.reviewOrder.bind(this)}></Button>
 
             </View>
 
@@ -68,6 +68,6 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         flexWrap: 'wrap',
-        backgroundColor: 'skyblue'
+        backgroundColor: '#EEEEEE'
     },
 });

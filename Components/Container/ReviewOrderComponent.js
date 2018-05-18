@@ -58,7 +58,7 @@ export default class ReviewOrderComponent extends React.Component {
             )}
           />
         </View>
-        <Button title='Submit Order' style={{ marginTop: 10 }} backgroundColor='blue' onPress={this.submitOrder.bind(this)}></Button>
+        <Button title='Submit Order' style={{ marginTop: 10 }} backgroundColor='#2196F3' onPress={this.submitOrder.bind(this)}></Button>
       </View>
 
     );
@@ -70,6 +70,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     flexWrap: 'wrap',
-    backgroundColor: 'skyblue'
+    backgroundColor: '#EEEEEE'
   },
 });

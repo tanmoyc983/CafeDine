@@ -28,15 +28,15 @@ export default class FloorsAndTables extends React.Component {
 
   changeFloor(val){
     //change to select floor  
-    console.log(this.state.floors);    
-    let selectedValue=val.match(/\d+/)[0];    
+    let selectedValue=val.match(/\d+/)[0];
     let FloorDetails;
+    if(this.state.floors){
      this.state.floors.forEach((element,index) => {
       if(element.floorID==selectedValue){             
         FloorDetails= this.state.floors[index].tables;
         console.log(FloorDetails);   
       }      
-    });
+    });}
     this.setState({floorSelected: val, floorDetails: FloorDetails});    
   }
 
@@ -50,7 +50,7 @@ console.log(tables);
   }
     return (
       <View style={styles.container}>
-        <View style={{ height: 100, backgroundColor: 'skyblue', flex: 1 }}>
+        <View style={{ height: 100, backgroundColor: '#EEEEEE', flex: 1 }}>
           <Dropdown style={{ justifyContent: 'flex-start' }} onChangeText={this.changeFloor.bind(this)}
             label='Select Floor'
             data={this.state.floorList}

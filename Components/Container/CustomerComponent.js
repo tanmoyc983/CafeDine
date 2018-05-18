@@ -111,7 +111,7 @@ export default class Customer extends React.Component {
         <Spinner visible={this.state.showIndicator} textContent={"Loading..."} textStyle={{ color: '#FFF' }} />
         {children}
         <Button
-          title='Submit' style={{ backgroundColor: 'blue' }} backgroundColor='blue'
+          title='Submit' backgroundColor='#2196F3'
           onPress={this.saveUser.bind(this)}
         />
         <Animated.View style={{ marginBottom: this.paddingInput }}>
@@ -124,7 +124,7 @@ export default class Customer extends React.Component {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
-    backgroundColor: 'skyblue',
+    backgroundColor: '#EEEEEE',
     flex: 1
   },
 });
