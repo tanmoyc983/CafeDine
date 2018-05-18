@@ -1,8 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity, TouchableHighlight } from 'react-native';
 import { Card, ListItem, Button, ButtonGroup } from 'react-native-elements';
-import { getMenuItems } from "../../Utilities/Utility";
+import { getMenuItems, setFullOrders } from "../../Utilities/Utility";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Actions } from 'react-native-router-flux';
 
 export default class OrderComponent extends React.Component {
     constructor() {
@@ -12,6 +13,11 @@ export default class OrderComponent extends React.Component {
             menuItems: getMenuItems(),
             selectedIndex: 0
         }
+    }
+
+    reviewOrder(){
+        setFullOrders();
+        Actions.ReviewOrder();
     }
 
     updateIndex(item, index) {
@@ -26,7 +32,7 @@ export default class OrderComponent extends React.Component {
         let selectedIndex = this.state.selectedIndex;
         return (
             <View style={styles.container}>
-                <View style={{ backgroundColor: 'skyblue', flex: 5 }} >
+                <View>
                     <FlatList
                         data={this.state.menuItems}
                         renderItem={({ item }) => (
@@ -49,6 +55,8 @@ export default class OrderComponent extends React.Component {
                         )}
                     />
                 </View>
+                <Button title='Review Order' style={{ backgroundColor: 'red'}} backgroundColor= 'blue' onPress={this.reviewOrder.bind(this)}></Button>
+
             </View>
 
         );
@@ -59,6 +67,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        backgroundColor: 'skyblue'
     },
 });

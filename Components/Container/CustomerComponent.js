@@ -1,43 +1,55 @@
 import React from 'react';
-import { StyleSheet, Text, ScrollView, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, ScrollView, TextInput, Alert, KeyboardAvoidingView, Animated, Keyboard, Keyboardawa } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Button } from "react-native-elements";
 import { TextField } from 'react-native-material-textfield';
 import TextBoxMaterial from "../Presentational/TextBox";
 import StatusBarComp from "../Presentational/StatusBarComponent";
-import { saveFloors, setMenuItems } from "../../Utilities/Utility";
-
+import { saveFloors, setMenuItems, setCustomer } from "../../Utilities/Utility";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default class Customer extends React.Component {
 
   constructor() {
     super();
-
+    this.paddingInput = new Animated.Value(0);
     this.state = {
       mobileNumber: "",
       CustomerName: "",
       email: "",
       address: "",
       city: "",
-      state: ""
+      state: "",
+      userAvailable: false,
+      showIndicator: false
     }
   }
 
-  componentWillMount(){
-    console.log('calling apis');
+  componentWillMount() {
     setMenuItems();
     saveFloors();
   }
+
   changeField(value, type) {
     if (type === "mobileNumber") {
       this.setState({ mobileNumber: value });
       if (value.length == 10) {
+        this.setState({ showIndicator: true });
         fetch('http://onestaapi.azurewebsites.net/onesta/customer?mobile=' + value
         ).then((response) => {
           return response.json();
-        }).then(res => {
-          console.log(res);
-          this.setState({ CustomerName: res.customerName, email: res.email, state: res.state, city: res.city, address: res.address });
+        }).then(responseJson => {
+          if (responseJson[0]) {
+            let res = responseJson[0];
+            setCustomer(res);
+            this.setState({
+              CustomerName: res.customerName, email: res.email, state: res.state, city: res.city, address: res.address, userAvailable: true,
+              showIndicator: false
+            });
+          }
+          else {
+            this.setState({ showIndicator: false });
+          }
         })
       }
     }
@@ -49,21 +61,25 @@ export default class Customer extends React.Component {
   }
 
   saveUser() {
-    fetch('http://onestaapi.azurewebsites.net/onesta/customer', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(this.state),
-    }).then(response => response.json())
-      .then(
-        response => {
-          Actions.Floor();
-        }
-      ).catch(err => {
-        Alert.alert('error', err);
-      });
+    if (!this.state.userAvailable) {
+      this.setState({ showIndicator: true });
+      fetch('http://onestaapi.azurewebsites.net/onesta/customer', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(this.state),
+      }).then(response => response.json())
+        .then(
+          response => {
+            this.setState({ showIndicator: false });
+            Actions.Floor();
+          }
+        ).catch(err => {
+          Alert.alert('error', err);
+        });
+    }
   }
 
   render() {
@@ -91,20 +107,24 @@ export default class Customer extends React.Component {
     });
 
     return (
-      <ScrollView style={styles.container}>
-
+      <KeyboardAvoidingView style={styles.container} behavior='position' enabled>
+        <Spinner visible={this.state.showIndicator} textContent={"Loading..."} textStyle={{ color: '#FFF' }} />
         {children}
         <Button
-          title='Submit' style={{ backgroundColor: 'blue' }}
+          title='Submit' style={{ backgroundColor: 'blue' }} backgroundColor='blue'
           onPress={this.saveUser.bind(this)}
         />
-      </ScrollView>
+        <Animated.View style={{ marginBottom: this.paddingInput }}>
+        </Animated.View>
+      </KeyboardAvoidingView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10
+    padding: 10,
+    backgroundColor: 'skyblue',
+    flex: 1
   },
 });

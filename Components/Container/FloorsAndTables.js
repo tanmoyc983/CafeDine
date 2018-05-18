@@ -3,10 +3,10 @@ import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity } from '
 import { Dropdown } from 'react-native-material-dropdown';
 import { Card, ListItem, Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
-import { setMenuItems, getFloors, getFloorList } from "../../Utilities/Utility";
+import { setMenuItems, getFloors, setFullOrders, getFloorList, setSelectedTable } from "../../Utilities/Utility";
 
 export default class FloorsAndTables extends React.Component {
-  constructor(){
+  constructor() {
     super();
     this.state = {
       floors: getFloors(),
@@ -15,9 +15,14 @@ export default class FloorsAndTables extends React.Component {
       floorList: getFloorList()
     }
   }
- 
 
-  fillTable() {
+  reviewOrder() {
+    setSelectedTable(1);
+    Actions.OrderMenu();
+  }
+
+  fillTable(data) {
+    setSelectedTable(data);
     Actions.OrderMenu();
   }
 
@@ -55,7 +60,7 @@ console.log(tables);
           <FlatList
             data={this.state.floorDetails}
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={this.fillTable.bind(this)} style={{ justifyContent: 'center' }}>
+              <TouchableOpacity onPress={() => this.fillTable(item.tableID)} style={{ justifyContent: 'center' }}>
                 <Card>
                   <View style={{ flex: 1, flexDirection: 'row' }}>
                     <Text style={{ flex: 8, textAlign: 'center' }}>
