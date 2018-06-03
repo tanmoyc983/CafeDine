@@ -1,9 +1,8 @@
-import React from 'react';
-import Root from './src/native/index';
-import configureStore from './src/store/index';
+import 'expo';
+import './App/Config/ReactotronConfig'
+import { AppRegistry } from 'react-native'
+import App from './App/Containers/App'
 
-const { persistor, store } = configureStore();
 
-export default function App() {
-  return <Root store={store} persistor={persistor} />;
-}
+AppRegistry.registerComponent('Onesta', () => App)
+AppRegistry.registerComponent('main', () => App);
