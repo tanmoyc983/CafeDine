@@ -19,11 +19,11 @@ export default class LaunchScreen extends Component {
 
   componentDidMount() {
     setMenuItems();
-    saveFloors();
+    saveFloors();    
   }
 
   fetchUser(event){
-    var url = 'http://onestaapi.azurewebsites.net/onesta/customer?mobile=' + this.state.phone;
+    var url = 'http://10.31.101.118:8080/onesta/customer/MobileNumber?mobile=' + this.state.phone;
     fetch(url,{
       method: 'GET',
       headers: {
@@ -33,21 +33,27 @@ export default class LaunchScreen extends Component {
     }
       ).then((response) => {
          return response.json();
-      }).then(responseJson => {
-          let res = responseJson;
+      }).then(responseJson => {  
+        let res = responseJson;
+          if(res==='Mobile number is not registered !')
+          {
+            setCustomer({customerID: this.state.phone});
+            this.props.navigation.navigate('CustomerScreen');
+          }
+          else{
           setCustomer(res);
           this.setState({
             showIndicator: false
           });
-          this.props.navigation.navigate('FloorScreen');
-       
+          this.props.navigation.navigate('CustomerScreen');
+          }       
       }).catch(err => {
-          setCustomer({mobileNumber: this.state.phone});
+          //setCustomer({customerID: this.state.phone});
           this.props.navigation.navigate('CustomerScreen');
       });
       this.setState({showIndicator: true})
   }
-
+  
   changeField(event){
     if(this.state.phone.length = 10){
       this.setState({ phone: event, searchDisabled: false});
@@ -58,20 +64,19 @@ export default class LaunchScreen extends Component {
     }
   }
 
-  render () {
-    
+  render () {    
     return (
       <View style={styles.mainContainer}>
-        <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
+        <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
         {this.state.showIndicator && <View style={[stylesDrawer.container, stylesDrawer.horizontal]}>
         <ActivityIndicator size="large" color="red" /></View>}
         <View style={{zIndex: 999}}>
         </View>
         {!this.state.showIndicator && <ScrollView style={{flex:1, flexDirection: 'column'}}>
-            <Text style={styles.sectionText}>
+            <Text style={[styles.sectionText]}>
               Search Customer
             </Text>
-            <TextBoxMaterial keyboardTextType="numeric" label="Phone Number" value= {this.state.phone} changeField = {this.changeField.bind(this)}/>
+            <TextBoxMaterial keyboardTextType="numeric"  label="Phone Number" value= {this.state.phone} changeField = {this.changeField.bind(this)}/>
               
             <TouchableOpacity onPress={this.fetchUser.bind(this)} style={stylesDrawer.buttonStyle} disabled={this.state.searchDisabled} >
               <Icon name='search' size= {25} color="white" />
@@ -84,17 +89,6 @@ export default class LaunchScreen extends Component {
 }
 
 const stylesDrawer = StyleSheet.create({
-  searchBtn: {
-    flex:1, 
-    flexDirection: 'row', 
-    marginVertical: 20, 
-    borderWidth: 1, 
-    width: 100, 
-    marginLeft: 10, 
-    paddingLeft:10,
-    backgroundColor: '#64B5F6',
-    borderRadius: 1
-  },
   textStyle: {
     fontSize:20,
     color: 'white',

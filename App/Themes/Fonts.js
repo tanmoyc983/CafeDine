@@ -44,8 +44,9 @@ const style = {
     fontSize: size.h6
   },
   normal: {
+    fontWeight: 'bold',
     fontFamily: type.base,
-    fontSize: size.regular
+    fontSize: size.input
   },
   description: {
     fontFamily: type.base,

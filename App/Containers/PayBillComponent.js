@@ -40,7 +40,7 @@ export default class PayBillComponent extends React.Component {
     render() {
         return (
             <View style={styles.mainContainer}>
-                <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
+                <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
                 <Text style={{fontSize: 20, color: 'white', marginLeft: 10}}> Bill for {this.state.order.customerDetails.customerName}</Text>
                 {this.state.showIndicator && <View style={[stylesFloor.container, stylesFloor.horizontal]}>
                     <ActivityIndicator size="large" color="red" /></View>}

@@ -1,125 +1,61 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList, Button, TouchableOpacity, TouchableHighlight, Image, ActivityIndicator } from 'react-native';
-import { getFullOrder, getCustomer, getSelectedTable, setStackParam, clearData } from "../Utilities/Utility";
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-import styles from './Styles/LaunchScreenStyles';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, TouchableHighlight,Image } from 'react-native';
+import { getFullOrder } from "../Utilities/Utility";
+import ReviewModes from "./Review/ReviewMode";
+import moment from "moment";
+import { Card, h1, Header,Badge } from 'react-native-elements';
+import Accordion from 'react-native-collapsible/Accordion';
 
 import { Images } from '../Themes';
 
+import styles from './Styles/LaunchScreenStyles';
+import { Item } from 'native-base';
 export default class ReviewOrderComponent extends React.Component {
     constructor() {
         super();
-
         this.state = {
-            order: getFullOrder(),
-            showIndicator: false
+            fullOrder: getFullOrder()
         }
-    }
-
-    submitOrder(data) {
-        let Customer = getCustomer();
-        let selectedTable = getSelectedTable().tableID;
-        let allItems = {
-            items: this.state.order,
-            tableID: selectedTable,
-            customerID: Customer.customerID,
-            noofPerson: 0
-        }
-        console.log(allItems);
-        this.setState({ showIndicator: true });
-        fetch('http://onestaapi.azurewebsites.net/api/Order_Customer', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(allItems),
-        }).then(response => response.json())
-            .then(
-                response => {
-                    setStackParam(false);
-                    clearData();
-                    this.setState({ showIndicator: false });
-                    this.props.navigation.navigate('LaunchScreen');
-                }
-            ).catch(err => {
-                console.log(err);
-            });
-    }
-
-    updateIndex(item, index) {
-        let menuList = Object.assign([], this.state.order);
-        let itemIndex = menuList.indexOf(item);
-        if (index == 0 && menuList[itemIndex].quantity > 0) menuList[itemIndex].quantity = parseInt(menuList[itemIndex].quantity) - 1;
-        else if (index == 1) menuList[itemIndex].quantity = parseInt(menuList[itemIndex].quantity) + 1;
-        this.setState({ menuItems: menuList });
     }
 
     render() {
+        let btns = [];
+        let order=this.state.fullOrder;
+        let OrderNumber="OrderNumber:"+order.orderID;                
+        order.subOrder.forEach((item) => { 
+            let myOrders = [];  
+            let mode = item.modes.map((data) => {
+                myOrders.push(<ReviewModes mode={data}/>);
+              });
+            var submittedTime = moment(item.submittedTime).format('MMM DD h:mm A');
+            let roundTitle=' Round: '+ item.subOrderNumber +"   "+submittedTime;
+                btns.push(                   
+                <Card title={OrderNumber} textStyle={{fontSize:25}}>
+                    <Badge value={roundTitle} textStyle={{ color: 'orange', fontSize:25 }}/>
+                    {myOrders}               
+                </Card>
+                );
+        });
         return (
             <View style={styles.mainContainer}>
-                <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
-                {this.state.showIndicator && <View style={[stylesFloor.container, stylesFloor.horizontal]}>
-                    <ActivityIndicator size="large" color="red" /></View>}
-                {!this.state.showIndicator && <View>
-                    <FlatList
-                        data={this.state.order}
-                        extraData= {this.state}
-                        renderItem={({ item }) => (
-                            <View style={stylesFloor.btnStyle}>
-                                <View style={{ flex: 1, flexDirection: 'row' }}>
-                                    <Text style={{ flex: 7, textAlign: 'left', marginVertical: 18, fontSize: 20, marginLeft: 5 }}>
-                                        {item.itemName}
-                                    </Text>
-                                    <View style={{ flex: 4, flexDirection: 'row' }}>
-                                        <View style={{ flex: 4, flexDirection: 'row' }}>
-                                            <TouchableHighlight onPress={() => this.updateIndex(item, 0)} style={{ padding: 10 }}>
-                                                <Icon name="minus-circle" size={40} color="#2196f3" /></TouchableHighlight>
-                                            <Text style={{ marginVertical: 18, fontSize: 20 }}>{item.quantity}</Text>
-
-                                            <TouchableHighlight onPress={() => this.updateIndex(item, 1)} style={{ padding: 10 }}>
-                                                <Icon name="plus-circle" size={40} color="#2196f3" /></TouchableHighlight>
-                                        </View>
-
-                                    </View>
-                                </View>
-                            </View>
-                        )}
-                    />
-                    <Button title='Submit Order' style={{ marginTop: 10 }} backgroundColor='#2196F3' onPress={this.submitOrder.bind(this)}></Button>
-                </View>}
+                {this.state.showIndicator && <View>
+                   <ActivityIndicator size="large" color="green" /></View>}
+                <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />                
+                {!this.state.showIndicator && <View style={{flex:1, flexDirection: 'column'}}>
+                    <ScrollView>{btns}</ScrollView> 
+                    <View style={{ borderWidth: 0.5, borderColor: 'black', margin: 10 }} />
+                    <Badge containerStyle={{ backgroundColor: 'orange'}}>
+                    <Text h1 style={{fontWeight: 'bold', fontSize: 25,color:'white' }}>Total Price: {order.totalPrice} Rs.</Text>
+                    </Badge>    
+                </View>      }
             </View>
-
-        );
+        )
     }
 }
 
-
 const stylesFloor = StyleSheet.create({
     container: {
-        flex: 1,
         flexDirection: 'column',
-        flexWrap: 'wrap'
-    },
-    btnStyle: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        borderRadius: 5,
-        height: 50,
-        marginVertical: 10
-    },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        zIndex: 999
-    },
-    horizontal: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        padding: 10
-    }
-});
+        flexWrap: 'wrap',
+        height:100
+    }});

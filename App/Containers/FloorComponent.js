@@ -22,7 +22,7 @@ export default class FloorsAndTables extends React.Component {
   fillTable(data) {
     setSelectedTable(data);
     if (this.state.customerStack) {
-      this.props.navigation.navigate('OrderScreen');
+      this.props.navigation.navigate('ModeSelectionScreen');
     }
     else {
       this.props.navigation.navigate('ReviewOrderScreen');
@@ -53,19 +53,23 @@ export default class FloorsAndTables extends React.Component {
 
     return (
       <View style={styles.mainContainer}>
-        <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
-        <View style={{ height: 100, flex: 1 }}>
-          <Dropdown style={{ justifyContent: 'flex-start', color: 'white' }} onChangeText={this.changeFloor.bind(this)}
+        <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
+        <View style={{ height: 100, flex: 1,width:300 }}>
+          <Dropdown style={{ justifyContent: 'flex-start', color: 'white' }}
+          dropdownPosition={0}
+          labelFontSize={25}
+          fontSize={18}
+          onChangeText={this.changeFloor.bind(this)}
             label='Select Floor' baseColor='white'
             data={this.state.floorList}
           />
         </View>
         <View style={{ flex: 5 }} >
           <View style={{ flexDirection: 'row' }}>
-            <Text style={{ flex: 8, textAlign: 'center', color: 'white' }}>
+            <Text style={{ flex: 8, textAlign: 'center', color: 'white',fontSize:25 }}>
               Table Number
               </Text>
-            <Text style={{ flex: 8, textAlign: 'center', color: 'white' }}>
+            <Text style={{ flex: 8, textAlign: 'center', color: 'white',fontSize:25 }}>
               Capacity
               </Text>
           </View>
@@ -74,10 +78,10 @@ export default class FloorsAndTables extends React.Component {
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => this.fillTable(item)} style={[stylesFloor.btnStyle,item.isOccupied ? stylesFloor.filled : stylesFloor.empty]} disabled={item.isOccupied}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                  <Text style={{ flex: 8, textAlign: 'center', color: 'black' }}>
+                  <Text style={{ flex: 8, textAlign: 'center', color: 'black',fontSize:25 }}>
                     Table {item.tableID}
                   </Text>
-                  <Text style={{ flex: 8, textAlign: 'center', color: 'black' }}>
+                  <Text style={{ flex: 8, textAlign: 'center', color: 'black',fontSize:25 }}>
                     {item.capacity}
                   </Text>
                 </View>
@@ -107,7 +111,7 @@ const stylesFloor = StyleSheet.create({
     marginVertical: 10
   },
   filled: {
-    backgroundColor: 'red',
+    backgroundColor: '#ff8080',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -117,7 +121,7 @@ const stylesFloor = StyleSheet.create({
     marginVertical: 10
   },
   empty: {
-    backgroundColor: '#4DB6AC',
+    backgroundColor: '#a5dad5',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',

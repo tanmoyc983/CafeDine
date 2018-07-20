@@ -11,7 +11,7 @@ class DrawerButton extends Component {
     super();
 
     this.state = {
-      list: [{key: 'Customer', icon: 'person', screen: 'orderStack'}, {key: 'Floors', icon: 'restaurant', screen: 'TablesScreen'}]
+      list: [{key: 'Customer', icon: 'person', screen: 'BeforeModeSelectionStack'}, {key: 'Floors', icon: 'restaurant', screen: 'TablesScreen'}]
     }
   }
 

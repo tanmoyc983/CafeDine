@@ -8,6 +8,9 @@ import OrderScreen from '../Containers/OrderScreen';
 import ReviewOrderScreen from '../Containers/ReviewOrder';
 import TablesScreen from '../Containers/TablesComponent';
 import PayBillComponent from '../Containers/PayBillComponent';
+import ModeSelectionScreen from '../Containers/ModeSelectionComponent';
+import MenuItemsScreen from '../Containers/MenuItems';
+import CheckoutOrderScreen from "../Containers/CheckoutOrder";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import DrawerComponent from '../Components/DrawerButton';
@@ -22,13 +25,14 @@ const noTransitionConfig = () => ({
   }
 })
 
-const orderStack = StackNavigator({
+const BeforeModeSelectionStack = StackNavigator({
   LaunchScreen: {
     screen: LaunchScreen,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: { backgroundColor: 'rgba(30, 30, 29, 0.95)' },
+      headerStyle: { backgroundColor: 'rgba(30, 30, 29, 0.95)',height:80 },
       headerTitle: 'Customer',
-      headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 17 },
+      headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 19,fontWeight: 'bold',
+      fontSize: 30 },
       gesturesEnabled: false,
       headerLeft: <Icon name="bars" size={30} color="white" style={{ paddingLeft: 15 }} onPress={() => {
         navigation.navigate('DrawerToggle')
@@ -40,7 +44,7 @@ const orderStack = StackNavigator({
     navigationOptions: ({ navigation }) => ({
       headerStyle: { backgroundColor: 'rgba(30, 30, 29, 0.95)' },
       headerTitle: 'Customer Info',
-      headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 17 },
+      headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14,fontWeight: 'bold',fontSize: 30 },
       headerTintColor: 'white',
     })
   },
@@ -49,16 +53,39 @@ const orderStack = StackNavigator({
     navigationOptions: ({ navigation }) => ({
       headerStyle: { backgroundColor: 'rgba(30, 30, 29, 0.95)' },
       headerTitle: 'Tables',
-      headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 17 },
+      headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14,fontWeight: 'bold',fontSize: 30 },
       headerTintColor: 'white',
     })
   },
+  ModeSelectionScreen: {
+    screen: ModeSelectionScreen,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: { backgroundColor: 'rgba(30, 30, 29, 0.95)' },
+      headerTitle: 'Select Modes',
+      headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14,fontWeight: 'bold',fontSize: 30 },
+      headerTintColor: 'white',
+    })
+  }},{
+    initialRouteName: 'LaunchScreen',
+
+  });
+
+  const AfterModeSelectionStack = StackNavigator({
   OrderScreen: {
     screen: OrderScreen,
     navigationOptions: ({ navigation }) => ({
       headerStyle: { backgroundColor: 'rgba(30, 30, 29, 0.95)' },
-      headerTitle: 'Menu',
-      headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 17 },
+      headerTitle: 'Order Details',
+      headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14,fontWeight: 'bold',fontSize: 30 },
+      headerTintColor: 'white',
+    })
+  },
+  MenuItemsScreen: {
+    screen: MenuItemsScreen,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: { backgroundColor: 'rgba(30, 30, 29, 0.95)' },
+      headerTitle: 'Menu Items',
+      headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14,fontWeight: 'bold',fontSize: 30 },
       headerTintColor: 'white',
     })
   },
@@ -67,14 +94,20 @@ const orderStack = StackNavigator({
     navigationOptions: ({ navigation }) => ({
       headerStyle: { backgroundColor: 'rgba(30, 30, 29, 0.95)' },
       headerTitle: 'Review Order',
-      headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 17 },
+      headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14,fontWeight: 'bold',fontSize: 30 },
+      headerTintColor: 'white',
+    })
+  },
+  CheckoutOrderScreen: {
+    screen: CheckoutOrderScreen,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: { backgroundColor: 'rgba(30, 30, 29, 0.95)' },
+      headerTitle: 'Checkout Order',
+      headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14,fontWeight: 'bold',fontSize: 30 },
       headerTintColor: 'white',
     })
   }
-}, {
-    initialRouteName: 'LaunchScreen',
-
-  })
+});
 
 const floorStack = StackNavigator({
   TablesScreen: {
@@ -103,7 +136,8 @@ const floorStack = StackNavigator({
   })
 
 const DrawerStack = DrawerNavigator({
-  orderStack: { screen: orderStack },
+  BeforeModeSelectionStack: { screen: BeforeModeSelectionStack },
+  AfterModeSelectionStack: { screen: AfterModeSelectionStack },
   floorStack: { screen: floorStack }
 }, {
     gesturesEnabled: false,

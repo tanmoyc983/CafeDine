@@ -31,13 +31,11 @@ export default class TablesComponent extends React.Component {
     }
 
     componentWillMount() {
-        console.log('api');
         let floors, floorList = [];
         if (!this.state.floors) {
             fetch('http://onestaapi.azurewebsites.net/api/Floor')
                 .then(response => { return response.json() })
                 .then(res => {
-                    console.log('api success');
                     floors = res;
                     res.forEach(element => {
                         floorList.push({ value: 'Floor' + element.floorID });
@@ -71,7 +69,7 @@ export default class TablesComponent extends React.Component {
 
         return (
             <View style={styles.mainContainer}>
-                <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
+                <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
                 {this.state.showIndicator && <View style={[stylesFloor.activityContainer, stylesFloor.horizontal]}>
                     <ActivityIndicator size="large" color="red" /></View>}
                 {!this.state.showIndicator && <View style={{ height: 100, flex: 1 }}>

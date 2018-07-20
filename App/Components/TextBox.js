@@ -12,9 +12,13 @@ export default class Customer extends React.Component {
   render() {
     return (
         <TextField
+              fontSize={20}
+              labelFontSize={20}
+              titleFontSize={30}
               label={this.props.label}
               value={this.props.value}
               onChange={this.txtChange.bind(this) }
+              tintColor= "#64B5F6"
               baseColor= "white"
               textColor	="white"
               autoFocus = {this.props.shouldFocus}
