@@ -1,0 +1,138 @@
+﻿{
+  "orderID": "OR2018-000111-000058",
+  "customer": {
+    "customerID": 7602370846,
+    "customerName": "Animesh",
+    "address": "Kolkata",
+    "city": "Kolkata                                           ",
+    "state": "WB                                                ",
+    "email": "animesh.lohar@pwc.com"
+  },
+  "tableID": 3,
+  "finalCheckout": true,
+  "totalPrice": 1990,
+  "subOrder": [
+    {
+      "subOrderNumber": 1,
+      "submittedTime": "2018-07-21T21:45:23.837",
+      "modes": [
+        {
+          "modeType": "A la carte",
+          "modeName": "Ala Carte",
+          "quantity": 0,
+          "defaultItemID": "",
+          "defaultItemPrice": 0,
+          "orders": [
+            {
+              "itemID": "I00036",
+              "itemName": "Sweetcorn Pineapple & Cheese (Italian)",
+              "itemPrice": 0,
+              "status": null,
+              "quantity": 2
+            },
+            {
+              "itemID": "I00032",
+              "itemName": "Minced Chicken Lasagne (Square)",
+              "itemPrice": 0,
+              "status": null,
+              "quantity": 1
+            },
+            {
+              "itemID": "I00034",
+              "itemName": "Penne pasta (Arrabiatta sauce) Chicken",
+              "itemPrice": 0,
+              "status": null,
+              "quantity": 1
+            },
+            {
+              "itemID": "I00035",
+              "itemName": "Cream roasted chicken Pizza (Thin)",
+              "itemPrice": 0,
+              "status": null,
+              "quantity": 2
+            }
+          ],
+          "category": null
+        },
+        {
+          "modeType": "UNVB",
+          "modeName": "Unlimited Veg Buffet\r\n",
+          "quantity": 1,
+          "defaultItemID": "I00002",
+          "defaultItemPrice": 590,
+          "orders": [
+            {
+              "itemID": "I00033",
+              "itemName": "Penne pasta (Arrabiatta sauce)",
+              "itemPrice": 0,
+              "status": null,
+              "quantity": 4
+            }
+          ],
+          "category": null
+        }
+      ]
+    },
+    {
+      "subOrderNumber": 2,
+      "submittedTime": "2018-07-21T21:49:10.903",
+      "modes": [
+        {
+          "modeType": "ULNVP",
+          "modeName": "Unlimited Non Veg Pizza\r\n",
+          "quantity": 1,
+          "defaultItemID": "I00003",
+          "defaultItemPrice": 500,
+          "orders": [
+            {
+              "itemID": "I00015",
+              "itemName": "Chicken Alfredo Pizza (Thin)",
+              "itemPrice": 0,
+              "status": null,
+              "quantity": 3
+            },
+            {
+              "itemID": "I00015",
+              "itemName": "Chicken Alfredo Pizza (Thin)",
+              "itemPrice": 0,
+              "status": null,
+              "quantity": 1
+            },
+            {
+              "itemID": "I00035",
+              "itemName": "Cream roasted chicken Pizza (Thin)",
+              "itemPrice": 0,
+              "status": null,
+              "quantity": 1
+            },
+            {
+              "itemID": "I00036",
+              "itemName": "Sweetcorn Pineapple & Cheese (Italian)",
+              "itemPrice": 0,
+              "status": null,
+              "quantity": 1
+            }
+          ],
+          "category": null
+        },
+        {
+          "modeType": "ULVP",
+          "modeName": "Unlimited Veg Pizza\r\n",
+          "quantity": 2,
+          "defaultItemID": "I00004",
+          "defaultItemPrice": 450,
+          "orders": [
+            {
+              "itemID": "I00036",
+              "itemName": "Sweetcorn Pineapple & Cheese (Italian)",
+              "itemPrice": 0,
+              "status": null,
+              "quantity": 2
+            }
+          ],
+          "category": null
+        }
+      ]
+    }
+  ]
+}

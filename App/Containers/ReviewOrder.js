@@ -1,28 +1,35 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, TouchableHighlight,Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, TouchableHighlight,Image,ActivityIndicator } from 'react-native';
 import { getFullOrder } from "../Utilities/Utility";
 import ReviewModes from "./Review/ReviewMode";
 import moment from "moment";
 import { Card, h1, Header,Badge } from 'react-native-elements';
 import Accordion from 'react-native-collapsible/Accordion';
-
 import { Images } from '../Themes';
-
+import { connect } from 'react-redux';
+import ReduxActions from "../Redux/ActionTypes/Action";
+import SagaActions from "../Sagas/ActionTypes/Action";
 import styles from './Styles/LaunchScreenStyles';
-import { Item } from 'native-base';
-export default class ReviewOrderComponent extends React.Component {
+import __  from "lodash";
+
+class ReviewOrderComponent extends React.Component {
     constructor() {
         super();
         this.state = {
             fullOrder: getFullOrder()
         }
     }
+    componentWillMount(){
+     this.props.dispatch({type:SagaActions.GET_ORDER_REVIEW_DETAILS,orderID:this.props.OrderID});
+    }
 
     render() {
         let btns = [];
-        let order=this.state.fullOrder;
+        if(!__.isEmpty(this.props.ReviewOrderDetails))
+        {         
+        let order=this.props.ReviewOrderDetails;
         let OrderNumber="OrderNumber:"+order.orderID;                
-        order.subOrder.forEach((item) => { 
+        order.subOrder.map((item) => { 
             let myOrders = [];  
             let mode = item.modes.map((data) => {
                 myOrders.push(<ReviewModes mode={data}/>);
@@ -36,18 +43,19 @@ export default class ReviewOrderComponent extends React.Component {
                 </Card>
                 );
         });
+    }
         return (
             <View style={styles.mainContainer}>
-                {this.state.showIndicator && <View>
+                {__.isEmpty(this.props.ReviewOrderDetails) && <View>
                    <ActivityIndicator size="large" color="green" /></View>}
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />                
-                {!this.state.showIndicator && <View style={{flex:1, flexDirection: 'column'}}>
+                {!__.isEmpty(this.props.ReviewOrderDetails) && <View style={{flex:1, flexDirection: 'column'}}>
                     <ScrollView>{btns}</ScrollView> 
                     <View style={{ borderWidth: 0.5, borderColor: 'black', margin: 10 }} />
                     <Badge containerStyle={{ backgroundColor: 'orange'}}>
-                    <Text h1 style={{fontWeight: 'bold', fontSize: 25,color:'white' }}>Total Price: {order.totalPrice} Rs.</Text>
+                    <Text h1 style={{fontWeight: 'bold', fontSize: 25,color:'white' }}>Total Price: {this.props.ReviewOrderDetails.totalPrice} Rs.</Text>
                     </Badge>    
-                </View>      }
+                </View>}
             </View>
         )
     }
@@ -59,3 +67,13 @@ const stylesFloor = StyleSheet.create({
         flexWrap: 'wrap',
         height:100
     }});
+
+
+const mapStateToProps=(state)=>{
+    return{
+        OrderID:state.OrderReducer.OrderID,
+        ReviewOrderDetails:state.OrderReducer.ReviewOrderDetails
+    }
+}    
+
+export default connect(mapStateToProps,null)(ReviewOrderComponent);

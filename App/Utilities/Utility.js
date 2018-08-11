@@ -55,7 +55,6 @@ fetch('http://10.31.101.118:8080/api/OrderDetails', {
     }
 
 export function saveFloors() {
-  debugger;
   floorList=[];
   fetch('http://10.31.101.118:8080/api/Floor')
     .then(response => {
@@ -334,7 +333,6 @@ export function getItems(data) {
   items.forEach((temp) => {
     if (temp.modeType === data) toReturn = temp.category;
   })
-  console.log(toReturn);
   return toReturn;
 }
 

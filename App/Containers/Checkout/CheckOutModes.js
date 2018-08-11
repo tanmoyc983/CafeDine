@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import {h1,Badge} from 'react-native-elements';
+import {h1} from 'react-native-elements';
 import CheckoutItems from './CheckOutItems';
 
 export default class CheckoutModes extends React.Component {
@@ -19,7 +19,8 @@ export default class CheckoutModes extends React.Component {
             
             <View style={{flexDirection: 'column',flexWrap: 'wrap'}}>
                     <View style={{flexDirection: 'row',justifyContent:'space-between',alignItems:'baseline'}}>
-                    <Badge value={this.props.mode.modeName}  textStyle={{ color: 'orange',fontWeight: 'bold',fontSize: 20 }}/>
+                    <Text style={{ color: 'orange',fontWeight: 'bold',fontSize: 20 }}> {this.props.mode.modeName}  
+                    </Text>
                     <Text h1 style={{fontWeight: 'bold',fontSize: 18 }}>{Modeinfo}</Text>
                     </View>
                     <View style={{borderBottomColor: 'black', borderBottomWidth: 1, justifyContent:'space-between', alignItems:'baseline'}}/>  

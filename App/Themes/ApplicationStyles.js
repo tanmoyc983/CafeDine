@@ -28,14 +28,14 @@ const ApplicationStyles = {
       padding: Metrics.baseMargin
     },
     sectionText: {
-      ...Fonts.style.h1,
-      paddingVertical: Metrics.doubleBaseMargin,
-      color: Colors.snow,
+      ...Fonts.style.h3,
+      paddingVertical: Metrics.baseMargin,
+      color: '#ff3d00',
       marginVertical: Metrics.smallMargin,
     },
     subtitle: {
-      ...Fonts.style.normal,
-      color: Colors.snow,
+      ...Fonts.style.h4,
+      color: '#1769aa',
       padding: Metrics.smallMargin,
       marginBottom: Metrics.smallMargin,
       marginHorizontal: Metrics.smallMargin

@@ -1,65 +1,52 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity,Button, TouchableHighlight, Image, Alert } from 'react-native';
-import { setSelectedModes,getMenuItems,setmodifiedMenuItems,setCurrentOrder,setPreviousOrder} from "../Utilities/Utility";
+import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity, TouchableHighlight, Image, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import CheckBox from 'react-native-check-box'
-
+import SagaActions from "../Sagas/ActionTypes/Action";
+import ReduxActions from "../Redux/ActionTypes/Action";
 import { Images } from '../Themes';
 import styles from './Styles/LaunchScreenStyles';
+import { connect } from 'react-redux';
+import {Button } from 'native-base';
 
-export default class ModeSelectionComponent extends Component {
+class ModeSelectionComponent extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            modeDetails:[]
-        };
-
-        this.updateIndex = this.updateIndex.bind(this);
     };
 
-    _onClick(){
-        this.setState({alacarteMode: !this.state.alacarteMode});
+    componentWillMount(){
+      if(this.props.modeDetails.length==0){
+          this.props.dispatch({type:SagaActions.GET_MENU_ITEMS});
+      }
     }
 
-    updateIndex(item, index, categoryId) {
-        let menuList = Object.assign([], this.state.modeDetails);
-        let indexMain = menuList.indexOf(item);
-        if(index === 0 && menuList[indexMain].quantity > 0){
-            menuList[indexMain].quantity = menuList[indexMain].quantity -1;
+    updateIndex(item, index) {
+       let updateModeQuantity = Object.assign([], this.props.modeDetails);
+        let indexMain = this.props.modeDetails.indexOf(item);
+        if(index === 0 && updateModeQuantity[indexMain].quantity > 0){
+            updateModeQuantity[indexMain].quantity = updateModeQuantity[indexMain].quantity -1;
         }
         else if(index === 1){
-            menuList[indexMain].quantity = menuList[indexMain].quantity +1;
+            updateModeQuantity[indexMain].quantity = updateModeQuantity[indexMain].quantity +1;
         }
-        this.setState(Object.assign({},{ modeDetails: menuList }));        
+        this.props.dispatch({type:ReduxActions.UPDATE_MODE_QUANTIRY,updateModeQuantity});        
     }
 
-    submitModes(data){ 
-        this.state.modeDetails.forEach(element => {
+    submitModes(){ 
+        let selectedMode=[];
+        this.props.modeDetails.forEach(element => {
             if(element.quantity>0){
-               var orderObject={
-                   "modeType":element.modeType,
-                   "quantity":element.quantity,
-                   "defaultItemID":element.defaultItemID,
-                   "defaultItemPrice":element.defaultItemPrice,
-                   "orders":[]
-               } 
-               setCurrentOrder(orderObject);
-               //setPreviousOrder(orderObject);
+                selectedMode.push(element);
             }
         });
-        setmodifiedMenuItems(this.state.modeDetails);
+        this.props.dispatch({type:ReduxActions.SELECTED_MODE,selectedMode});        
         this.props.navigation.navigate('OrderScreen');
-    }
-    componentWillMount(){
-        this.setState({modeDetails:getMenuItems()});
     }
     render() {
         return (
             <View style={styles.mainContainer}>
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
                 <FlatList
-                    data={this.state.modeDetails}
-                    extraData={this.state}
+                    data={this.props.modeDetails}
                     renderItem={({ item }) => (
                         <View style={stylesMode.btnStyle}>
                             <View style={{ flex: 1, flexDirection: 'row' }}> 
@@ -82,7 +69,12 @@ export default class ModeSelectionComponent extends Component {
                         </View>
                     )}
                 />
-                <Button title='Submit Selections' style={{ marginTop: 10 }} backgroundColor='#2196F3' onPress={this.submitModes.bind(this)}></Button>
+                <View style={{flex:1,flexDirection:'row',marginRight:10,alignItems:'flex-end',justifyContent:'flex-end'}}>
+                <Button style={{height:50,width:350,justifyContent:'center'}} onPress={this.submitModes.bind(this)}>
+                    <Icon active name="skip-next" size={24} color="#FAFAFA" />
+                    <Text style={stylesMode.textStyle}>Submit Selections</Text>
+                </Button>
+            </View>
             </View>
         )
     }
@@ -103,5 +95,18 @@ const stylesMode = StyleSheet.create({
         height: 60,
         borderBottomWidth: 1,
         marginHorizontal: 10
-    }
+    },
+    textStyle: {
+        fontSize:24,
+        color:'white',
+        fontFamily:'Avenir-Book'
+      }
 });
+
+const mapStateToProps=(state)=>{
+    return {
+        modeDetails: state.menuitemsReducer.menuItems
+    }
+}
+
+export default connect(mapStateToProps, null)(ModeSelectionComponent)

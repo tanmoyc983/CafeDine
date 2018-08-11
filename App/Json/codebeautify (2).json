@@ -1,0 +1,66 @@
+﻿{
+  "orderID": "OR2018-000111-000058",
+  "customer": {
+    "customerID": "7602370846"
+  },
+  "tableID": 3,
+  "finalCheckout": false,
+  "subOrder": [
+    {
+      "subOrderNumber": 2,
+      "modes": [
+        {
+          "modeType": "ULNVP",
+          "quantity": 1,
+          "defaultItemID": "I00003",
+          "defaultItemPrice": 500,
+          "orders": [
+            {
+              "itemID": "I00015",
+              "itemName": "Chicken Alfredo Pizza (Thin)",
+              "itemPrice": 0,
+              "status": null,
+              "quantity": 3
+            },
+            {
+              "itemID": "I00015",
+              "itemName": "Chicken Alfredo Pizza (Thin)",
+              "itemPrice": 0,
+              "status": null,
+              "quantity": 1
+            },
+            {
+              "itemID": "I00035",
+              "itemName": "Cream roasted chicken Pizza (Thin)",
+              "itemPrice": 0,
+              "status": null,
+              "quantity": 1
+            },
+            {
+              "itemID": "I00036",
+              "itemName": "Sweetcorn Pineapple & Cheese (Italian)",
+              "itemPrice": 0,
+              "status": null,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "modeType": "ULVP",
+          "quantity": 2,
+          "defaultItemID": "I00004",
+          "defaultItemPrice": 450,
+          "orders": [
+            {
+              "itemID": "I00036",
+              "itemName": "Sweetcorn Pineapple & Cheese (Italian)",
+              "itemPrice": 0,
+              "status": null,
+              "quantity": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

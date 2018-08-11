@@ -1,109 +1,91 @@
 import React from 'react';
 import { ActivityIndicator, StyleSheet,FlatList, Text, View, ScrollView, TouchableOpacity, Button, Image, Alert } from 'react-native';
-import { getmodifiedMenuItems, setSelectedMode, setSelectedMenuItems,setFullOrders,setFinalOrder,
-    getCurrentOrder,updatePreviousOrder,setOrder,ClearCurrentOrder,
-    getPreviousOrder, setCurrSubOrderNumber, getCurrSubOrderNumber, getImageonType, clearData } from "../Utilities/Utility";
+import {getImageonType } from "../Utilities/Utility";
 import { Card, ListItem } from 'react-native-elements';
 import Icon from "react-native-vector-icons/MaterialIcons";
-import Toast, {DURATION} from 'react-native-easy-toast';
 import Accordion from 'react-native-collapsible/Accordion';
 import { Images } from '../Themes';
-
 import styles from './Styles/LaunchScreenStyles';
-export default class OrderComponent extends React.Component {
+import { connect } from 'react-redux';
+import ReduxActions from "../Redux/ActionTypes/Action";
+import SagaActions from "../Sagas/ActionTypes/Action";
+
+class OrderComponent extends React.Component {
     constructor() {
         super();
-        this.state = {
-            modeDetails: [],
-            currentSelectedMode:'',
-            showIndicator: false,
-            currentOrderNumber:''
-        }
     }
 
     Confirmation(){
         Alert.alert('Confirmation','Did you mean to cancel the transaction?',
         [{text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
         {text: 'Yes', onPress: () => {
-            clearData();
-            this.props.navigation.navigate('LaunchScreen');
+            this.props.dispatch({type:ReduxActions.RESET_USER_DATA});
+            this.props.dispatch({type:ReduxActions.RESET_FLOOR_DATA});
+            this.props.dispatch({type:ReduxActions.RESET_MODE_DATA});
+            this.props.navigation.navigate('CaptainDashboardScreen');
         }}],
         { cancelable: false });
     }
 
-    changeMode(item) {
-        this.setState({currentSelectedMode:item.modeType});
-        setSelectedMode(item.modeType);
-        setSelectedMenuItems(item.modeType);
+    changeMode(MenuItems) { 
+        this.props.dispatch({type:ReduxActions.SELECTED_MENU_ITEMS,MenuItems});
         this.props.navigation.navigate('MenuItemsScreen');
     }
 
     reviewOrder() {
-        if(this.state.currentOrderNumber !== '' )
+        if(this.props.OrderID !== '' )
         {
-            setFullOrders(this.state.currentOrderNumber)
-            .then(response => {
-                this.setState({showIndicator: false});
-                this.props.navigation.navigate('ReviewOrderScreen');
-              })
-            .catch(err => alert('error')); 
-            this.setState({showIndicator: true});
-         }
+            this.props.navigation.navigate('ReviewOrderScreen');
+        }
     }
 
     CheckoutOrder(){
-        if(this.state.currentOrderNumber !== '' )
+        if(this.props.OrderID !== '' )
         {
-            setFinalOrder(this.state.currentOrderNumber)
-            .then(response => {
-                this.props.navigation.navigate('CheckoutOrderScreen');
-              })
-            .catch(err => alert('error'));           
-         }
-         else{
-             alert('Please Submit a order before checkout !')
-         }
+            this.props.navigation.navigate('CheckoutOrderScreen');
+        }
+        else{
+             Alert.alert('Please Submit a order before checkout !')
+        }
     }
 
     updateOrder(){
-        let currentOrder=getCurrentOrder();
-        if(typeof currentOrder !== 'undefined' && currentOrder.length > 0){
-            let jsonObj={};
-            //previous values
-            setCurrSubOrderNumber();
-            jsonObj.subOrderNumber = getCurrSubOrderNumber();
-            jsonObj.modes = [];
-            currentOrder.forEach(element => {
-                if(element.orders.length>0)
-                {
-                    jsonObj.modes.push(element);
-                }
-           });
-           this.setState({ showIndicator: true });
-           setOrder(jsonObj)
-              .then(response => {
-                  this.setState({ showIndicator: false });
-                  this.refs.toast.show('Order Updated'+"\n"+response,1000);                  
-                  this.setState({ currentOrderNumber: response });
-                  ClearCurrentOrder();
-                })
-              .catch(err => alert('error'));
+        if(typeof this.props.OrderedItems !== 'undefined' && this.props.OrderedItems.length > 0){
+            let FullOrderDetails= Object.assign({},this.props.Order);
+                FullOrderDetails.orderID=this.props.OrderID;
+                FullOrderDetails.customer.customerID=this.props.customerID;
+                FullOrderDetails.tableID=this.props.selectedtable.tableID;      
+                FullOrderDetails.subOrder.push({
+                    "subOrderNumber":this.props.subOrderNumber+1,
+                    "modes":this.props.OrderedItems
+                });
+            this.props.dispatch({type:SagaActions.SAVE_ORDER_DETAILS,FullOrderDetails});   
+            this.props.dispatch({type:ReduxActions.UPDATE_SUBORDER_NUMBER});         
         }        
     }
 
-    componentWillMount(){
-        this.setState({modeDetails:getmodifiedMenuItems()});
-    }
+       // shouldComponentUpdate(nextProps, nextState) {
+    //     if(nextProps.subOrderNumber > this.props.subOrderNumber)
+    //     {
+    //         Toast.show({
+    //             text: 'Wrong password!',
+    //             buttonText: 'Okay',
+    //              type: "success"
+    //           })
+    //     }
+    //   }
+
+    
     render() {
         return (
             <View style={styles.mainContainer}>
-                 {this.state.showIndicator && <View style={[stylesFloor.container, stylesFloor.horizontal]}>
+                 {this.props.modeDetails.length===0 && <View style={[stylesFloor.container, stylesFloor.horizontal]}>
                     <ActivityIndicator size="large" color="red" /></View>}
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
-                {!this.state.showIndicator && <ScrollView style={{flex:8, flexWrap:'wrap', flexDirection:"row",alignContent:'flex-start'}}>
+                {this.props.modeDetails.length>0 && <ScrollView style={{flex:8, flexWrap:'wrap', flexDirection:"row",alignContent:'flex-start'}}>
                  <FlatList                  
                  horizontal
-                 data={this.state.modeDetails}
+                 data={this.props.modeDetails}
                  renderItem={({ item: rowData }) =>{ 
                     let btns = [];
                     if(rowData.quantity>0)
@@ -118,37 +100,27 @@ export default class OrderComponent extends React.Component {
                     return (btns
                    )}}/>
                 </ScrollView>  }    
-                {!this.state.showIndicator && <View style={{flex:1,flexDirection: 'row',alignItems:'flex-end',justifyContent:'space-around'}}>
-            <TouchableOpacity onPress={this.reviewOrder.bind(this)} style={stylesFloor.buttonStyle} disabled={this.state.searchDisabled} >
+                {this.props.modeDetails.length>0 && <View style={{flex:1,flexDirection: 'row',alignItems:'flex-end',justifyContent:'space-around'}}>
+            <TouchableOpacity onPress={this.reviewOrder.bind(this)} style={stylesFloor.buttonStyle} disabled={this.props.OrderID===''} >
               <Icon name='assignment' size= {25} color="white" />
               <Text style={stylesFloor.textStyle}>Review</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={this.CheckoutOrder.bind(this)} style={stylesFloor.buttonStyle} disabled={this.state.searchDisabled} >
+              <TouchableOpacity onPress={this.CheckoutOrder.bind(this)} style={stylesFloor.buttonStyle} disabled={this.props.OrderID===''} >
               <Icon name='input' size= {25} color="white" />
               <Text style={stylesFloor.textStyle}>Checkout</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={this.updateOrder.bind(this)} style={stylesFloor.buttonStyle} disabled={this.state.searchDisabled} >
+            <TouchableOpacity onPress={this.updateOrder.bind(this)} style={stylesFloor.buttonStyle} >
               <Icon name='done-all' size= {25} color="white" />
               <Text style={stylesFloor.textStyle}>Submit</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={this.Confirmation.bind(this)} style={stylesFloor.buttonStyle} disabled={this.state.searchDisabled} >
+            <TouchableOpacity onPress={this.Confirmation.bind(this)} style={stylesFloor.buttonStyle} >
               <Icon name='highlight-off' size= {25} color="white" />
               <Text style={stylesFloor.textStyle}>Cancel</Text>
             </TouchableOpacity>
             
                 </View>}
-                <Toast 
-                        ref="toast"
-                        style={{backgroundColor:'orange',width:200}}
-                        position='bottom'
-                        positionValue={200}
-                        fadeInDuration={750}
-                        fadeOutDuration={1000}
-                        //opacity={0.8}
-                        textStyle={{color:'white',fontWeight: 'bold',fontSize: 14}}
-                        /> 
             </View>
 
         );
@@ -185,7 +157,11 @@ const stylesFloor = StyleSheet.create({
     },
     cardStyle:{
         height:300,
-        width:250
+        width:250,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2
     },
     textStyle: {
         fontSize:20,
@@ -197,3 +173,17 @@ const stylesFloor = StyleSheet.create({
         padding: 10
       }
 });
+
+const mapStateToProps=(state)=>{
+    return {
+        customerID: state.userReducer.customer.customerID,
+        selectedtable:state.floorReducer.selectedtable,
+        modeDetails: state.menuitemsReducer.selectedModes,
+        subOrderNumber:state.OrderReducer.subOrderNumber,
+        OrderedItems:state.OrderReducer.OrderedItems,
+        Order:state.OrderReducer.Order,
+        OrderID:state.OrderReducer.OrderID
+    }
+}
+
+export default connect(mapStateToProps,null)(OrderComponent)

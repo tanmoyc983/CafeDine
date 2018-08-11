@@ -1,21 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, ScrollView, View, Image, TouchableOpacity, ActivityIndicator,Alert } from 'react-native';
 import CheckoutModes from "./Checkout/CheckOutModes";
-import Accordion from 'react-native-collapsible/Accordion';
 import { h1, Card, Button } from 'react-native-elements';
 import { Images } from '../Themes';
-import { getFinalOrder, getFullOrder, CheckoutFinalOrder, setFullOrders, getcurrOrderNumber, clearData } from "../Utilities/Utility";
 import styles from './Styles/LaunchScreenStyles';
-import Toast, { DURATION } from 'react-native-easy-toast';
-import { Item } from 'native-base';
-export default class CheckoutOrderComponent extends React.Component {
+import { connect } from 'react-redux';
+import ReduxActions from "../Redux/ActionTypes/Action";
+import SagaActions from "../Sagas/ActionTypes/Action";
+import __  from "lodash";
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+class CheckoutOrderComponent extends React.Component {
     constructor() {
         super();
-        this.state = {
-            finalOrder: [],
-            fullOrder: []
-        };
-
     }
 
     checkoutConfirmation() {
@@ -25,76 +22,55 @@ export default class CheckoutOrderComponent extends React.Component {
             { cancelable: false });
     }
 
-    checkoutOrder() {        
-        let finalOrderData = this.state.fullOrder;
-        finalOrderData.finalCheckout = true;
-        CheckoutFinalOrder(finalOrderData)
-            .then(response => {
-                this.refs.toast.show('Order Number : ' + response + '\n' + 'Checked out successfully !', 1000);
-                clearData();
-                this.setState({ showIndicator: false });
-                setTimeout(() => {
-                    this.props.navigation.navigate('LaunchScreen');
-                  }, 1000);                
-            })
-            .catch(err => alert('error'));
-        this.setState({ showIndicator: true });
+    checkoutOrder() { 
+        this.props.dispatch({type:ReduxActions.RESET_USER_DATA});
+        this.props.dispatch({type:ReduxActions.RESET_FLOOR_DATA});
+        this.props.dispatch({type:ReduxActions.RESET_MODE_DATA});
+        let checkoutOrder=Object.assign({},this.props.CheckOrderDetails);
+        checkoutOrder.finalCheckout=true;       
+        this.props.dispatch({type:SagaActions.CHECKOUT_FINAL_ORDER,checkoutOrder});        
+        this.props.navigation.navigate('CaptainDashboardScreen');
     }
+
     componentWillMount() {
-        let currOrderNumber = getcurrOrderNumber();
-        this.setState({ finalOrder: getFinalOrder() });
-        if (getFullOrder() === undefined) {
-            setFullOrders(currOrderNumber)
-                .then(response => {
-                    this.setState({ fullOrder: getFullOrder(), showIndicator: false });
-                })
-                .catch(err => alert('error'));
-            this.setState({ showIndicator: true });
-        }
-        else {
-            this.setState({ fullOrder: getFullOrder() });
-        }
+        this.props.dispatch({type:SagaActions.GET_ORDER_CHECKOUT_DETAILS,orderID:this.props.OrderID})           
     }
+
     render() {
-        let order = this.state.finalOrder;
-        let TotalPrice = order.totalPrice;
-        let userName = order.customer.customerName + " ( " + order.customer.customerID + " ) " + "\n" + "Order Number: " + order.orderID;
         let myOrders = [];
-        let mode = this.state.finalOrder.modes.map((data, i) => {
+        let TotalPrice = 0;
+        let userName ='';
+        if(!__.isEmpty(this.props.CheckOrderDetails))
+        {  
+        let order = this.props.CheckOrderDetails;
+        TotalPrice = order.totalPrice;
+        userName = order.customer.customerName + " ( " + order.customer.customerID + " ) " + "\n" + "Order Number: " + order.orderID;
+        
+        let mode = this.props.CheckOrderDetails.modes.map((data, i) => {
             myOrders.push(<CheckoutModes mode={data} />);
         });
-
+    }
         return (
             <View style={styles.mainContainer}>
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
-                {!this.state.showIndicator && <View style={{ flex: 1, flexDirection: 'column' }}>
+                {!__.isEmpty(this.props.CheckOrderDetails) && <View style={{ flex: 1, flexDirection: 'column' }}>
                     <ScrollView>
                         <Card title={userName} textStyle={{fontsize:25}}>
                             {myOrders}
                             <View style={{ borderWidth: 0.5, borderColor: 'black', margin: 10 }} />
-                            <Text h1 style={{ alignItems: 'flex-end', ontWeight: 'bold', fontSize: 25 }}>Total Price: {TotalPrice} Rs.</Text>
+                            <Text h1 style={{ alignItems: 'flex-end', fontWeight: 'bold', fontSize: 25,justifyContent:'flex-end',alignItems:'flex-end' }}>Total Price:</Text>
+                            <Icon name="rupee" style={{fontWeight: 'bold', fontSize: 25}}>
+                             <Text style={{fontWeight: 'bold', fontSize: 25}}> {TotalPrice}</Text>
+                             </Icon>
                         </Card>
                     </ScrollView>
-                    <TouchableOpacity  >
+                    <TouchableOpacity>
                         <Button large icon={{ name: 'envira', type: 'font-awesome' }} onPress={this.checkoutConfirmation.bind(this)}
                             backgroundColor='#03A9F4' fontFamily='Lato' buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
                             title='Checkout Order' />
                     </TouchableOpacity>
-                    {/* <TouchableOpacity>
-                <Button  large raised='true' disabled='false' icon={{name: 'envira', type: 'font-awesome'}} onPress={this.checkoutOrder.bind(this)}  title='Checkout Order' />
-                </TouchableOpacity> */}
                 </View>}
-                <Toast
-                    ref="toast"
-                    style={{ backgroundColor: 'white' }}
-                    position='bottom'
-                    positionValue={200}
-                    fadeInDuration={750}
-                    fadeOutDuration={1000}
-                    //opacity={0.8}
-                    textStyle={{ color: 'orange',fontWeight: 'bold',fontSize: 14 }}
-                />
-                {this.state.showIndicator && <View style={[stylesFloor.container, stylesFloor.horizontal]}>
+                {__.isEmpty(this.props.CheckOrderDetails) && <View style={[stylesFloor.container, stylesFloor.horizontal]}>
                     <ActivityIndicator size="large" color="red" /></View>}
             </View>
         )
@@ -114,3 +90,11 @@ const stylesFloor = StyleSheet.create({
         padding: 10
       }
 });
+
+const mapStateToProps=(state)=>{
+    return{
+        OrderID:state.OrderReducer.OrderID,
+        CheckOrderDetails:state.OrderReducer.CheckOrderDetails
+    }
+}
+export default connect(mapStateToProps,null) (CheckoutOrderComponent);

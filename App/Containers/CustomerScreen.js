@@ -1,78 +1,71 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, Alert, Image, KeyboardAvoidingView, Animated, Button, ActivityIndicator,View  } from 'react-native';
-import { TextField } from 'react-native-material-textfield';
+import { StyleSheet, Text, Image, KeyboardAvoidingView, View  } from 'react-native';
 import TextBoxMaterial from "../Components/TextBox";
-import { saveFloors, setMenuItems, setCustomer, getCustomer } from "../Utilities/Utility";
 import { Images } from '../Themes';
-
+import { connect } from 'react-redux';
 import styles from './Styles/LaunchScreenStyles';
+import {Button,Toast,Content } from 'native-base';
+import __ from "lodash";
+import SagaActions from "../Sagas/ActionTypes/Action";
+import ReduxActions from "../Redux/ActionTypes/Action";
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-export default class Customer extends React.Component {
+class Customer extends React.Component {
 
   constructor() {
     super();
-    this.paddingInput = new Animated.Value(0);
-    this.state = {
-      customerID: getCustomer().customerID,
-      CustomerName:getCustomer().customerName==="" ? "" : getCustomer().customerName,
-      email: getCustomer().email==="" ? "" : getCustomer().email,
-      address: getCustomer().address==="" ? "" : getCustomer().address,
-      city: getCustomer().city==="" ? "" : getCustomer().city,
-      state: getCustomer().state==="" ? "" : getCustomer().state,
-      userAvailable: false,
-      showIndicator: false
-    }
-  }
+  }  
 
-  changeField(value, type) {
-    if (type === "customerID") {
-      this.setState({ customerID: value });
-    }
-    else if (type === "CustomerName") this.setState({ CustomerName: value });
-    else if (type === "email") this.setState({ email: value });
-    else if (type === "address") this.setState({ address: value });
-    else if (type === "city") this.setState({ city: value });
-    else if (type === "state") this.setState({ state: value });
+  changeField(changedLabel, changedText) {
+    if(changedLabel==='customerID'){
+      if(/^[0-9]{1,10}$/.test(changedText)){
+      this.props.dispatch({type: ReduxActions.SET_MOBILE_NUMBER, mobileNumber: changedText});
+      let customer=Object.assign({},this.props.customer);
+      customer[changedLabel]=changedText;
+      this.props.dispatch({type: ReduxActions.NEW_CUSTOMER_DETAILS, customer:customer});  
+      }
+      else{
+        Toast.show({
+          text: "Not a valid mobile number",
+          textStyle: { fontSize: 25, fontFamily:'Avenir-Black' },
+          duration: 2000,
+          position: "top",
+          buttonTextStyle:{fontSize: 20, fontFamily:'Avenir-Black'},
+          buttonText: "Ok",
+          type: "danger"
+        });
+      }
+      }      
+    else{
+    let customer=Object.assign({},this.props.customer);
+    customer[changedLabel]=changedText;
+    this.props.dispatch({type: ReduxActions.NEW_CUSTOMER_DETAILS, customer:customer});  
   }
+ }
 
   navigateToFLoor(){
     this.props.navigation.navigate("FloorScreen");
   }
   saveUser() {
-    if (!this.state.userAvailable) {
-      this.setState({ showIndicator: true });
-      fetch('http://10.31.101.118:8080/onesta/customer', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(this.state),
-      }).then(response => response.json())
-        .then(
-          response => 
-          {
-            setCustomer({customerID: response});
-            this.setState({ showIndicator: false });
-            this.props.navigation.navigate('FloorScreen');
-          }
-        ).catch(err => {
-          Alert.alert('err');
-        });
-    }
-    else {
-      this.setState({ showIndicator: false });
+    if (!this.props.loginSuccess) {
+      let newCustomer=Object.assign({},this.props.customer);
+      newCustomer.customerID=this.props.PhoneNumber;
+      if(!newCustomer.address)newCustomer.address='';
+      if(!newCustomer.city)newCustomer.city='';
+      if(!newCustomer.state)newCustomer.state='';
+      this.props.dispatch({type:SagaActions.SAVE_USER,newCustomer});
+      this.props.navigation.navigate('FloorScreen');
     }
   }
 
   render() {
     let customerInfoFields = [
-      { label: "Phone Number", value: this.state.customerID, type: "customerID" },
-      { label: "Customer Name", value: this.state.CustomerName, type: "CustomerName" },
-      { label: "EmailID", value: this.state.email, type: "email" },
-      { label: "Address", value: this.state.address, type: "address" },
-      { label: "City", value: this.state.city, type: "city" },
-      { label: "State", value: this.state.state, type: "state" }
+      { label: "Phone Number", value:this.props.loginSuccess? this.props.customer.customerID.toString():this.props.PhoneNumber.toString(), type: "customerID" },
+      { label: "Customer Name", value: this.props.customer.customerName, type: "customerName" },
+      { label: "EmailID", value: this.props.customer.email, type: "email" },
+      { label: "Address", value: this.props.customer.address, type: "address" },
+      { label: "City", value: this.props.customer.city, type: "city" },
+      { label: "State", value: this.props.customer.state, type: "state" }
     ]
 
     let children = [];
@@ -82,34 +75,35 @@ export default class Customer extends React.Component {
         <TextBoxMaterial
           label={element.label}
           value={element.value}
-          textColor="#000"
-          changeField={this.changeField.bind(this)}
+          isDisabled={this.props.loginSuccess}
+          changeField={this.changeField.bind(this,element.type)}
           type={element.type}
         />
       )
     });
 
     let button;
-    if (this.state.CustomerName===undefined) {
-      button = <Button
-      title='Submit' backgroundColor='#2196F3'
-      onPress={this.saveUser.bind(this)}
-       />;
+    if (!this.props.loginSuccess) {
+      button = 
+      <Button style={{height:50,width:200,justifyContent:'center'}}  onPress={this.saveUser.bind(this)}>
+              <Icon active name="save" size={24} color="#FAFAFA" />
+              <Text style={stylesDrawer.textStyle}>Save</Text>
+              </Button>;
     } else {
-      button = <Button
-      title='Next' backgroundColor='#2196F3'
-      onPress={this.navigateToFLoor.bind(this)}
-      />
+      button = <Button style={{height:50,width:200,justifyContent:'center'}} onPress={this.navigateToFLoor.bind(this)}>
+      <Icon active name="navigate-next" size={24} color="#FAFAFA" />
+      <Text style={stylesDrawer.textStyle}>Next</Text>
+      </Button>
     }
     
     return (
       <View  style={styles.mainContainer}>
         <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
-        {this.state.showIndicator && <KeyboardAvoidingView style={[stylesDrawer.container, stylesDrawer.horizontal]}>
-        <ActivityIndicator size="large" color="red" /></KeyboardAvoidingView>}
-        {!this.state.showIndicator && <KeyboardAvoidingView>{children}
-        {button}
-          </KeyboardAvoidingView>}
+         <Content style={{marginLeft:10}}>
+         {children}         
+          </Content>
+          <View style={{flex:1,flexDirection:'row',marginRight:10,alignItems:'flex-end',justifyContent:'flex-end'}}>
+          {button}</View>
       </View >
     );
   }
@@ -119,11 +113,27 @@ const stylesDrawer = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    zIndex: 999
+    zIndex: 999,
+    marginLeft:10
   },
   horizontal: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 10
+  },
+  textStyle: {
+    fontSize:24,
+    color:'white',
+    fontFamily:'Avenir-Book'
   }
-})
+});
+
+const mapStateToProps = (state) => {
+  return{
+    customer: state.userReducer.customer,
+    PhoneNumber: state.userReducer.loginDetails.PhoneNumber,
+    loginSuccess: state.userReducer.loginDetails.loginSuccess,
+    userRegistered:state.userReducer.userRegisteredSuccessfully
+  };
+}
+export default connect(mapStateToProps, null)(Customer)

@@ -1,59 +1,32 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity, TouchableHighlight, Button, Image, Alert } from 'react-native';
-import { getmodifiedMenuItems,getSelectedMode,getSelectedMenuItems,updateCurrentOrder, getImageonType } from "../Utilities/Utility";
+import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity, TouchableHighlight, Image, Alert } from 'react-native';
+import { getImageonType } from "../Utilities/Utility";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Accordion from 'react-native-collapsible/Accordion';
 import { Card } from 'react-native-elements';
-
+import { connect } from "react-redux";
 import { Images } from '../Themes';
-
 import styles from './Styles/LaunchScreenStyles';
-export default class MenuItemsComponent extends React.Component {
+import {Button } from 'native-base';
+import ReduxActions from "../Redux/ActionTypes/Action";
+
+class MenuItemsComponent extends React.Component {
     constructor() {
         super();
-        this.state = {
-            menuItems: [],
-            selectedMode:getSelectedMode()
-        }
     }
-    componentWillMount(){
-        this.setState(Object.assign({},this.state,{menuItems:getSelectedMenuItems(this.state.selectedMode)}));
-    }
-
-    addOrder(item) { 
-        this.state.menuItems.forEach(element => {
-            element.items.forEach(menuItem => {
-                if(menuItem.quantity>0){
-                    updateCurrentOrder(this.state.selectedMode,menuItem);
-                }
-            });
-            
-        });
+    addOrder(selectedItem) { 
+        this.props.dispatch({type:ReduxActions.UPDATE_ORDER});
         this.props.navigation.navigate('OrderScreen');
     }
 
     updateIndex(item, toAdd, categoryId) {
-        let arrindex=0;
-        let menuList = Object.assign([], this.state.menuItems);
-        menuList.forEach((element,index) => {
-            if(element.categoryName==categoryId){
-                arrindex=index;
-            }
-        });
-        let indexMain = menuList[arrindex].items.indexOf(item);
-        if (!toAdd && menuList[arrindex].items[indexMain].quantity > 0) {
-            menuList[arrindex].items[indexMain].quantity = menuList[arrindex].items[indexMain].quantity - 1;
-        }
-        else if (toAdd) {            
-            menuList[arrindex].items[indexMain].quantity = menuList[arrindex].items[indexMain].quantity + 1;
-        }
-        this.setState(Object.assign({},this.state, { menuItems: menuList }));
+        this.props.dispatch({type: ReduxActions.UPDATED_MENU_ITEMS,item, toAdd, categoryId});
     }
 
     _renderHeader(section) {
         return (
             <View>
-                <Text style={{ color: 'white', marginLeft: 10, fontSize: 30, borderWidth: 1 }}>{section.categoryName}</Text>
+                <Text style={{ color: '#3949ab', marginLeft: 10, fontSize: 30, borderWidth: 0.5,borderColor:'#BDBDBD' }}>{section.categoryName}</Text>
             </View>
         );
     }
@@ -80,20 +53,23 @@ export default class MenuItemsComponent extends React.Component {
     }
 
     render() {
-        console.log(this.state.menuItems);
+        debugger;
         return (
             <View style={styles.mainContainer}>
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
                 <ScrollView>
-                    <Accordion
-                        sections={this.state.menuItems}
+                    <Accordion 
+                        sections={this.props.selectedMenuItems.category==null?[]:this.props.selectedMenuItems.category}
                         renderHeader={this._renderHeader.bind(this)}
                         renderContent={this._renderContent.bind(this)}
                     />
                 </ScrollView>
-                <TouchableOpacity>
-                <Button title='Add' backgroundColor='#2196F3' onPress={this.addOrder.bind(this)}></Button>
-                </TouchableOpacity>
+                <View style={{flex:1,flexDirection:'row',marginRight:10,alignItems:'flex-end',justifyContent:'flex-end'}}>
+                <Button style={{height:50,width:200,justifyContent:'center'}} onPress={this.addOrder.bind(this)}>
+                    <Icon active name="skip-next" size={24} color="#FAFAFA" />
+                    <Text style={stylesFloor.textStyle}>Add</Text>
+                </Button>
+            </View>
             </View>
     
         );
@@ -106,18 +82,25 @@ const stylesFloor = StyleSheet.create({
         flexDirection: 'column',
         flexWrap: 'wrap'
     },
-    btnStyle: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        // height: 60,
-        borderBottomWidth: 1,
-        // marginHorizontal: 10
-    },
     cardStyle:{
         height:300,
-        width:350
+        width:350,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2
     },
+    textStyle: {
+        fontSize:24,
+        color:'white',
+        fontFamily:'Avenir-Book'
+      }
 });
+
+const mapStateToProps=(state)=>{
+  return {
+       selectedMenuItems:state.OrderReducer.SelectedMenuItems
+  }
+}
+
+export default connect(mapStateToProps,null)(MenuItemsComponent)
