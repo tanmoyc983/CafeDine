@@ -7,6 +7,7 @@ import { Images } from '../Themes';
 import styles from './Styles/LaunchScreenStyles';
 import { connect } from 'react-redux';
 import {Button } from 'native-base';
+import {Toast} from 'native-base';
 
 class ModeSelectionComponent extends Component {
     constructor(props) {
@@ -31,6 +32,20 @@ class ModeSelectionComponent extends Component {
         this.props.dispatch({type:ReduxActions.UPDATE_MODE_QUANTIRY,updateModeQuantity});        
     }
 
+    componentDidUpdate(prevProps, prevState){
+            if (this.props.tableBooked){
+                Toast.show({
+                    text: 'Table booked, Please place your order .',
+                    textStyle: { fontSize: 25, fontFamily:'Avenir-Black',fontWeight:'bold' },
+                    duration: 2000,
+                    buttonTextStyle:{fontSize: 20, fontFamily:'Avenir-Black'},
+                    buttonText: "Okay",
+                    type: "success"
+               })
+                this.props.navigation.navigate('AfterModeSelectionStack');
+            }
+        }
+
     submitModes(){ 
         let selectedMode=[];
         this.props.modeDetails.forEach(element => {
@@ -38,9 +53,10 @@ class ModeSelectionComponent extends Component {
                 selectedMode.push(element);
             }
         });
-        this.props.dispatch({type:ReduxActions.SELECTED_MODE,selectedMode});        
-        this.props.navigation.navigate('OrderScreen');
+        this.props.dispatch({type:ReduxActions.SELECTED_MODE,selectedMode});   
+        this.props.dispatch({type: SagaActions.BOOK_TABLE,TableID:this.props.selectedtable.tableID});              
     }
+
     render() {
         return (
             <View style={styles.mainContainer}>
@@ -60,10 +76,10 @@ class ModeSelectionComponent extends Component {
                                 </View>
                                 <View style={{ flex: 4,flexDirection: 'row',justifyContent:'flex-start',alignItems:'flex-end'}}>
                                         <TouchableHighlight onPress={() => this.updateIndex(item, 0)} style={{ padding: 10 }}>
-                                            <Icon name="minus-circle" size={45} color="#2196f3" /></TouchableHighlight>
+                                        <Icon name="minus-circle" size={45} color="#2196f3" /></TouchableHighlight>
                                         <Text style={{ marginVertical: 18, fontSize: 25, color: 'black' }}>{item.quantity}</Text>
                                         <TouchableHighlight onPress={() => this.updateIndex(item, 1)} style={{ padding: 10 }}>
-                                            <Icon name="plus-circle" size={45} color="#2196f3" /></TouchableHighlight>                                        
+                                        <Icon name="plus-circle" size={45} color="#2196f3" /></TouchableHighlight>                                        
                                 </View>
                             </View>
                         </View>
@@ -105,7 +121,9 @@ const stylesMode = StyleSheet.create({
 
 const mapStateToProps=(state)=>{
     return {
-        modeDetails: state.menuitemsReducer.menuItems
+        modeDetails: state.menuitemsReducer.menuItems,
+        tableBooked: state.menuitemsReducer.tableBooked,
+        selectedtable:state.floorReducer.selectedtable,
     }
 }
 

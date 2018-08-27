@@ -23,11 +23,24 @@ class MenuItemsComponent extends React.Component {
         this.props.dispatch({type: ReduxActions.UPDATED_MENU_ITEMS,item, toAdd, categoryId});
     }
 
-    _renderHeader(section) {
+    _renderHeader(section, index, isActive) {
+        let test=[];
+        if(!isActive)
+        {
+            test.push(<Icon active name="arrow-up-drop-circle-outline" size={42} color="#1A237E" />);
+        }
+        else if(isActive)
+        {
+            test.push(<Icon active name="arrow-down-drop-circle-outline" size={42} color="#1A237E" />);
+        }
         return (
-            <View>
-                <Text style={{ color: '#3949ab', marginLeft: 10, fontSize: 30, borderWidth: 0.5,borderColor:'#BDBDBD' }}>{section.categoryName}</Text>
+            <View style={{flexDirection:'row',justifyContent:'center',backgroundColor:'#EEEEEE',marginTop:5,height:60,borderWidth:1,borderColor:'#9E9E9E'}} >
+            <View style={{flexGrow:1}}>
+            <Text style={{ color: '#1A237E', marginLeft: 10, fontSize: 30}}>{section.categoryName}</Text>
             </View>
+            <View>{test}</View>
+            </View>
+
         );
     }
 
@@ -53,7 +66,6 @@ class MenuItemsComponent extends React.Component {
     }
 
     render() {
-        debugger;
         return (
             <View style={styles.mainContainer}>
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />

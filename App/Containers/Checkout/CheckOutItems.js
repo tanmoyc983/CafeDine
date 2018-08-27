@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import {h1} from 'react-native-elements';
+import { Text, View } from 'react-native';
 
 export default class CheckoutItems extends React.Component {
     constructor() {

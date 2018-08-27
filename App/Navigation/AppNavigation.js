@@ -1,24 +1,18 @@
-import React from 'react';
-import { TouchableHighlight, Button, View, Text, Animated, Easing, StyleSheet } from 'react-native';
-import { StackNavigator, DrawerNavigator,SwitchNavigator } from 'react-navigation';
+import {Animated, Easing } from 'react-native';
+import { StackNavigator} from 'react-navigation';
 import LaunchScreen from '../Containers/LaunchScreen';
 import CustomerScreen from '../Containers/CustomerScreen';
 import FloorScreen from '../Containers/FloorComponent';
 import OrderScreen from '../Containers/OrderScreen';
 import ReviewOrderScreen from '../Containers/ReviewOrder';
-import TablesScreen from '../Containers/TablesComponent';
-import PayBillComponent from '../Containers/PayBillComponent';
 import ModeSelectionScreen from '../Containers/ModeSelectionComponent';
 import MenuItemsScreen from '../Containers/MenuItems';
 import CheckoutOrderScreen from "../Containers/CheckoutOrder";
-import Icon from 'react-native-vector-icons/FontAwesome';
-import CaptainDashboardScreen from '../Containers/CaptainDashboard'
-import DrawerComponent from '../Components/DrawerButton';
+import CaptainDashboardScreen from '../Containers/CaptainDashboard';
 import SearchCustomerScreen from '../Containers/SearchCustomerScreen';
 import ModifyCustomerScreen from '../Containers/ModifyCustomerScreen';
 import ExistingOrderDashboard from '../Containers/ExistingOrderDashboard';
 import CaptainOrderView from '../Containers/CaptainOrderView';
-
 const transitionConfig = () => {
   return {
     transitionSpec: {
@@ -75,7 +69,8 @@ const BeforeModeSelectionStack = StackNavigator({
       shadowOpacity: 0.3 },
       headerTitle: 'Search Customer',
       headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
-        headerTintColor: 'white'
+      headerTintColor: 'white',
+      headerLeft: null
 })
   },
   CustomerScreen: {
@@ -126,6 +121,7 @@ const AfterModeSelectionStack = StackNavigator({
       headerTitle: 'Order Details',
       headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
       headerTintColor: 'white',
+      headerLeft: null
     })
   },
   MenuItemsScreen: {
@@ -172,7 +168,8 @@ const CaptainStack = StackNavigator({
       shadowOpacity: 0.3 },
       headerTitle: 'Search Customer',
       headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
-      headerTintColor: 'white'
+      headerTintColor: 'white',
+      headerLeft: null
     })
   },
       ModifyCustomerScreen: {
@@ -199,9 +196,10 @@ const CaptainStack = StackNavigator({
         headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
         shadowOffset:{width: 0, height: 3},
         shadowOpacity: 0.3 },
-        headerTitle: 'Order Details',
+        headerTitle: 'Existing Order Details',
         headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
         headerTintColor: 'white',
+        headerLeft: null
       })
     },
     CaptainOrderView:{

@@ -3,7 +3,8 @@ import ReduxActions from "../ActionTypes/Action";
 
 const INITIAL_STATE = Immutable({
     menuItems:[],
-    selectedModes:[]
+    selectedModes:[],
+    tableBooked:false
 });
 
 export const menuItemsReducer = (state = INITIAL_STATE, action) => {
@@ -28,6 +29,15 @@ export const menuItemsReducer = (state = INITIAL_STATE, action) => {
         return Object.assign({}, state,INITIAL_STATE);
         break;
 
+        case ReduxActions.BOOKED_TABLE:
+        let isBooked=false;
+         if(action.response =="Successfully booked the table."){
+            isBooked=true;
+         }
+        return Object.assign({}, state,{tableBooked:isBooked});
+
+        case ReduxActions.FAILED_TO_BOOK_TABLE:
+        return Object.assign({},state);
         default:
         return Object.assign({}, state);
     }

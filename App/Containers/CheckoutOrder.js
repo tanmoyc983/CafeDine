@@ -9,12 +9,31 @@ import ReduxActions from "../Redux/ActionTypes/Action";
 import SagaActions from "../Sagas/ActionTypes/Action";
 import __  from "lodash";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {NavigationActions } from 'react-navigation';
 
 class CheckoutOrderComponent extends React.Component {
     constructor() {
         super();
     }
 
+    componentDidUpdate(prevProps, prevState){
+        if (this.props.isCheckedOut){
+            this.props.dispatch({type:ReduxActions.RESET_TABLE_DATA});
+            this.props.dispatch({type:ReduxActions.RESET_FLOOR_DATA});
+            this.props.dispatch({type:ReduxActions.RESET_MODE_DATA});
+            this.props.dispatch({type:ReduxActions.RESET_USER_DATA});
+            this.props.dispatch({type:ReduxActions.RESET_CUSTOMER_DATA});
+            this.props.dispatch({type:ReduxActions.RESET_ORDER_DATA});
+            const resetAction = NavigationActions.reset({
+                index: 0,
+                key: null,
+                actions: [
+                    NavigationActions.navigate({routeName: 'CaptainDashboardScreen'})
+                ]
+            });
+            this.props.navigation.dispatch(resetAction);
+        }
+    }
     checkoutConfirmation() {
         Alert.alert('Confirmation', 'Do you want to proceed to checkout?',
             [{ text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
@@ -23,13 +42,9 @@ class CheckoutOrderComponent extends React.Component {
     }
 
     checkoutOrder() { 
-        this.props.dispatch({type:ReduxActions.RESET_USER_DATA});
-        this.props.dispatch({type:ReduxActions.RESET_FLOOR_DATA});
-        this.props.dispatch({type:ReduxActions.RESET_MODE_DATA});
         let checkoutOrder=Object.assign({},this.props.CheckOrderDetails);
-        checkoutOrder.finalCheckout=true;       
-        this.props.dispatch({type:SagaActions.CHECKOUT_FINAL_ORDER,checkoutOrder});        
-        this.props.navigation.navigate('CaptainDashboardScreen');
+        checkoutOrder.finalCheckout=true;
+        this.props.dispatch({type:SagaActions.CHECKOUT_FINAL_ORDER,checkoutOrder:checkoutOrder});;
     }
 
     componentWillMount() {
@@ -42,7 +57,7 @@ class CheckoutOrderComponent extends React.Component {
         let userName ='';
         if(!__.isEmpty(this.props.CheckOrderDetails))
         {  
-        let order = this.props.CheckOrderDetails;
+        let order = Object.assign({},this.props.CheckOrderDetails);
         TotalPrice = order.totalPrice;
         userName = order.customer.customerName + " ( " + order.customer.customerID + " ) " + "\n" + "Order Number: " + order.orderID;
         
@@ -94,7 +109,8 @@ const stylesFloor = StyleSheet.create({
 const mapStateToProps=(state)=>{
     return{
         OrderID:state.OrderReducer.OrderID,
-        CheckOrderDetails:state.OrderReducer.CheckOrderDetails
+        CheckOrderDetails:state.OrderReducer.CheckOrderDetails,
+        isCheckedOut:state.OrderReducer.isCheckedOut
     }
 }
 export default connect(mapStateToProps,null) (CheckoutOrderComponent);

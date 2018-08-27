@@ -12,7 +12,7 @@ const INITIAL_STATE = Immutable({
     email: ""
   },
   loginDetails: {
-    loginSuccess: false,
+    loginSuccess: '',
     PhoneNumber: "",
     searchDisabled: true
   },
@@ -26,22 +26,28 @@ export const userReducer = (state = INITIAL_STATE, action) => {
       return Object.assign({}, state, {loginDetails: setMobile});
       break;
 
-    case ReduxActions.GOT_USER_DETAILS:
-      let updatedCustomer =  Object.assign({}, state.customer,{
-        customerID: action.response.customerID,
-        customerName: action.response.customerName,
-        address: action.response.address,
-        city: action.response.city,
-        state: action.response.state,
-        email: action.response.email
+      case ReduxActions.GOT_USER_DETAILS:
+      let updatedCustomer= Object.assign({},INITIAL_STATE.customer);
+      if(action.response!=="Mobile number is not registered !")
+      {
+      updatedCustomer = Object.assign({}, state.customer,{
+      customerID: action.response.customerID,
+      customerName: action.response.customerName,
+      address: action.response.address,
+      city: action.response.city,
+      state: action.response.state,
+      email: action.response.email
       });
-      let UpdatedloginDetails =  Object.assign({}, state.loginDetails,{
-        loginSuccess: action.response.customerID ? true : false,
-        showIndicator: action.response.customerID ? true : false
-      });
+      }
+      let UpdatedloginDetails = Object.assign({}, state.loginDetails,{loginSuccess: action.response.customerID ? 'success' : 'failed'});
       return Object.assign({}, state, {customer: updatedCustomer,loginDetails: UpdatedloginDetails});
       break;
-
+    
+      case ReduxActions.CHANGE_LOGIN_STATUS:
+      let modifyloginDetails = Object.assign({}, state.loginDetails,{loginSuccess: action.loginStatus});
+      return Object.assign({}, state, {loginDetails: modifyloginDetails});
+      break;   
+      
     case ReduxActions.NEW_CUSTOMER_DETAILS:
     return Object.assign({},state,{customer:action.customer});
     break;
@@ -58,7 +64,15 @@ export const userReducer = (state = INITIAL_STATE, action) => {
         type: "success"
       });
     }
-    return Object.assign({},state,{userRegisteredSuccessfully:true})
+    let newCustomer =  Object.assign({}, state.customer,{
+      customerID: action.response,
+      customerName: '',
+      address: '',
+      city: '',
+      state: '',
+      email: ''
+    });
+    return Object.assign({},state,{customer: newCustomer,userRegisteredSuccessfully:true})
     break;
 
     case ReduxActions.FAILED_TO_SAVE_NEW_USER_DETAILS:

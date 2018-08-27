@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { Card, CardItem, Body,Icon,Right } from "native-base";
-import { ScrollView,Text, Image, View, TouchableOpacity, StyleSheet } from 'react-native'
+import { Card, CardItem,Right } from "native-base";
+import { Text, Image, View, StyleSheet } from 'react-native'
 import styles from './Styles/LaunchScreenStyles';
 import { Images } from '../Themes';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default class CaptainDashboardComponent extends Component {
   render() {
@@ -16,36 +17,36 @@ export default class CaptainDashboardComponent extends Component {
       <CardItem header bordered>
         <Text  style= {styles.sectionText}>Order</Text>
       </CardItem>
-      <CardItem button bordered style={{cursor:'pointer'}} onPress={() =>this.props.navigation.navigate('LaunchScreen')}>
-        <Icon active name="pizza" style={{  color: "#fbc02d" }} />
+      <CardItem button bordered style={{cursor:'pointer'}} onPress={() =>this.props.navigation.navigate('BeforeModeSelectionStack')}>
+      <Icon active name="local-dining" size={42} style={{  color: "#fbc02d" }} />
           <Text style={styles.subtitle}>
             New Order
           </Text>
           <Right>
-                <Icon name="arrow-forward" />
-              </Right>
+                <Icon active size={42} name="arrow-forward" />
+          </Right>
       </CardItem>
       {/* <View style={{ borderWidth: 0.5, borderColor: 'black', margin: 10 }} /> */}
-      <CardItem button bordered style={{cursor:'pointer'}} onPress={() => this.props.navigation.navigate('ExistingOrderDashboard')}>
-      <Icon active name="nutrition" style={{  color: "#ff9800" }} />
+      <CardItem button bordered style={{cursor:'pointer'}} onPress={() => this.props.navigation.navigate('ExistingOrderStack')}>
+      <Icon active name="local-grocery-store" size={42} style={{  color: "#ff9800" }} />
           <Text style={styles.subtitle}>
             Existing Order
           </Text>
           <Right>
-                <Icon name="arrow-forward" />
-              </Right>
+                <Icon active size={42} name="arrow-forward" />
+          </Right>
       </CardItem>
       {/* <View style={{ borderWidth: 1 , borderColor: 'black', margin: 10 }} /> */}
       <CardItem header bordered>
         <Text style= {styles.sectionText}>Customer</Text>
       </CardItem>
-      <CardItem button bordered style={{cursor:'pointer'}} onPress={() => this.props.navigation.navigate('SearchCustomerScreen')}>
-      <Icon active name="person" style={{  color: "#039be5" }} />
+      <CardItem button bordered style={{cursor:'pointer'}} onPress={() => this.props.navigation.navigate('CaptainStack')}>
+      <Icon active name="person" size={42} style={{  color: "#039be5" }} />
           <Text style={styles.subtitle}>
-            Add/Modify/Delete
+            Modify
           </Text>
           <Right>
-                <Icon name="arrow-forward" />
+                <Icon active size={42} name="arrow-forward" />
               </Right>
       </CardItem>
     </Card>

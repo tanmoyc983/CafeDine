@@ -58,7 +58,6 @@ export const saveFloors=()=>{
     }
 
 export const saveOrder=(orderdata)=>{
-  debugger;
       return fetch(baseUrl+'api/OrderDetails', {
         method: 'POST',
         headers: {
@@ -75,8 +74,7 @@ export const saveOrder=(orderdata)=>{
      });
     }
 
-export const getCustomersbyName = (name) => {
-  
+export const getCustomersbyName = (name) => {  
       let url = baseUrl+'onesta/customer/SearchbyName?Name=' + name;
       return fetch(url,{
       method: 'GET',
@@ -193,3 +191,40 @@ export const ModifyCustomer = (objUserModified) => {
        console.log(err);
      });
     }
+
+
+    export const bookTable = (tableNumber) => {
+      let url = baseUrl+'onesta/table/BookTable?id=' + tableNumber;
+      return fetch(url,{
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }
+        ).then((response) => {
+           return response.json();
+        }).then(responseJson => {  
+          return responseJson;     
+        }).catch(err => {
+          console.log(err);
+        });
+  }
+
+  export const releaseTable = (tableNumber) => {
+    let url = baseUrl+'onesta/table/ReleaseTable?id=' + tableNumber;
+    return fetch(url,{
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }
+      ).then((response) => {
+         return response.json();
+      }).then(responseJson => {  
+        return responseJson;     
+      }).catch(err => {
+        console.log(err);
+      });
+}

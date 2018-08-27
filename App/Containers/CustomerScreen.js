@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, Image, KeyboardAvoidingView, View  } from 'react-native';
+import { StyleSheet, Text, Image, KeyboardAvoidingView, View, ActivityIndicator } from 'react-native';
 import TextBoxMaterial from "../Components/TextBox";
 import { Images } from '../Themes';
 import { connect } from 'react-redux';
@@ -14,7 +14,11 @@ class Customer extends React.Component {
 
   constructor() {
     super();
-  }  
+  } 
+  
+  componentWillMount(){
+    if (this.props.loginSuccess==='searching'){}
+  }
 
   changeField(changedLabel, changedText) {
     if(changedLabel==='customerID'){
@@ -47,7 +51,7 @@ class Customer extends React.Component {
     this.props.navigation.navigate("FloorScreen");
   }
   saveUser() {
-    if (!this.props.loginSuccess) {
+    if (this.props.loginSuccess==='failed') {
       let newCustomer=Object.assign({},this.props.customer);
       newCustomer.customerID=this.props.PhoneNumber;
       if(!newCustomer.address)newCustomer.address='';
@@ -58,10 +62,19 @@ class Customer extends React.Component {
     }
   }
 
+  // displayCustomer(){
+  //   if (this.props.loginSuccess==='searching'){<ActivityIndicator size="large" color="red" />}
+  // else{<View><Content style={{marginLeft:10}}>
+  //        {children}         
+  //         </Content>
+  //         <View style={{flex:1,flexDirection:'row',marginRight:10,alignItems:'flex-end',justifyContent:'flex-end'}}>
+  //         {button}</View></View>}}
+
   render() {
     let customerInfoFields = [
-      { label: "Phone Number", value:this.props.loginSuccess? this.props.customer.customerID.toString():this.props.PhoneNumber.toString(), type: "customerID" },
-      { label: "Customer Name", value: this.props.customer.customerName, type: "customerName" },
+     // { label: "Phone Number", value:this.props.loginSuccess==='success'? this.props.customer.customerID.toString():this.props.PhoneNumber.toString(), type: "customerID" },
+     { label: "Phone Number", value:this.props.PhoneNumber.toString(), type: "customerID" }, 
+     { label: "Customer Name", value: this.props.customer.customerName, type: "customerName" },
       { label: "EmailID", value: this.props.customer.email, type: "email" },
       { label: "Address", value: this.props.customer.address, type: "address" },
       { label: "City", value: this.props.customer.city, type: "city" },
@@ -75,7 +88,7 @@ class Customer extends React.Component {
         <TextBoxMaterial
           label={element.label}
           value={element.value}
-          isDisabled={this.props.loginSuccess}
+          isDisabled={this.props.loginSuccess==='success'?true:false}
           changeField={this.changeField.bind(this,element.type)}
           type={element.type}
         />
@@ -83,7 +96,7 @@ class Customer extends React.Component {
     });
 
     let button;
-    if (!this.props.loginSuccess) {
+    if (this.props.loginSuccess==='failed') {
       button = 
       <Button style={{height:50,width:200,justifyContent:'center'}}  onPress={this.saveUser.bind(this)}>
               <Icon active name="save" size={24} color="#FAFAFA" />
@@ -95,15 +108,19 @@ class Customer extends React.Component {
       <Text style={stylesDrawer.textStyle}>Next</Text>
       </Button>
     }
-    
+        
     return (
       <View  style={styles.mainContainer}>
         <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
-         <Content style={{marginLeft:10}}>
+        {this.props.loginSuccess==='searching'&& <View style={[stylesDrawer.container, stylesDrawer.horizontal]}>
+        <ActivityIndicator size="large" color="red" /></View>}
+        {this.props.loginSuccess!=='searching'&&
+        <React.Fragment>
+        <Content>
          {children}         
           </Content>
           <View style={{flex:1,flexDirection:'row',marginRight:10,alignItems:'flex-end',justifyContent:'flex-end'}}>
-          {button}</View>
+          {button}</View></React.Fragment>}
       </View >
     );
   }

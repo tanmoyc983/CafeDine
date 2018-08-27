@@ -1,96 +1,144 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity, TouchableHighlight, Image, Alert } from 'react-native';
-import { getImageonType } from "../Utilities/Utility";
+import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Accordion from 'react-native-collapsible/Accordion';
-import { Card } from 'react-native-elements';
 import { connect } from "react-redux";
 import { Images } from '../Themes';
 import styles from './Styles/LaunchScreenStyles';
-import {Button, Toast } from 'native-base';
+import {Button,H1 } from 'native-base';
 import ReduxActions from "../Redux/ActionTypes/Action";
 import SagaActions from "../Sagas/ActionTypes/Action";
 import OrderMode from "./EditOrder/OrderMode";
+import {NavigationActions } from 'react-navigation';
 
 class MenuItemsComponent extends React.Component {
     constructor() {
         super();
     }
+    componentDidUpdate(prevProps, prevState){
+        if (this.props.isCheckedOut){
+            this.props.dispatch({type:ReduxActions.RESET_TABLE_DATA});
+            this.props.dispatch({type:ReduxActions.RESET_FLOOR_DATA});
+            this.props.dispatch({type:ReduxActions.RESET_MODE_DATA});
+            this.props.dispatch({type:ReduxActions.RESET_USER_DATA});
+            this.props.dispatch({type:ReduxActions.RESET_CUSTOMER_DATA});
+            this.props.dispatch({type:ReduxActions.RESET_ORDER_DATA});
+            const resetAction = NavigationActions.reset({
+                index: 0,
+                key: null,
+                actions: [
+                    NavigationActions.navigate({routeName: 'CaptainDashboardScreen'})
+                ]
+            });
+            this.props.navigation.dispatch(resetAction);
+        }
+    }
     updateQuantity(subOrderIndex, modeIndex, itemIndex, changeByQuantity) {
         this.props.dispatch({type: ReduxActions.UPDATE_QUANTITY,subOrderIndex, modeIndex, itemIndex, changeByQuantity});
     }
-    approveOrder(){
-        this.props.dispatch({type: SagaActions.APPROVE_THE_ORDER, approvedOrder: this.props.tableWithOrderDetails.orderDetails})
-        this.props.navigation.navigate('CaptainDashboardScreen');
+
+    approveOrder(subOrderNumber){
+        let orderDetails=Object.assign({},this.props.tableWithOrderDetails.orderDetails);
+        debugger;
+        var suborder=[];
+        if(orderDetails){
+            if(orderDetails.subOrder.length>0){
+                suborder = orderDetails.subOrder.find((element,index) => {
+                    if(element.subOrderNumber==subOrderNumber){
+                        return element;
+                    }
+                }); 
+            }
+        }
+        orderDetails.subOrder=suborder;
+        this.props.dispatch({type: SagaActions.APPROVE_THE_ORDER, approvedOrder: orderDetails});
+        const resetAction = NavigationActions.reset({
+            index: 0,
+            key: null,
+            actions: [
+                NavigationActions.navigate({routeName: 'CaptainDashboardScreen'})
+            ]
+        });
+        this.props.navigation.dispatch(resetAction);
     }
 
-    checkoutOrder(){        
-        let checkoutOrder=Object.assign({},this.props.tableWithOrderDetails);
+    checkoutOrder(){       
+        let checkoutOrder;
+        if(this.props.tableWithOrderDetails.orderDetails)
+        {
+        checkoutOrder=Object.assign({},this.props.tableWithOrderDetails.orderDetails);
         checkoutOrder.finalCheckout=true; 
+        }
         this.props.dispatch({type:SagaActions.CHECKOUT_FINAL_ORDER,checkoutOrder});
-        this.props.navigation.navigate('CaptainDashboardScreen');
-            }
-    _renderHeader(section) {
+    }
+    _renderHeader(section, index, isActive) {
+        let test=[];
+        if(!isActive)
+        {
+            test.push(<Icon active name="arrow-up-drop-circle-outline" size={42} color="#1A237E" />);
+        }
+        else if(isActive)
+        {
+            test.push(<Icon active name="arrow-down-drop-circle-outline" size={42} color="#1A237E" />);
+        }
         return (
-            <View>
-                <Text style={{ color: '#3949ab', marginLeft: 10, fontSize: 30, borderWidth: 0.5,borderColor:'#BDBDBD' }}>Round {section.subOrderNumber}</Text>
+            <View style={{flexDirection:'row',justifyContent:'center',backgroundColor:'#FAFAFA',marginTop:5,height:60,borderWidth:1,borderColor:'#9E9E9E'}} >
+            <View style={{flexGrow:1}}>
+            <Text style={{ color: '#1A237E', marginLeft: 10, fontSize: 30}}>Round {section.subOrderNumber}</Text>
+            </View>
+            <View>{test}</View>
             </View>
         );
     }
 
     _renderContent(section) {
         let myOrders = [];
-        section.modes.map((item, index1) => {
-            myOrders.push(<OrderMode mode={item}/>);
-                     
+        section.modes.map((item, modeIndex) => {
+            myOrders.push(
+            <React.Fragment>
+            <View style={{flex:6,flexDirection:'row', justifyContent:'flex-start',alignItems:'flex-start'}}>
+                <OrderMode mode={item} updateQuantity={this.updateQuantity.bind(this)} suborderNumber={section.subOrderNumber} modeIndex ={modeIndex}/>
+            </View>
+            <View style={{flex:1,flexDirection:'row', justifyContent:'flex-end',alignItems:'flex-end'}}>
+                <Button onPress={()=>this.approveOrder(section.subOrderNumber)} style={{height:100+'%',width:15+'%',marginRight:5+'%',justifyContent:'center', backgroundColor:'#00a152'}}>
+                    <Icon active name="approval" size={24} color="#FAFAFA" />
+                    <Text style={stylesFloor.textStyle}>Approve</Text>
+                </Button>
+            </View>
+            </React.Fragment>);                     
                 })           
         return (myOrders);            
     }
 
-    render() {
-        if (this.props.orderStatus==='true'){
-            Toast.show({
-            text: "Order is approved",
-            textStyle: { fontSize: 25, fontFamily:'Avenir-Black' },
-            duration: 2000,
-            position: "bottom",
-            buttonTextStyle:{fontSize: 20, fontFamily:'Avenir-Black'},
-            buttonText: "Ok",
-            type: "success"
-            })}
-            if (this.props.orderStatus==='false'){
-                Toast.show({
-                text: "Failed to approve order",
-                textStyle: { fontSize: 25, fontFamily:'Avenir-Black' },
-                duration: 2000,
-                position: "bottom",
-                buttonTextStyle:{fontSize: 20, fontFamily:'Avenir-Black'},
-                buttonText: "Ok",
-                type: "success"
-                })}
-        
+    render() {    
+        let orderDetails ='';
+        if(this.props.tableWithOrderDetails)
+        {
+        orderApproved=this.props.tableWithOrderDetails.isApproved;
+        }
+        debugger;
+        orderDetails ="Order Number: " + this.props.tableWithOrderDetails.orderDetails.orderID+" Customer Details: "+this.props.tableWithOrderDetails.orderDetails.customer.customerName + " ( " + this.props.tableWithOrderDetails.orderDetails.customer.customerID + " ) " ;
         return (
             <View style={styles.mainContainer}>
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
-                <ScrollView>
-                    <Accordion 
+             {this.props.tableWithOrderDetails.orderDetails!==undefined &&  <ScrollView>
+                   <H1 style={{flex:1,justifyContent:'space-around',alignItems:'center'}}>{orderDetails}</H1>
+                    <Accordion underlayColor='#C5CAE9'
                         sections={this.props.tableWithOrderDetails.orderDetails.subOrder}
                         renderHeader={this._renderHeader.bind(this)}
-                        renderContent={this._renderContent.bind(this)}
-                    />
+                        renderContent={this._renderContent.bind(this)}/> 
+                    </ScrollView>}
+
                     <View style={{flex:1,flexDirection:'row',marginRight:10,alignItems:'flex-end',justifyContent:'flex-end'}}>
-                    <Button style={{height:50,width:200,justifyContent:'center'}} onPress={()=>this.approveOrder()}>
-                    <Icon active name="skip-next" size={24} color="#FAFAFA" />
+                    {/* {!orderApproved && <Button style={{height:50,width:200,justifyContent:'center',backgroundColor:'#00a152'}} onPress={()=>this.approveOrder()}>
+                    <Icon active name="approval" size={24} color="#FAFAFA" />
                     <Text style={stylesFloor.textStyle}>Approve</Text>
-                    </Button>
+                    </Button>} */}
                     <Button style={{height:50,width:200,justifyContent:'center'}} onPress={()=>this.checkoutOrder()}>
-                    <Icon active name="skip-next" size={24} color="#FAFAFA" />
+                    <Icon active name="check-all" size={24} color="#FAFAFA" />
                     <Text style={stylesFloor.textStyle}>Checkout</Text>
                     </Button>
-                    </View>
-                </ScrollView>
-                
-
+                    </View>  
             </View>
     
         );
@@ -121,7 +169,8 @@ const stylesFloor = StyleSheet.create({
 const mapStateToProps=(state)=>{
   return {
     tableWithOrderDetails: state.tableReducer.tableWithOrderDetails,
-    orderStatus: state.tableReducer.orderStatus
+    orderStatus: state.tableReducer.orderStatus,
+    isCheckedOut:state.OrderReducer.isCheckedOut
   }
 }
 

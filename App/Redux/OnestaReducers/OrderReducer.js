@@ -1,5 +1,4 @@
 import ReduxActions from "../ActionTypes/Action";
-import { reducer } from '../GithubRedux';
 import {Toast} from 'native-base';
 
 const INITIAL_STATE ={
@@ -17,7 +16,8 @@ const INITIAL_STATE ={
     OrderedItems:[],
     SelectedMenuItems:{},
     ReviewOrderDetails:{},
-    CheckOrderDetails:{}  
+    CheckOrderDetails:{},
+    isCheckedOut: false  
 };
 
 export const OrderReducer = (state = INITIAL_STATE, action) => {
@@ -115,12 +115,13 @@ export const OrderReducer = (state = INITIAL_STATE, action) => {
         break;
 
         case ReduxActions.SUCCESSFULLY_CHECKOUT_ORDER:
-        let resetSelectedMenuList =Object.assign({},state.SelectedMenuItems);
-        resetSelectedMenuList.category.forEach((element) => {
+        let resetSelectedMenu =Object.assign({},state.SelectedMenuItems);
+        if(resetSelectedMenu.category){
+        resetSelectedMenu.category.forEach((element) => {
             element.items.forEach(item => {
                 item.quantity=0;
             })
-        });
+        })}
         if(action.response){
             Toast.show({
                         text: 'Order ID : '+action.response+', Checkedout successfully.'+"\n"+ 'Visit us again .',
@@ -131,8 +132,11 @@ export const OrderReducer = (state = INITIAL_STATE, action) => {
                         type: "success"
                    })
         } 
-        
-        return Object.assign({},state,{OrderID:action.response,Order:INITIAL_STATE.Order,OrderedItems:INITIAL_STATE.OrderedItems,SelectedMenuItems:resetSelectedMenuList})
+        return Object.assign({},state,{OrderID:action.response,Order:INITIAL_STATE.Order,OrderedItems:INITIAL_STATE.OrderedItems,SelectedMenuItems:resetSelectedMenu, isCheckedOut:true})
+        break;
+
+        case ReduxActions.RESET_ORDER_DATA:
+        return Object.assign({}, state,INITIAL_STATE);
         break;
 
         default:

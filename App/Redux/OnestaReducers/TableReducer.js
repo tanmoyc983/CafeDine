@@ -8,7 +8,8 @@ const INITIAL_STATE = Immutable({
     TablesonSelectedFloor:[],
     tableWithOrderDetails:{},
     orderStatus:'',
-    NoOfPerson:0
+    NoOfPerson:0,
+    tableReleased:false
 });
 
 export const tableReducer = (state = INITIAL_STATE, action) => {
@@ -28,9 +29,8 @@ export const tableReducer = (state = INITIAL_STATE, action) => {
         return Object.assign({}, state, {NoOfPerson: action.noofperson})
 
         case ReduxActions.ORDER_APPROVED:
-
         let Status=''
-        if (action.response===true){
+        if (action.response=='Approved'){
             Status='true'
             Toast.show({
                 text: "Order is approved",
@@ -40,9 +40,9 @@ export const tableReducer = (state = INITIAL_STATE, action) => {
                 buttonTextStyle:{fontSize: 20, fontFamily:'Avenir-Black'},
                 buttonText: "Ok",
                 type: "success"
-                })
+                });
         }
-        if (action.response===false){
+        if (action.response=='Rejected'){
             Status='false'
             Toast.show({
                 text: "Failed to approve order",
@@ -51,15 +51,25 @@ export const tableReducer = (state = INITIAL_STATE, action) => {
                 position: "bottom",
                 buttonTextStyle:{fontSize: 20, fontFamily:'Avenir-Black'},
                 buttonText: "Ok",
-                type: "success"
+                type: "danger"
                 })
         }
-        return Object.assign({}, state, {orderStatus: Status});
+        return Object.assign({}, state, {orderStatus: Status, allTableArray: INITIAL_STATE.allTableArray, TablesonSelectedFloor:INITIAL_STATE.TablesonSelectedFloor});
 
         case ReduxActions.FAILED_TO_APPROVE_ORDER:
         console.log('FAILED_TO_APPROVE_ORDER_RESPONSE_NOT_VALID')
         return Object.assign({}, state);    
 
+
+        case ReduxActions.RELEASED_TABLE:
+        let isReleased=false;
+         if(action.response =="Successfully released the table."){
+            isReleased=true;
+         }
+        return Object.assign({}, state,{tableReleased:isReleased});
+
+        case ReduxActions.FAILED_TO_RELEASE_TABLE:
+        return Object.assign({},state);
 
         case ReduxActions.GET_ORDER_DETAILS_FOR_CAPTAIN:
         let tempRounds=[]
@@ -70,7 +80,7 @@ export const tableReducer = (state = INITIAL_STATE, action) => {
 
         case ReduxActions.UPDATE_QUANTITY:
         let ModifiedOrder= Object.assign({}, state.tableWithOrderDetails)
-        ModifiedOrder.orderDetails.subOrder[action.subOrderIndex-1].modes[action.modeIndex].orders[action.itemIndex].quantity+=action.changeQuantityBy
+        ModifiedOrder.orderDetails.subOrder[action.subOrderIndex-1].modes[action.modeIndex].orders[action.itemIndex].quantity+=action.changeByQuantity;
         return Object.assign({}, state, {tableWithOrderDetails: ModifiedOrder});
 
         case ReduxActions.CAPTAIN_SELECTED_FLOOR:
@@ -80,6 +90,9 @@ export const tableReducer = (state = INITIAL_STATE, action) => {
             tempTablesonSelectedFloor=floordata.tables;          
         }})
         return Object.assign({},state,{TablesonSelectedFloor:tempTablesonSelectedFloor})
+
+        case ReduxActions.RESET_TABLE_DATA:
+        return Object.assign({}, state, INITIAL_STATE)
 
         default:
         return Object.assign({},state);

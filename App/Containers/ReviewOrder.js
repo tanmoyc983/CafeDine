@@ -27,7 +27,7 @@ class ReviewOrderComponent extends React.Component {
         let btns = [];
         if(!__.isEmpty(this.props.ReviewOrderDetails))
         {         
-        let order=this.props.ReviewOrderDetails;
+        let order=Object.assign({},this.props.ReviewOrderDetails);
         let OrderNumber="OrderNumber:"+order.orderID;                
         order.subOrder.map((item) => { 
             let myOrders = [];  

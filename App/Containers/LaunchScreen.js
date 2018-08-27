@@ -15,14 +15,18 @@ class LaunchScreen extends Component {
   }
 
   fetchUser(event){
-    if(this.props.customerID===""){
+    if(this.props.PhoneNumber.length === 10 && /^[0-9]{1,10}$/.test(this.props.PhoneNumber)){
+    
+    if(this.props.customerID!=='' && this.props.PhoneNumber!='' && this.props.PhoneNumber!==this.props.customerID) {
+    this.props.dispatch({type:ReduxActions.RESET_USER_DATA}); 
+    this.props.dispatch({type:ReduxActions.CHANGE_LOGIN_STATUS,loginStatus:'searching'})
     this.props.dispatch({type: SagaActions.FETCH_USER_DETAILS, mobileNumber: this.props.PhoneNumber});
     }
-    if(this.props.customerID!=='' && this.props.PhoneNumber!='' && this.props.PhoneNumber!==this.props.customerID) {
-      this.props.dispatch({type:ReduxActions.RESET_USER_DATA});
-      if(this.props.PhoneNumber.length === 10){
-        this.props.dispatch({type: ReduxActions.SET_MOBILE_NUMBER, mobileNumber: this.props.PhoneNumber});
-      }
+    
+    else{ 
+    this.props.dispatch({type:ReduxActions.CHANGE_LOGIN_STATUS,loginStatus:'searching'})
+    this.props.dispatch({type: SagaActions.FETCH_USER_DETAILS, mobileNumber: this.props.PhoneNumber});
+    }
     }
     this.props.navigation.navigate('CustomerScreen');
   }

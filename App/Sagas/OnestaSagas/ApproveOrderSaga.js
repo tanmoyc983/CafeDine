@@ -2,7 +2,7 @@ import { call, put } from 'redux-saga/effects';
 import {approveOrder} from '../../Services/OnestaApi'
 import ReduxActions from "../../Redux/ActionTypes/Action";
 
-export const ApproveOrderSaga = function * (action) {
+export const ApproveOrder = function * (action) {
 
   const finalOrder = action.approvedOrder;
   // make the call to the api

@@ -24,7 +24,9 @@ import { DeleteCustomerDetails } from './OnestaSagas/DeleteUserSaga';
 import { ModifyCustomerDetails } from './OnestaSagas/ModifyUserSaga';
 import {getTableDetails} from './OnestaSagas/TableSaga';
 import { CheckoutOrder } from './OnestaSagas/CheckOutOrderSaga';
-import { ApproveOrderSaga } from "./OnestaSagas/ApproveOrderSaga";
+import { ApproveOrder } from "./OnestaSagas/ApproveOrderSaga";
+import {BookTable} from "./OnestaSagas/BookTableSaga";
+import {ReleaseTable} from "./OnestaSagas/ReleaseTableSaga";
 /* ------------- Action Types ------------- */
 import SagaActions from './ActionTypes/Action'
 
@@ -55,6 +57,8 @@ export default function * root () {
     takeLatest(SagaActions.DELETE_USER_DETAILS, DeleteCustomerDetails),
     takeLatest(SagaActions.GET_TABLE_DETAILS, getTableDetails),
     takeLatest(SagaActions.CHECKOUT_FINAL_ORDER, CheckoutOrder),
-    takeLatest(SagaActions.APPROVE_THE_ORDER, ApproveOrderSaga)
+    takeLatest(SagaActions.APPROVE_THE_ORDER, ApproveOrder),
+    takeLatest(SagaActions.BOOK_TABLE, BookTable),
+    takeLatest(SagaActions.RELEASE_TABLE, ReleaseTable)
   ])
 }

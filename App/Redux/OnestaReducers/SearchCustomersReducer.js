@@ -1,14 +1,16 @@
 import Immutable from 'seamless-immutable';
 import ReduxActions from "../ActionTypes/Action";
+import { Toast } from 'native-base';
 
 const INITIAL_STATE = Immutable({
 SearchedText:'',
 RadiobuttonSelected:'',
-customers: null,
+customers: [],
 selectedCustomer: {},
 DeleteCustomer:false,
 EditCustomer:false,
-isUserDeleted: false
+isUserDeleted: false,
+customerModified: false
 });
 
 export const SearchCustomersReducer = (state = INITIAL_STATE, action) => {
@@ -46,13 +48,25 @@ export const SearchCustomersReducer = (state = INITIAL_STATE, action) => {
       return Object.assign({}, state);
 
     case ReduxActions.CUSTOMER_DETAILS_MODIFIED:
-      console.log("CUSTOMER_DETAILS_MODIFIED");
-      return Object.assign({}, state);
+      Toast.show({
+        text: "Customer details modified successfully.",
+        textStyle: { fontSize: 25, fontFamily:'Avenir-Black' },
+        duration: 2000,
+        position: "top",
+        buttonTextStyle:{fontSize: 20, fontFamily:'Avenir-Black'},
+        buttonText: "Ok",
+        type: "success"
+      });
+      return Object.assign({}, state, {customerModified:true});
       
       
       case ReduxActions.FAILED_TO_DELETE_USER_DETAILS:
       console.log("FAILED_TO_DELETE_USER_DETAILS");
-      return Object.assign({}, state); 
+      return Object.assign({}, state);
+      
+      case ReduxActions.RESET_CUSTOMER_DATA:
+        return Object.assign({}, state,INITIAL_STATE);
+        break;
 
     default:
       return Object.assign({}, state);

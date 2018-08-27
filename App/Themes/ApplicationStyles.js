@@ -8,6 +8,7 @@ import Colors from './Colors'
 const ApplicationStyles = {
   screen: {
     mainContainer: {
+      display:"flex",
       flex: 1,
       backgroundColor: Colors.transparent
     },

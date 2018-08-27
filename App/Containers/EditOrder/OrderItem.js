@@ -1,26 +1,28 @@
 import React from 'react';
-import {h1} from 'react-native-elements';
-import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity, TouchableHighlight, Image, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { getImageonType } from "../../Utilities/Utility";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Card } from 'react-native-elements';
-
+import ReduxActions from "../../Redux/ActionTypes/Action";
 
 export default class OrderItem extends React.Component {
     constructor() {
         super();
     }
 
+    updateQuantity(subOrderIndex, modeIndex, itemIndex, changeByQuantity){
+        this.props.dispatch({type: ReduxActions.UPDATE_QUANTITY,subOrderIndex, modeIndex, itemIndex, changeByQuantity});
+    }
+
     render() {
-  
         return (
-            <View style={{flex:1, flexWrap:'wrap' ,flexDirection: 'row', alignItems: 'baseline'}}>
+            <View style={{flex:1, flexWrap:'wrap', flexDirection:'row'}}>
                      <Card containerStyle={stylesFloor.cardStyle} title={this.props.orders.itemName} image={getImageonType('ULNVP')}>
                       <View style={{ flexDirection: 'row', justifyContent:'flex-end',alignItems:'flex-end' }}>                     
-                            <TouchableHighlight onPress={() => this.updateQuantity(section.subOrderNumber,index1,index2,-1)} style={{ padding: 10 }}>
+                            <TouchableHighlight onPress={()=>this.props.updateQuantity(this.props.suborderNo,this.props.modeIndex,this.props.itemIndex,-1)} style={{ padding: 10 }}>
                             <Icon name="minus-circle" size={40} color="#2196f3" /></TouchableHighlight>
                             <Text style={{ marginVertical: 18, fontSize: 20, color: 'black' }}>{this.props.orders.quantity}</Text>
-                            <TouchableHighlight onPress={() => this.updateQuantity(section.subOrderNumber,index1,index2,1)} style={{ padding: 10 }}>
+                            <TouchableHighlight onPress={()=>this.props.updateQuantity(this.props.suborderNo,this.props.modeIndex,this.props.itemIndex,1)} style={{ padding: 10 }}>
                             <Icon name="plus-circle" size={40} color="#2196f3" /></TouchableHighlight>
                         </View>                        
                     </Card>                   

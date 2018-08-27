@@ -1,14 +1,14 @@
 import React from 'react';
 import { ActivityIndicator, StyleSheet,FlatList, Text, View, ScrollView, TouchableOpacity, Button, Image, Alert } from 'react-native';
 import {getImageonType } from "../Utilities/Utility";
-import { Card, ListItem } from 'react-native-elements';
+import { Card } from 'react-native-elements';
 import Icon from "react-native-vector-icons/MaterialIcons";
-import Accordion from 'react-native-collapsible/Accordion';
 import { Images } from '../Themes';
 import styles from './Styles/LaunchScreenStyles';
 import { connect } from 'react-redux';
 import ReduxActions from "../Redux/ActionTypes/Action";
 import SagaActions from "../Sagas/ActionTypes/Action";
+import {NavigationActions } from 'react-navigation';
 
 class OrderComponent extends React.Component {
     constructor() {
@@ -22,7 +22,17 @@ class OrderComponent extends React.Component {
             this.props.dispatch({type:ReduxActions.RESET_USER_DATA});
             this.props.dispatch({type:ReduxActions.RESET_FLOOR_DATA});
             this.props.dispatch({type:ReduxActions.RESET_MODE_DATA});
-            this.props.navigation.navigate('CaptainDashboardScreen');
+            this.props.dispatch({type:ReduxActions.RESET_CUSTOMER_DATA});
+            this.props.dispatch({type:ReduxActions.RESET_ORDER_DATA});
+            this.props.dispatch({type:ReduxActions.RESET_TABLE_DATA});
+            const resetAction = NavigationActions.reset({
+                index: 0,
+                key: null,
+                actions: [
+                    NavigationActions.navigate({routeName: 'CaptainDashboardScreen'})
+                ]
+            });
+            this.props.navigation.dispatch(resetAction);
         }}],
         { cancelable: false });
     }
@@ -48,34 +58,23 @@ class OrderComponent extends React.Component {
              Alert.alert('Please Submit a order before checkout !')
         }
     }
-
+    
     updateOrder(){
         if(typeof this.props.OrderedItems !== 'undefined' && this.props.OrderedItems.length > 0){
             let FullOrderDetails= Object.assign({},this.props.Order);
                 FullOrderDetails.orderID=this.props.OrderID;
+                FullOrderDetails.noofPerson=this.props.NoOfPerson;
                 FullOrderDetails.customer.customerID=this.props.customerID;
                 FullOrderDetails.tableID=this.props.selectedtable.tableID;      
                 FullOrderDetails.subOrder.push({
                     "subOrderNumber":this.props.subOrderNumber+1,
                     "modes":this.props.OrderedItems
                 });
-            this.props.dispatch({type:SagaActions.SAVE_ORDER_DETAILS,FullOrderDetails});   
-            this.props.dispatch({type:ReduxActions.UPDATE_SUBORDER_NUMBER});         
+            this.props.dispatch({type:SagaActions.SAVE_ORDER_DETAILS,FullOrderDetails});
+            this.props.dispatch({type:ReduxActions.UPDATE_SUBORDER_NUMBER});                       
         }        
     }
 
-       // shouldComponentUpdate(nextProps, nextState) {
-    //     if(nextProps.subOrderNumber > this.props.subOrderNumber)
-    //     {
-    //         Toast.show({
-    //             text: 'Wrong password!',
-    //             buttonText: 'Okay',
-    //              type: "success"
-    //           })
-    //     }
-    //   }
-
-    
     render() {
         return (
             <View style={styles.mainContainer}>
@@ -115,10 +114,10 @@ class OrderComponent extends React.Component {
               <Text style={stylesFloor.textStyle}>Submit</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={this.Confirmation.bind(this)} style={stylesFloor.buttonStyle} >
+            {this.props.OrderID =='' && <TouchableOpacity onPress={this.Confirmation.bind(this)} style={stylesFloor.buttonStyle} >
               <Icon name='highlight-off' size= {25} color="white" />
               <Text style={stylesFloor.textStyle}>Cancel</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>}
             
                 </View>}
             </View>
@@ -182,7 +181,8 @@ const mapStateToProps=(state)=>{
         subOrderNumber:state.OrderReducer.subOrderNumber,
         OrderedItems:state.OrderReducer.OrderedItems,
         Order:state.OrderReducer.Order,
-        OrderID:state.OrderReducer.OrderID
+        OrderID:state.OrderReducer.OrderID,
+        NoOfPerson:state.tableReducer.NoOfPerson
     }
 }
 
