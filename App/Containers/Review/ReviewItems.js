@@ -11,8 +11,8 @@ export default class ReviewItems extends React.Component {
         return (
             <View style={{flex:1, flexDirection: 'column', alignItems: 'baseline'}}>
                     <View style={{flex:1,flexDirection: 'row',alignItems: 'baseline', paddingLeft:20}}>
-                    <Text style={{flex:15,justifyContent:'flex-start',fontWeight: 'bold',fontSize: 18}}>{this.props.orders.itemName}</Text>
-                    <Text style={{flex:2,justifyContent:'flex-end' ,fontWeight: 'bold',fontSize: 18 }}>Price:{this.props.orders.itemPrice}X{this.props.orders.quantity}={this.props.orders.itemPrice*this.props.orders.quantity}</Text>
+                        <Text style={{justifyContent:'flex-start',fontWeight: 'bold',fontSize: 18, width: 85 + '%'}}>{this.props.orders.itemName}</Text>
+                        <Text style={{justifyContent:'flex-end' ,fontWeight: 'bold',fontSize: 18, width: 15 + '%' }}>Price:{this.props.orders.itemPrice}X{this.props.orders.quantity}={this.props.orders.itemPrice*this.props.orders.quantity}</Text>
                     </View>
                     <View style={{borderBottomColor: 'black', borderBottomWidth: 0.5}}/>                    
             </View>

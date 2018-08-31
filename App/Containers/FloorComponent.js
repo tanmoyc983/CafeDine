@@ -59,12 +59,12 @@ class FloorsAndTables extends React.Component {
       <TouchableOpacity onPress={() => this.fillTable(tableNo)} disabled={tableNo.isOccupied}> 
       
       <Card containerStyle={stylesFloor.cardStyle}>
-      <View style={{ flexDirection: 'row', justifyContent:'space-between' }}>
-      <Text style={{fontSize: 25,fontWeight: 'bold'}}>Table {tableNo.tableID}</Text>  
-      <Text style={tableNo.isOccupied ?stylesFloor.circleOccupied:stylesFloor.circleFree}>
-      {tableNo.capacity}
-      </Text> 
-      </View>
+        <View style={{ flexDirection: 'row', justifyContent:'space-between', alignContent: 'space-between', marginTop: 10 }}>
+          <Text style={{fontSize: 25,fontWeight: 'bold'}}>Table {tableNo.tableID}</Text>  
+          <Text style={tableNo.isOccupied ?stylesFloor.circleOccupied:stylesFloor.circleFree}>
+            {tableNo.capacity}
+          </Text> 
+        </View>
       </Card>
       </TouchableOpacity>
   </View>
@@ -82,30 +82,30 @@ class FloorsAndTables extends React.Component {
       <View style={styles.mainContainer}>
         <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
         <View style={{ flexDirection:'row',flex: 2,marginLeft:10, alignItems:'baseline' }}>
-        <View style={{flexDirection:'column', flex:1,justifyContent:'space-between'}}>
-          <Dropdown style={{ justifyContent: 'flex-start' }}
-            dropdownPosition={0}
-            textColor='#424242'
-            itemColor='#039be5'
-            baseColor='#039be5'
-            containerStyle={{color:'#039be5'}}
-            overlayStyle={{color:'#039be5'}}
-            labelFontSize={25}
-            fontSize={25}
-            onChangeText={this.changeFloor.bind(this)}
-            label='Select Floor' baseColor='#039be5'
-            data={floors}/>
-        </View>
-          <View style={{flexDirection:'column',flex:2,marginLeft:100, justifyContent:'space-between'}}>
-          <TextBoxMaterial keyboardTextType="numeric"   label="No. of persons" changeField = {this.changeField.bind(this)}/>
-       </View>
-        </View>
-           <View style={{flex: 8 }} >
-          <ScrollView>
-          <View style={{flex: 1, flexWrap:'wrap',flexDirection: 'row', justifyContent:'flex-start',alignContent:'space-around' }} > 
-          {tableArray}
+          <View style={{flexDirection:'column', flex:1,justifyContent:'space-between'}}>
+            <Dropdown style={{ justifyContent: 'flex-start' }}
+              dropdownPosition={0}
+              textColor='#424242'
+              itemColor='#039be5'
+              baseColor='#039be5'
+              containerStyle={{color:'#039be5'}}
+              overlayStyle={{color:'#039be5'}}
+              labelFontSize={25}
+              fontSize={25}
+              onChangeText={this.changeFloor.bind(this)}
+              label='Select Floor' baseColor='#039be5'
+              data={floors}/>
           </View>
-          </ScrollView>
+          <View style={{flexDirection:'column',flex:2,marginLeft:100, justifyContent:'space-between'}}>
+            <TextBoxMaterial keyboardTextType="numeric"   label="No. of persons" changeField = {this.changeField.bind(this)}/>
+          </View>
+        </View>
+           <View style={{flex: 8, padding: 0 }} >
+            <ScrollView>
+              <View style={{flex: 1, flexWrap:'wrap',flexDirection: 'row', justifyContent:'flex-start',alignContent:'space-around', padding: 0 }} > 
+                {tableArray}
+              </View>
+            </ScrollView>
           </View>
       </View>
 
@@ -126,7 +126,7 @@ const stylesFloor = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
     height: 50,
-    marginVertical: 10
+    // marginVertical: 10
   },
   filled: {
     backgroundColor: '#ff8080',
@@ -135,8 +135,8 @@ const stylesFloor = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
-    height: 50,
-    marginVertical: 10
+    height: 50
+    // marginVertical: 10
   },
   cardStyle:{
     height:80,
@@ -144,7 +144,8 @@ const stylesFloor = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
-    shadowRadius: 2
+    shadowRadius: 2,
+    paddingTop: 10
 },
   empty: {
     backgroundColor: '#a5dad5',
@@ -166,7 +167,8 @@ const stylesFloor = StyleSheet.create({
     color:'#fff',
     lineHeight:50,
     textAlign:'center',
-    backgroundColor:'#ff8080'
+    backgroundColor:'#ff8080',
+    marginTop: -3 + '%'
     },
     circleFree:
     {
@@ -178,7 +180,8 @@ const stylesFloor = StyleSheet.create({
     color:'#fff',
     lineHeight:50,
     textAlign:'center',
-    backgroundColor:'#2196f3'
+    backgroundColor:'#2196f3',
+    marginTop: -3 + '%'
     }
 });
 

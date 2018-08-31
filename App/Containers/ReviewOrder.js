@@ -11,6 +11,7 @@ import ReduxActions from "../Redux/ActionTypes/Action";
 import SagaActions from "../Sagas/ActionTypes/Action";
 import styles from './Styles/LaunchScreenStyles';
 import __  from "lodash";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class ReviewOrderComponent extends React.Component {
     constructor() {
@@ -53,7 +54,12 @@ class ReviewOrderComponent extends React.Component {
                     <ScrollView>{btns}</ScrollView> 
                     <View style={{ borderWidth: 0.5, borderColor: 'black', margin: 10 }} />
                     <Badge containerStyle={{ backgroundColor: 'orange'}}>
-                    <Text h1 style={{fontWeight: 'bold', fontSize: 25,color:'white' }}>Total Price: {this.props.ReviewOrderDetails.totalPrice} Rs.</Text>
+                        <View style={{ flexDirection: 'row',alignItems: 'baseline',paddingLeft: 20, width: 95 + '%', alignItems:'center', justifyContent:'center' }}>
+                            <Text h1 style={{justifyContent:'flex-start', fontWeight: 'bold', fontSize: 25,color:'white' , float: 'left'}}>Total Price: </Text>
+                            <Icon name="rupee" style={{justifyContent:'flex-end', fontWeight: 'bold', fontSize: 25, color:'white', float: 'left'}}>
+                                <Text h1 style={{fontWeight: 'bold', fontSize: 25,color:'white' }}> {this.props.ReviewOrderDetails.totalPrice}</Text>
+                            </Icon>
+                        </View>
                     </Badge>    
                 </View>}
             </View>
