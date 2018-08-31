@@ -8,6 +8,7 @@ import styles from './Styles/LaunchScreenStyles';
 import { connect } from 'react-redux'
 import SagaActions from "../Sagas/ActionTypes/Action";
 import ReduxActions from "../Redux/ActionTypes/Action";
+import {Toast} from 'native-base';
 
 class LaunchScreen extends Component {
   constructor(){
@@ -27,14 +28,23 @@ class LaunchScreen extends Component {
     this.props.dispatch({type:ReduxActions.CHANGE_LOGIN_STATUS,loginStatus:'searching'})
     this.props.dispatch({type: SagaActions.FETCH_USER_DETAILS, mobileNumber: this.props.PhoneNumber});
     }
-    }
     this.props.navigation.navigate('CustomerScreen');
+    }
+    else{
+      Toast.show({
+        text: "Please provide a valid mobile number.",
+        textStyle: { fontSize: 25, fontFamily:'Avenir-Black' },
+        duration: 2000,
+        position: "bottom",
+        buttonTextStyle:{fontSize: 20, fontFamily:'Avenir-Black'},
+        buttonText: "Ok",
+        type: "danger"
+        })
+    }
   }
 
   changeField(event){
-    if(event.length === 10){
       this.props.dispatch({type: ReduxActions.SET_MOBILE_NUMBER, mobileNumber: event});
-    }
   }
 
   render () {
@@ -92,8 +102,7 @@ const mapStateToProps = (state) => {
     customerID: state.userReducer.customer.customerID,
     loginSuccess: state.userReducer.loginDetails.loginSuccess,
     PhoneNumber: state.userReducer.loginDetails.PhoneNumber,
-    searchDisabled:state.userReducer.loginDetails.searchDisabled,
-    apicalling:state.userReducer.apicalling
+    searchDisabled:state.userReducer.loginDetails.searchDisabled
   };
 }
 

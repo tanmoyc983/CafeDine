@@ -48,13 +48,26 @@ class ModeSelectionComponent extends Component {
 
     submitModes(){ 
         let selectedMode=[];
+        debugger;
         this.props.modeDetails.forEach(element => {
             if(element.quantity>0){
                 selectedMode.push(element);
             }
         });
-        this.props.dispatch({type:ReduxActions.SELECTED_MODE,selectedMode});   
-        this.props.dispatch({type: SagaActions.BOOK_TABLE,TableID:this.props.selectedtable.tableID});              
+        if(selectedMode.length>0){
+            this.props.dispatch({type:ReduxActions.SELECTED_MODE,selectedMode});   
+            this.props.dispatch({type: SagaActions.BOOK_TABLE,TableID:this.props.selectedtable.tableID}); 
+        }else{
+            Toast.show({
+                text: 'Please select food items!',
+                textStyle: { fontSize: 25, fontFamily:'Avenir-Black',fontWeight:'bold' },
+                duration: 2000,
+                buttonTextStyle:{fontSize: 20, fontFamily:'Avenir-Black'},
+                buttonText: "Okay",
+                type: "danger"
+           })
+        }
+                     
     }
 
     render() {
