@@ -99,19 +99,19 @@ class FloorsAndTables extends React.Component {
               fontSize={25}
               onChangeText={this.changeFloor.bind(this)}
               label='Select Floor' baseColor='#039be5'
-              data={floors} />
+              data={floors}/>
           </View>
-          <View style={{ flexDirection: 'column', flex: 2, marginLeft: 100, justifyContent: 'space-between' }}>
-            <TextBoxMaterial keyboardTextType="numeric" label="No. of persons" changeField={this.changeField.bind(this)} />
+          <View style={{flexDirection:'column',flex:2,marginLeft:100, justifyContent:'space-between'}}>
+            <TextBoxMaterial keyboardTextType="numeric"   label="No. of persons" changeField = {this.changeField.bind(this)}/>
           </View>
         </View>
-        <View style={{ flex: 8 }} >
-          <ScrollView>
-            <View style={{ flex: 1, flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start', alignContent: 'space-around' }} >
-              {tableArray}
-            </View>
-          </ScrollView>
-        </View>
+           <View style={{flex: 8, padding: 0 }} >
+            <ScrollView>
+              <View style={{flex: 1, flexWrap:'wrap',flexDirection: 'row', justifyContent:'flex-start',alignContent:'space-around', padding: 0 }} > 
+                {tableArray}
+              </View>
+            </ScrollView>
+          </View>
       </View>
 
     );
@@ -131,7 +131,7 @@ const stylesFloor = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
     height: 50,
-    marginVertical: 10
+    // marginVertical: 10
   },
   filled: {
     backgroundColor: '#ff8080',
@@ -140,8 +140,8 @@ const stylesFloor = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
-    height: 50,
-    marginVertical: 10
+    height: 50
+    // marginVertical: 10
   },
   cardStyle: {
     height: 80,
@@ -149,8 +149,9 @@ const stylesFloor = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
-    shadowRadius: 2
-  },
+    shadowRadius: 2,
+    paddingTop: 10
+},
   empty: {
     backgroundColor: '#a5dad5',
     flex: 1,
@@ -163,27 +164,29 @@ const stylesFloor = StyleSheet.create({
   },
   circleOccupied:
     {
-      width: 60,
-      height: 60,
-      borderRadius: 250,
-      alignItems: 'center',
-      fontSize: 30,
-      color: '#fff',
-      lineHeight: 50,
-      textAlign: 'center',
-      backgroundColor: '#ff8080'
+    width:60,
+    height:60,
+    borderRadius:250,
+    alignItems:'center',
+    fontSize:30,
+    color:'#fff',
+    lineHeight:50,
+    textAlign:'center',
+    backgroundColor:'#ff8080',
+    marginTop: -3 + '%'
     },
   circleFree:
     {
-      width: 60,
-      height: 60,
-      borderRadius: 250,
-      alignItems: 'center',
-      fontSize: 30,
-      color: '#fff',
-      lineHeight: 50,
-      textAlign: 'center',
-      backgroundColor: '#2196f3'
+    width:60,
+    height:60,
+    borderRadius:250,
+    alignItems:'center',
+    fontSize:30,
+    color:'#fff',
+    lineHeight:50,
+    textAlign:'center',
+    backgroundColor:'#2196f3',
+    marginTop: -3 + '%'
     }
 });
 
