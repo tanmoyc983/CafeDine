@@ -9,104 +9,109 @@ import { setMenuItems, getFloors, setFullOrders, getFloorList, setSelectedTable,
 import { Images } from '../Themes';
 import styles from './Styles/LaunchScreenStyles';
 import TextBoxMaterial from "../Components/TextBox";
-import {Toast} from 'native-base';
+import { Toast } from 'native-base';
 
 class FloorsAndTables extends React.Component {
   constructor() {
     super();
   }
-  componentWillMount(){
-    if(this.props.floorDetails.length===0){
-      this.props.dispatch({type:SagaActions.GET_FLOOR_DETAILS});
+  componentWillMount() {
+    if (this.props.floorDetails.length === 0) {
+      this.props.dispatch({ type: SagaActions.GET_FLOOR_DETAILS });
     }
   }
   fillTable(tableData) {
-    if (this.props.NoOfPerson>0){
-      this.props.dispatch({type:ReduxActions.SELECTED_TABLE,tableData});
+    debugger;
+    if (this.props.NoOfPerson > 0 && this.props.NoOfPerson <= tableData.capacity) {
+      this.props.dispatch({ type: ReduxActions.SELECTED_TABLE, tableData });
       this.props.navigation.navigate('ModeSelectionScreen');
     }
-    else{ Toast.show({
-      text: "Please enter the number of person",
-      textStyle: { fontSize: 25, fontFamily:'Avenir-Black' },
-      duration: 2000,
-      position: "bottom",
-      buttonTextStyle:{fontSize: 20, fontFamily:'Avenir-Black'},
-      buttonText: "Ok",
-      type: "danger"
-      }) }  
+    else {
+      Toast.show({
+        text: "Number of person cannot be blank or more than the table capacity!",
+        textStyle: { fontSize: 25, fontFamily: 'Avenir-Black' },
+        duration: 2000,
+        position: "bottom",
+        buttonTextStyle: { fontSize: 20, fontFamily: 'Avenir-Black' },
+        buttonText: "Ok",
+        type: "danger"
+      })
+    }
   }
 
   changeFloor(val) {
     let selectedValue = val.match(/\d+/)[0];
-    if (this.props.floorDetails.length>0) {
+    if (this.props.floorDetails.length > 0) {
       this.props.floorDetails.forEach((floordata, index) => {
         if (floordata.floorID == selectedValue) {
-        this.props.dispatch({type:ReduxActions.SELECTED_FLOOR,floordata});
+          this.props.dispatch({ type: ReduxActions.SELECTED_FLOOR, floordata });
         }
       });
     }
   }
-  changeField(noofperson){
-    this.props.dispatch({type: ReduxActions.SET_NOOFPERSON, noofperson})
+  changeField(noofperson) {
+    this.props.dispatch({ type: ReduxActions.SET_NOOFPERSON, noofperson })
   }
 
   render() {
-    let tableArray=[]
-    if(this.props.selectedFloor.length>0){this.props.selectedFloor[0].tables.map((tableNo)=>{
+    let tableArray = []
+    if (this.props.selectedFloor.length > 0) {
+      this.props.selectedFloor[0].tables.map((tableNo) => {
 
-      tableArray.push(
-    <View style={{ flexDirection: 'row', justifyContent:'flex-start' }}>  
-      <TouchableOpacity onPress={() => this.fillTable(tableNo)} disabled={tableNo.isOccupied}> 
-      
-      <Card containerStyle={stylesFloor.cardStyle}>
-      <View style={{ flexDirection: 'row', justifyContent:'space-between' }}>
-      <Text style={{fontSize: 25,fontWeight: 'bold'}}>Table {tableNo.tableID}</Text>  
-      <Text style={tableNo.isOccupied ?stylesFloor.circleOccupied:stylesFloor.circleFree}>
-      {tableNo.capacity}
-      </Text> 
-      </View>
-      </Card>
-      </TouchableOpacity>
-  </View>
-)})
-}
+        tableArray.push(
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+            <TouchableOpacity onPress={() => this.fillTable(tableNo)} disabled={tableNo.isOccupied}>
 
-    let floors=[];
-    this.props.floorDetails.forEach(element => {   
+              <Card containerStyle={stylesFloor.cardStyle}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                  <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Table {tableNo.tableID}</Text>
+                  <Text style={tableNo.isOccupied ? stylesFloor.circleOccupied : stylesFloor.circleFree}>
+                    {tableNo.capacity}
+                  </Text>
+                </View>
+              </Card>
+            </TouchableOpacity>
+          </View>
+        )
+      })
+    }
+
+    let floors = [];
+    this.props.floorDetails.forEach(element => {
       floors.push({
         value: 'Floor ' + element.floorID
       });
     });
     return (
-      
+
       <View style={styles.mainContainer}>
         <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
-        <View style={{ flexDirection:'row',flex: 2,marginLeft:10, alignItems:'baseline' }}>
-        <View style={{flexDirection:'column', flex:1,justifyContent:'space-between'}}>
-          <Dropdown style={{ justifyContent: 'flex-start' }}
-            dropdownPosition={0}
-            textColor='#424242'
-            itemColor='#039be5'
-            baseColor='#039be5'
-            containerStyle={{color:'#039be5'}}
-            overlayStyle={{color:'#039be5'}}
-            labelFontSize={25}
-            fontSize={25}
-            onChangeText={this.changeFloor.bind(this)}
-            label='Select Floor' baseColor='#039be5'
-            data={floors}/>
+        <View style={{ flexDirection: 'row', flex: 2, marginLeft: 10, alignItems: 'baseline' }}>
+          <View style={{ flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
+            <Dropdown style={{ justifyContent: 'flex-start' }}
+              dropdownPosition={0}
+              textColor='#424242'
+              itemColor='#039be5'
+              baseColor='#039be5'
+              containerStyle={{ color: '#039be5' }}
+              overlayStyle={{ color: '#039be5' }}
+              labelFontSize={25}
+              fontSize={25}
+              onChangeText={this.changeFloor.bind(this)}
+              label='Select Floor' baseColor='#039be5'
+              data={floors} />
+          </View>
+          <View style={{ flexDirection: 'column', flex: 2, marginLeft: 100, justifyContent: 'space-between' }}>
+            <TextBoxMaterial keyboardTextType="numeric" label="No. of persons" changeField={this.changeField.bind(this)} />
+          </View>
         </View>
-          <View style={{flexDirection:'column',flex:2,marginLeft:100, justifyContent:'space-between'}}>
-          <TextBoxMaterial keyboardTextType="numeric"   label="No. of persons" changeField = {this.changeField.bind(this)}/>
-       </View>
-        </View>
-           <View style={{flex: 8 }} >
+        <View style={{ flex: 8 }} >
           <ScrollView>
-          <View style={{flex: 1, flexWrap:'wrap',flexDirection: 'row', justifyContent:'flex-start',alignContent:'space-around' }} > 
-          {tableArray}
-          </View>
+            <View style={{ flex: 1, flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'flex-start', alignContent: 'space-around' }} >
+              {tableArray}
+            </View>
           </ScrollView>
-          </View>
+        </View>
       </View>
 
     );
@@ -138,14 +143,14 @@ const stylesFloor = StyleSheet.create({
     height: 50,
     marginVertical: 10
   },
-  cardStyle:{
-    height:80,
-    width:250,
+  cardStyle: {
+    height: 80,
+    width: 250,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2
-},
+  },
   empty: {
     backgroundColor: '#a5dad5',
     flex: 1,
@@ -158,37 +163,37 @@ const stylesFloor = StyleSheet.create({
   },
   circleOccupied:
     {
-    width:60,
-    height:60,
-    borderRadius:250,
-    alignItems:'center',
-    fontSize:30,
-    color:'#fff',
-    lineHeight:50,
-    textAlign:'center',
-    backgroundColor:'#ff8080'
+      width: 60,
+      height: 60,
+      borderRadius: 250,
+      alignItems: 'center',
+      fontSize: 30,
+      color: '#fff',
+      lineHeight: 50,
+      textAlign: 'center',
+      backgroundColor: '#ff8080'
     },
-    circleFree:
+  circleFree:
     {
-    width:60,
-    height:60,
-    borderRadius:250,
-    alignItems:'center',
-    fontSize:30,
-    color:'#fff',
-    lineHeight:50,
-    textAlign:'center',
-    backgroundColor:'#2196f3'
+      width: 60,
+      height: 60,
+      borderRadius: 250,
+      alignItems: 'center',
+      fontSize: 30,
+      color: '#fff',
+      lineHeight: 50,
+      textAlign: 'center',
+      backgroundColor: '#2196f3'
     }
 });
 
 
 const mapStateToProps = (state) => {
-  return{
+  return {
     loginSuccess: state.userReducer.loginDetails.loginSuccess,
-    floorDetails:state.floorReducer.floorList,
-    selectedFloor:state.floorReducer.selectedFloor,
-    selectedtable:state.floorReducer.selectedtable,
+    floorDetails: state.floorReducer.floorList,
+    selectedFloor: state.floorReducer.selectedFloor,
+    selectedtable: state.floorReducer.selectedtable,
     NoOfPerson: state.tableReducer.NoOfPerson
   };
 }
