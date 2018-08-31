@@ -66,15 +66,15 @@ class ModeSelectionComponent extends Component {
                     renderItem={({ item }) => (
                         <View style={stylesMode.btnStyle}>
                             <View style={{ flex: 1, flexDirection: 'row' }}> 
-                                <View style={{flex: 9,flexDirection: 'row', justifyContent:'flex-start',alignItems:'flex-start'}}>                           
+                                <View style={{flexDirection: 'row', justifyContent:'flex-start',alignItems:'flex-start', width: 60 + '%'}}>                           
                                 <Text style={{ marginVertical: 18, fontSize: 30, marginLeft: 5 }}>
                                     {item.modeName}
                                 </Text>
                                 </View>
-                                <View style={{ flex: 1,flexDirection: 'row',justifyContent:'flex-start',alignItems:'flex-end'}}>
-                                  <Text style={{ marginVertical: 18, fontSize: 25, color: 'black' }}>Rs. {item.defaultItemPrice}</Text>
+                                <View style={{ flexDirection: 'row',justifyContent:'flex-start',alignItems:'flex-end', width: 15 + '%'}}>
+                                  <Text style={{ marginVertical: 18, fontSize: 25, color: 'black', width: 100 }}>Rs. {item.defaultItemPrice}</Text>
                                 </View>
-                                <View style={{ flex: 4,flexDirection: 'row',justifyContent:'flex-start',alignItems:'flex-end'}}>
+                                <View style={{ flexDirection: 'row',justifyContent:'flex-start',alignItems:'flex-end', width: 20 + '%'}}>
                                         <TouchableHighlight onPress={() => this.updateIndex(item, 0)} style={{ padding: 10 }}>
                                         <Icon name="minus-circle" size={45} color="#2196f3" /></TouchableHighlight>
                                         <Text style={{ marginVertical: 18, fontSize: 25, color: 'black' }}>{item.quantity}</Text>

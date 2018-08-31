@@ -73,10 +73,12 @@ class CheckoutOrderComponent extends React.Component {
                         <Card title={userName} textStyle={{fontsize:25}}>
                             {myOrders}
                             <View style={{ borderWidth: 0.5, borderColor: 'black', margin: 10 }} />
-                            <Text h1 style={{ alignItems: 'flex-end', fontWeight: 'bold', fontSize: 25,justifyContent:'flex-end',alignItems:'flex-end' }}>Total Price:</Text>
-                            <Icon name="rupee" style={{fontWeight: 'bold', fontSize: 25}}>
-                             <Text style={{fontWeight: 'bold', fontSize: 25}}> {TotalPrice}</Text>
-                             </Icon>
+                            <View style={{flex:1,flexDirection: 'row',alignItems: 'baseline',paddingLeft: 20}}>
+                                <Text h1 style={{ justifyContent:'flex-start', fontWeight: 'bold', fontSize: 25, width: 20 + '%' }}>Total Price:</Text>
+                                <Icon name="rupee" style={{justifyContent:'flex-start', fontWeight: 'bold', fontSize: 25, width: 10 + '%' }}>
+                                <Text style={{justifyContent:'flex-end', fontWeight: 'bold', fontSize: 25, width: 20 + '%' }}> {TotalPrice}</Text>
+                                </Icon>
+                            </View>
                         </Card>
                     </ScrollView>
                     <TouchableOpacity>
