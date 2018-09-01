@@ -22,22 +22,22 @@ render() {
       </CardItem>
       <CardItem button bordered style={{cursor:'pointer'}} onPress={() =>this.props.navigation.navigate('BeforeModeSelectionStack')}>
       <Icon active name="local-dining" size={42} style={{  color: "#fbc02d" }} />
-          <Text style={styles.subtitle}>
+      <View style={{width: 80 + '%' }}><Text style={styles.subtitle}>
             New Order
-          </Text>
-          <Right>
+          </Text></View>
+          <View style={{width: 10 + '%' }}>
                 <Icon active size={42} name="arrow-forward" />
-          </Right>
+          </View>
       </CardItem>
       {/* <View style={{ borderWidth: 0.5, borderColor: 'black', margin: 10 }} /> */}
       <CardItem button bordered style={{cursor:'pointer'}} onPress={() => this.props.navigation.navigate('ExistingOrderStack')}>
       <Icon active name="local-grocery-store" size={42} style={{  color: "#ff9800" }} />
-          <Text style={styles.subtitle}>
+          <View style={{width: 80 + '%' }}><Text style={styles.subtitle}>
             Existing Order
-          </Text>
-          <Right>
+          </Text></View>
+          <View style={{width: 10 + '%' }}>
                 <Icon active size={42} name="arrow-forward" />
-          </Right>
+          </View>
       </CardItem>
       {/* <View style={{ borderWidth: 1 , borderColor: 'black', margin: 10 }} /> */}
       <CardItem header bordered>
@@ -45,12 +45,12 @@ render() {
       </CardItem>
       <CardItem button bordered style={{cursor:'pointer'}} onPress={() => this.props.navigation.navigate('CaptainStack')}>
       <Icon active name="person" size={42} style={{  color: "#039be5" }} />
-          <Text style={styles.subtitle}>
+      <View style={{width: 80 + '%' }}><Text style={styles.subtitle}>
             Modify
-          </Text>
-          <Right>
+          </Text></View>
+          <View style={{width: 10 + '%' }}>
                 <Icon active size={42} name="arrow-forward" />
-              </Right>
+          </View>
       </CardItem>
       <CardItem header bordered>
         <Text style= {styles.sectionText}>Settings</Text>

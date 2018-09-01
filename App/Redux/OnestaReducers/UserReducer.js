@@ -22,7 +22,11 @@ const INITIAL_STATE = Immutable({
 export const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case ReduxActions.SET_MOBILE_NUMBER:
-      let setMobile = Object.assign({}, state.loginDetails, {PhoneNumber: action.mobileNumber,searchDisabled: false})
+    let validMobile=true;
+    if(action.mobileNumber.length === 10 && /^[0-9]{1,10}$/.test(action.mobileNumber)){
+      validMobile=false;
+    }
+      let setMobile = Object.assign({}, state.loginDetails, {PhoneNumber: action.mobileNumber,searchDisabled: validMobile})
       return Object.assign({}, state, {loginDetails: setMobile});
       break;
 
@@ -53,17 +57,7 @@ export const userReducer = (state = INITIAL_STATE, action) => {
     break;
 
     case ReduxActions.SAVED_NEW_USER_DETAILS:
-    if(action.response){
-      Toast.show({
-        text: "Customer details saved successfully.",
-        textStyle: { fontSize: 25, fontFamily:'Avenir-Black' },
-        duration: 2000,
-        position: "top",
-        buttonTextStyle:{fontSize: 20, fontFamily:'Avenir-Black'},
-        buttonText: "Ok",
-        type: "success"
-      });
-    }
+    debugger;
     let newCustomer =  Object.assign({}, state.customer,{
       customerID: action.response,
       customerName: '',
