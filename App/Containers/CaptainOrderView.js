@@ -43,23 +43,24 @@ class MenuItemsComponent extends React.Component {
         var suborder=[];
         if(orderDetails){
             if(orderDetails.subOrder.length>0){
-                suborder = orderDetails.subOrder.find((element,index) => {
+                suborder.push( orderDetails.subOrder.find((element,index) => {
                     if(element.subOrderNumber==subOrderNumber){
                         return element;
                     }
-                }); 
+                })); 
             }
         }
         orderDetails.subOrder=suborder;
+        debugger;
         this.props.dispatch({type: SagaActions.APPROVE_THE_ORDER, approvedOrder: orderDetails});
-        const resetAction = NavigationActions.reset({
-            index: 0,
-            key: null,
-            actions: [
-                NavigationActions.navigate({routeName: 'CaptainDashboardScreen'})
-            ]
-        });
-        this.props.navigation.dispatch(resetAction);
+        // const resetAction = NavigationActions.reset({
+        //     index: 0,
+        //     key: null,
+        //     actions: [
+        //         NavigationActions.navigate({routeName: 'CaptainDashboardScreen'})
+        //     ]
+        // });
+        // this.props.navigation.dispatch(resetAction);
     }
 
     checkoutOrder(){       
@@ -91,6 +92,12 @@ class MenuItemsComponent extends React.Component {
         );
     }
 
+        isSubOrderApproved(round){
+            debugger;
+         console.log(round);
+         return false;
+        }
+
     _renderContent(section) {
         let myOrders = [];
         section.modes.map((item, modeIndex) => {
@@ -98,15 +105,15 @@ class MenuItemsComponent extends React.Component {
             <React.Fragment>
             <View style={{flex:6,flexDirection:'row', justifyContent:'flex-start',alignItems:'flex-start'}}>
                 <OrderMode mode={item} updateQuantity={this.updateQuantity.bind(this)} suborderNumber={section.subOrderNumber} modeIndex ={modeIndex}/>
-            </View>
-            <View style={{flex:1,flexDirection:'row', justifyContent:'flex-end',alignItems:'flex-end'}}>
-                <Button onPress={()=>this.approveOrder(section.subOrderNumber)} style={{height:100+'%',width:15+'%',marginRight:5+'%',justifyContent:'center', backgroundColor:'#00a152'}}>
+            </View>           
+            </React.Fragment>);                     
+                })
+                myOrders.push( <View style={{flex:1,flexDirection:'row', justifyContent:'flex-end',alignItems:'flex-end'}}>
+                <Button onPress={()=>this.approveOrder(section.subOrderNumber)} disabled={this.isSubOrderApproved(section)} style={{height:100+'%',width:15+'%',marginRight:5+'%',justifyContent:'center', backgroundColor:'#00a152'}}>
                     <Icon active name="approval" size={24} color="#FAFAFA" />
                     <Text style={stylesFloor.textStyle}>Approve</Text>
                 </Button>
-            </View>
-            </React.Fragment>);                     
-                })           
+            </View>)           
         return (myOrders);            
     }
 

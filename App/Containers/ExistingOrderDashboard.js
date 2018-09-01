@@ -83,7 +83,7 @@ class ExistingOrderDashboard extends Component{
                 fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='Release Table' />);
             } 
             tcards.push(     
-                <Card title={'Table No.'+rowData.tableID} titleStyle={{backgroundColor:titleColor,color:'#FAFAFA'}} containerStyle={stylesFloor.cardStyle}>
+                <Card title={'Table No.'+rowData.tableID} titleStyle={{fontSize:20, backgroundColor:titleColor,color:'#FAFAFA'}} containerStyle={stylesFloor.cardStyle}>
                  <Text style={{marginBottom: 10,fontSize: 20,fontWeight: 'bold'}}> Capacity: {rowData.capacity}</Text>
                  <Text style={{marginBottom: 10,fontSize: 20,fontWeight: 'bold'}}>{rowData.orderDetails===null?'Customer: ' : 'Customer: '+ rowData.orderDetails.customer.customerName.toString()}</Text>
                  <Text style={{marginBottom: 10,fontSize: 20,fontWeight: 'bold'}}> No. of Persons: {rowData.orderDetails===null?0:rowData.orderDetails.noofPerson}</Text>

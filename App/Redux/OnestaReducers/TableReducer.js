@@ -7,9 +7,9 @@ const INITIAL_STATE = Immutable({
     OrderDetails:{},
     TablesonSelectedFloor:[],
     tableWithOrderDetails:{},
-    orderStatus:'',
     NoOfPerson:0,
-    tableReleased:false
+    tableReleased:false,
+    approvedOrders:[]
 });
 
 export const tableReducer = (state = INITIAL_STATE, action) => {
@@ -29,11 +29,12 @@ export const tableReducer = (state = INITIAL_STATE, action) => {
         return Object.assign({}, state, {NoOfPerson: action.noofperson})
 
         case ReduxActions.ORDER_APPROVED:
-        let Status=''
-        if (action.response=='Approved'){
-            Status='true'
+        let roundApproved=[];
+        if (action.response.includes('Approved')){
+            let approvedRound = action.response.match(/\d+/)[0];
+            roundApproved.push(approvedRound);
             Toast.show({
-                text: "Order is approved",
+                text: action.response,
                 textStyle: { fontSize: 25, fontFamily:'Avenir-Black' },
                 duration: 2000,
                 position: "bottom",
@@ -54,7 +55,7 @@ export const tableReducer = (state = INITIAL_STATE, action) => {
                 type: "danger"
                 })
         }
-        return Object.assign({}, state, {orderStatus: Status, allTableArray: INITIAL_STATE.allTableArray, TablesonSelectedFloor:INITIAL_STATE.TablesonSelectedFloor});
+        return Object.assign({}, state, {approvedOrders:roundApproved});
 
         case ReduxActions.FAILED_TO_APPROVE_ORDER:
         console.log('FAILED_TO_APPROVE_ORDER_RESPONSE_NOT_VALID')

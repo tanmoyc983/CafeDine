@@ -13,6 +13,7 @@ import SearchCustomerScreen from '../Containers/SearchCustomerScreen';
 import ModifyCustomerScreen from '../Containers/ModifyCustomerScreen';
 import ExistingOrderDashboard from '../Containers/ExistingOrderDashboard';
 import CaptainOrderView from '../Containers/CaptainOrderView';
+import AppSettingsScreen from "../Containers/AppSettings";
 const transitionConfig = () => {
   return {
     transitionSpec: {
@@ -219,6 +220,24 @@ const CaptainStack = StackNavigator({
     }
   );
 
+  const AppSettingStack= StackNavigator({
+    AppSettingsScreen:{
+      screen: AppSettingsScreen,
+      navigationOptions: ({ navigation }) => ({
+        headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
+        shadowOffset:{width: 0, height: 3},
+        shadowOpacity: 0.3 },
+        headerTitle: 'Set IP address and Port',
+        headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
+        headerTintColor: 'white',
+        headerLeft: null
+      })
+    }
+  },{
+    initialRouteName: 'AppSettingsScreen',
+    transitionConfig
+  })
+
 const DrawerStack = StackNavigator({
   CaptainDashboardScreen: {
     screen: CaptainDashboardScreen,
@@ -234,7 +253,8 @@ const DrawerStack = StackNavigator({
   BeforeModeSelectionStack: { screen: BeforeModeSelectionStack },
   AfterModeSelectionStack: { screen: AfterModeSelectionStack },
   CaptainStack: { screen: CaptainStack },
-  ExistingOrderStack: {screen: ExistingOrderStack}
+  ExistingOrderStack: {screen: ExistingOrderStack},
+  AppSettingStack: { screen: AppSettingStack}
 }, {
     initialRouteName: "CaptainDashboardScreen",
     transitionConfig,

@@ -12,7 +12,8 @@ export const reducers = combineReducers({
   menuitemsReducer:require('./OnestaReducers/MenuItemsReducer').menuItemsReducer,
   OrderReducer:require('./OnestaReducers/OrderReducer').OrderReducer,
   SearchCustomersReducer:require('./OnestaReducers/SearchCustomersReducer').SearchCustomersReducer,
-  tableReducer:require('./OnestaReducers/TableReducer').tableReducer
+  tableReducer:require('./OnestaReducers/TableReducer').tableReducer,
+  DashBoardReducer:require('./OnestaReducers/DashBoardReducer').DashBoardReducer
 })
 
 export default () => {

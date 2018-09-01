@@ -1,11 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, Image, KeyboardAvoidingView, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, Image, View, ActivityIndicator } from 'react-native';
 import TextBoxMaterial from "../Components/TextBox";
 import { Images } from '../Themes';
 import { connect } from 'react-redux';
 import styles from './Styles/LaunchScreenStyles';
 import {Button,Toast,Content } from 'native-base';
-import __ from "lodash";
 import SagaActions from "../Sagas/ActionTypes/Action";
 import ReduxActions from "../Redux/ActionTypes/Action";
 import Icon from 'react-native-vector-icons/MaterialIcons';
