@@ -68,12 +68,12 @@ class ExistingOrderDashboard extends Component{
             let btn=[];
             let titleColor='#3949ab'
             if(rowData.isOccupied===true && rowData.orderDetails!==null){
-                titleColor='#ff8080';
+                titleColor='#f44336';
                 btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.getOrderDetails.bind(this,rowData)} 
                 fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='View Order Details' />);
             } 
             if(rowData.isOccupied && rowData.isApproved===true && rowData.orderDetails!==null){
-                titleColor='#00e676';
+                titleColor='#00a152';
                 // btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.getOrderDetails.bind(this,rowData)} 
                 // fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='View Order Details' />);
             } 

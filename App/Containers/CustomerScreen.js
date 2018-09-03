@@ -4,12 +4,7 @@ import TextBoxMaterial from "../Components/TextBox";
 import { Images } from '../Themes';
 import { connect } from 'react-redux';
 import styles from './Styles/LaunchScreenStyles';
-<<<<<<< HEAD
 import {Button,Toast,Content } from 'native-base';
-=======
-import { Button, Toast, Content } from 'native-base';
-import __ from "lodash";
->>>>>>> develop
 import SagaActions from "../Sagas/ActionTypes/Action";
 import ReduxActions from "../Redux/ActionTypes/Action";
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -71,7 +66,7 @@ class Customer extends React.Component {
         text: "Customer details saved successfully.",
         textStyle: { fontSize: 25, fontFamily: 'Avenir-Black' },
         duration: 2000,
-        position: "top",
+        position: "bottom",
         buttonTextStyle: { fontSize: 20, fontFamily: 'Avenir-Black' },
         buttonText: "Ok",
         type: "success"
@@ -167,7 +162,6 @@ const stylesDrawer = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  debugger;
   return {
     customer: state.userReducer.customer,
     PhoneNumber: state.userReducer.loginDetails.PhoneNumber,

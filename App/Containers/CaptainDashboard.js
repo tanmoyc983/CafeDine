@@ -9,6 +9,26 @@ import ReduxActions from "../Redux/ActionTypes/Action";
 
 class CaptainDashboardComponent extends Component {
 
+// componentWillMount(){
+//   getIP();
+//   getPort();
+// }
+// async getIP () {
+//         try {
+//           const IPAddress = await AsyncStorage.getItem('IP');
+//           return IPAddress;
+//         }
+//         catch(ex){}
+//       }
+//       async getPort () {
+//         try {
+//       const Port = await AsyncStorage.getItem('Port');
+//       return Port;
+//     }
+//     catch(ex){}
+//   }
+
+
 render() {
     return (
         <View style={styles.mainContainer}>
@@ -57,12 +77,12 @@ render() {
       </CardItem>
       <CardItem button bordered style={{cursor:'pointer'}} onPress={() => this.props.navigation.navigate('AppSettingStack')}>
       <Icon active name="settings" size={42} style={{  color: "#039be5" }} />
-          <Text style={styles.subtitle}>
+      <View style={{width: 80 + '%' }}><Text style={styles.subtitle}>
             Set Api Endpoint
-          </Text>
-          <Right>
+          </Text></View>
+          <View style={{width: 10 + '%' }}>
                 <Icon active size={42} name="arrow-forward" />
-          </Right>
+                </View>
       </CardItem>
     </Card>
     </View>

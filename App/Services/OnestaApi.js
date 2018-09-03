@@ -178,7 +178,6 @@ export const ModifyCustomer = (objUserModified) => {
      });
     }          
     export const approveOrder=(orderData)=>{
-      debugger;
       return fetch(baseUrl+'onesta/orderdetails/ApprovedOrder', {
         method: 'POST',
         headers: {

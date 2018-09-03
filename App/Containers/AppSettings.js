@@ -104,7 +104,6 @@ const stylesDrawer = StyleSheet.create({
 
     
 const mapStateToProps=(state)=>{
-    debugger;
     return {
         ipAddress : state.DashBoardReducer.ipAddress,
         port: state.DashBoardReducer.port

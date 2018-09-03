@@ -21,7 +21,6 @@ class FloorsAndTables extends React.Component {
     }
   }
   fillTable(tableData) {
-    debugger;
     if (this.props.NoOfPerson > 0 && this.props.NoOfPerson <= tableData.capacity) {
       this.props.dispatch({ type: ReduxActions.SELECTED_TABLE, tableData });
       this.props.navigation.navigate('ModeSelectionScreen');
