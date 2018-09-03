@@ -116,13 +116,15 @@ export const OrderReducer = (state = INITIAL_STATE, action) => {
 
         case ReduxActions.SUCCESSFULLY_CHECKOUT_ORDER:
         let resetSelectedMenu =Object.assign({},state.SelectedMenuItems);
-        if(resetSelectedMenu.category){
-        resetSelectedMenu.category.forEach((element) => {
-            element.items.forEach(item => {
-                item.quantity=0;
-            })
-        })}
-        if(action.response){
+        let orderCheckedOut=false;
+        if(action.response !=="Order not yet approved"){
+            orderCheckedOut=true;
+            if(resetSelectedMenu.category){
+            resetSelectedMenu.category.forEach((element) => {
+                element.items.forEach(item => {
+                    item.quantity=0;
+                })
+            })}
             Toast.show({
                         text: 'Order ID : '+action.response+', Checkedout successfully.'+"\n"+ 'Visit us again .',
                         textStyle: { fontSize: 25, fontFamily:'Avenir-Black',fontWeight:'bold' },
@@ -130,9 +132,9 @@ export const OrderReducer = (state = INITIAL_STATE, action) => {
                         buttonTextStyle:{fontSize: 20, fontFamily:'Avenir-Black'},
                         buttonText: "Okay",
                         type: "success"
-                   })
+                    })
         } 
-        return Object.assign({},state,{OrderID:action.response,Order:INITIAL_STATE.Order,OrderedItems:INITIAL_STATE.OrderedItems,SelectedMenuItems:resetSelectedMenu, isCheckedOut:true})
+        return Object.assign({},state,{OrderID:action.response,SelectedMenuItems:resetSelectedMenu, isCheckedOut:orderCheckedOut})
         break;
 
         case ReduxActions.RESET_ORDER_DATA:

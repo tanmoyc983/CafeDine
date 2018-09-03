@@ -82,11 +82,11 @@ class SearchCustomerScreen extends Component {
             <Text style={stylesDrawer.textStyle}>{data.customerName+'\t'+'-' +'\t'+data.customerID}</Text>
           </View>
         }
-        right={
-          <Button danger onPress={this.NavigatetoDelete.bind(this,data)}>
-            <Icon active name="trash" />
-          </Button>
-        }
+        // right={
+        //   <Button danger onPress={this.NavigatetoDelete.bind(this,data)}>
+        //     <Icon active name="trash" />
+        //   </Button>
+        // }
       />);
     })}
     
@@ -104,11 +104,11 @@ class SearchCustomerScreen extends Component {
             <Text style={stylesDrawer.textStyle}>{this.props.customer.customerName+'\t'+'-' +'\t'+this.props.customer.customerID}</Text>
           </View>
         }
-        right={
-          <Button danger onPress={this.NavigatetoDelete.bind(this, this.props.customer)}>
-            <Icon active name="trash" />
-          </Button>
-        }
+        // right={
+        //   <Button danger onPress={this.NavigatetoDelete.bind(this, this.props.customer)}>
+        //     <Icon active name="trash" />
+        //   </Button>
+        // }
       />)
     }
     let isUsersFound=true;

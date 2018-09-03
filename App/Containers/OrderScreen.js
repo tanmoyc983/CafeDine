@@ -113,10 +113,10 @@ class OrderComponent extends React.Component {
               <Text style={stylesFloor.textStyle}>Submit</Text>
             </TouchableOpacity>
 
-            {this.props.OrderID =='' && <TouchableOpacity onPress={this.Confirmation.bind(this)} style={stylesFloor.buttonStyle} >
+            {/* {this.props.OrderID =='' && <TouchableOpacity onPress={this.Confirmation.bind(this)} style={stylesFloor.buttonStyle} >
               <Icon name='highlight-off' size= {25} color="white" />
               <Text style={stylesFloor.textStyle}>Cancel</Text>
-            </TouchableOpacity>}
+            </TouchableOpacity>} */}
             
                 </View>}
             </View>

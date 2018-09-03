@@ -48,7 +48,6 @@ class ModeSelectionComponent extends Component {
 
     submitModes(){ 
         let selectedMode=[];
-        debugger;
         this.props.modeDetails.forEach(element => {
             if(element.quantity>0){
                 selectedMode.push(element);
