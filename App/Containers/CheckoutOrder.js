@@ -10,6 +10,7 @@ import SagaActions from "../Sagas/ActionTypes/Action";
 import __  from "lodash";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {NavigationActions } from 'react-navigation';
+import {Toast} from 'native-base';
 
 class CheckoutOrderComponent extends React.Component {
     constructor() {
@@ -48,7 +49,7 @@ class CheckoutOrderComponent extends React.Component {
     }
 
     componentWillMount() {
-        this.props.dispatch({type:SagaActions.GET_ORDER_CHECKOUT_DETAILS,orderID:this.props.OrderID})           
+        this.props.dispatch({type:SagaActions.GET_ORDER_CHECKOUT_DETAILS,orderID:this.props.OrderID});           
     }
 
     render() {
@@ -64,6 +65,16 @@ class CheckoutOrderComponent extends React.Component {
         let mode = this.props.CheckOrderDetails.modes.map((data, i) => {
             myOrders.push(<CheckoutModes mode={data} />);
         });
+        if(!order.isApproved){
+            Toast.show({
+                text: 'Order ID :'+order.orderID+" not yet approved by the captain."+"\n"+"Please contact the manager.",
+                textStyle: { fontSize: 25, fontFamily:'Avenir-Black',fontWeight:'bold' },
+                duration: 3000,
+                buttonTextStyle:{fontSize: 20, fontFamily:'Avenir-Black'},
+                buttonText: "Okay",
+                type: "danger"
+            })
+        }
     }
         return (
             <View style={styles.mainContainer}>
@@ -73,14 +84,16 @@ class CheckoutOrderComponent extends React.Component {
                         <Card title={userName} textStyle={{fontsize:25}}>
                             {myOrders}
                             <View style={{ borderWidth: 0.5, borderColor: 'black', margin: 10 }} />
-                            <Text h1 style={{ alignItems: 'flex-end', fontWeight: 'bold', fontSize: 25,justifyContent:'flex-end',alignItems:'flex-end' }}>Total Price:</Text>
-                            <Icon name="rupee" style={{fontWeight: 'bold', fontSize: 25}}>
-                             <Text style={{fontWeight: 'bold', fontSize: 25}}> {TotalPrice}</Text>
-                             </Icon>
+                            <View style={{flex:1,flexDirection: 'row',alignItems: 'baseline',paddingLeft: 20}}>
+                                <Text h1 style={{ justifyContent:'flex-start', fontWeight: 'bold', fontSize: 25, width: 20 + '%' }}>Total Price:</Text>
+                                <Icon name="rupee" style={{justifyContent:'flex-start', fontWeight: 'bold', fontSize: 25, width: 10 + '%' }}>
+                                <Text style={{justifyContent:'flex-end', fontWeight: 'bold', fontSize: 25, width: 20 + '%' }}> {TotalPrice}</Text>
+                                </Icon>
+                            </View>
                         </Card>
                     </ScrollView>
-                    <TouchableOpacity>
-                        <Button large icon={{ name: 'envira', type: 'font-awesome' }} onPress={this.checkoutConfirmation.bind(this)}
+                    <TouchableOpacity >
+                        <Button large icon={{ name: 'envira', type: 'font-awesome' }} disabled={!this.props.CheckOrderDetails.isApproved} onPress={this.checkoutConfirmation.bind(this)}
                             backgroundColor='#03A9F4' fontFamily='Lato' buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
                             title='Checkout Order' />
                     </TouchableOpacity>

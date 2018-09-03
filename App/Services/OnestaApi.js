@@ -1,5 +1,7 @@
 const baseUrl='http://10.31.101.118:8080/';
-
+//http://10.20.1.3:8080
+//http://10.31.101.118:8080
+//http://192.168.1.3:8080
 export const getCustomer = (mobileNumber) => {
     let url = baseUrl+'onesta/customer/SearchbyMobile?mobile=' + mobileNumber;
     return fetch(url,{

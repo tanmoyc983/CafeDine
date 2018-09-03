@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import ReduxActions from "../Redux/ActionTypes/Action";
 import SagaActions from "../Sagas/ActionTypes/Action";
 import {NavigationActions } from 'react-navigation';
+import { Dimensions } from "react-native";
 
 class OrderComponent extends React.Component {
     constructor() {
@@ -76,29 +77,27 @@ class OrderComponent extends React.Component {
     }
 
     render() {
+        let btns = [];
+        this.props.modeDetails.map((element)=>{
+            if(element.quantity>0)
+            {
+              btns.push( <Card title={element.modeName} containerStyle={stylesFloor.cardStyle} image={getImageonType(element.modeType)}>
+              <Text style={{marginBottom: 10,fontSize: 20,fontWeight: 'bold'}}> Quantity: {element.quantity}</Text>
+              <Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={() => this.changeMode(element)}
+                fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle}
+                title='View Menu' /> 
+              </Card>);
+            }
+        })
         return (
             <View style={styles.mainContainer}>
                  {this.props.modeDetails.length===0 && <View style={[stylesFloor.container, stylesFloor.horizontal]}>
                     <ActivityIndicator size="large" color="red" /></View>}
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
-                {this.props.modeDetails.length>0 && <ScrollView style={{flex:8, flexWrap:'wrap', flexDirection:"row",alignContent:'flex-start'}}>
-                 <FlatList                  
-                 horizontal
-                 data={this.props.modeDetails}
-                 renderItem={({ item: rowData }) =>{ 
-                    let btns = [];
-                    if(rowData.quantity>0)
-                    {
-                      btns.push( <Card title={rowData.modeName} containerStyle={stylesFloor.cardStyle} image={getImageonType(rowData.modeType)}>
-                      <Text style={{marginBottom: 10,fontSize: 20,fontWeight: 'bold'}}> Quantity: {rowData.quantity}</Text>
-                      <Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={() => this.changeMode(rowData)}
-                        fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle}
-                        title='View Menu' /> 
-                      </Card>);
-                    }
-                    return (btns
-                   )}}/>
-                </ScrollView>  }    
+                {this.props.modeDetails.length>0 && <ScrollView height={70 + '%'}>
+                <View style={{flex:1, flexWrap:'wrap', flexDirection:"row"}}>
+                 {btns}</View>
+                </ScrollView>   } 
                 {this.props.modeDetails.length>0 && <View style={{flex:1,flexDirection: 'row',alignItems:'flex-end',justifyContent:'space-around'}}>
             <TouchableOpacity onPress={this.reviewOrder.bind(this)} style={stylesFloor.buttonStyle} disabled={this.props.OrderID===''} >
               <Icon name='assignment' size= {25} color="white" />
@@ -114,10 +113,10 @@ class OrderComponent extends React.Component {
               <Text style={stylesFloor.textStyle}>Submit</Text>
             </TouchableOpacity>
 
-            {this.props.OrderID =='' && <TouchableOpacity onPress={this.Confirmation.bind(this)} style={stylesFloor.buttonStyle} >
+            {/* {this.props.OrderID =='' && <TouchableOpacity onPress={this.Confirmation.bind(this)} style={stylesFloor.buttonStyle} >
               <Icon name='highlight-off' size= {25} color="white" />
               <Text style={stylesFloor.textStyle}>Cancel</Text>
-            </TouchableOpacity>}
+            </TouchableOpacity>} */}
             
                 </View>}
             </View>
@@ -170,7 +169,15 @@ const stylesFloor = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         padding: 10
-      }
+      },
+      container: {
+        flex: 1,
+        flexWrap:'wrap'
+      },
+      contentContainer: {
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height
+      },
 });
 
 const mapStateToProps=(state)=>{

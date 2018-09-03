@@ -68,12 +68,12 @@ class ExistingOrderDashboard extends Component{
             let btn=[];
             let titleColor='#3949ab'
             if(rowData.isOccupied===true && rowData.orderDetails!==null){
-                titleColor='#ff8080';
+                titleColor='#f44336';
                 btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.getOrderDetails.bind(this,rowData)} 
                 fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='View Order Details' />);
             } 
             if(rowData.isOccupied && rowData.isApproved===true && rowData.orderDetails!==null){
-                titleColor='#00e676';
+                titleColor='#00a152';
                 // btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.getOrderDetails.bind(this,rowData)} 
                 // fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='View Order Details' />);
             } 
@@ -83,7 +83,7 @@ class ExistingOrderDashboard extends Component{
                 fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='Release Table' />);
             } 
             tcards.push(     
-                <Card title={'Table No.'+rowData.tableID} titleStyle={{backgroundColor:titleColor,color:'#FAFAFA'}} containerStyle={stylesFloor.cardStyle}>
+                <Card title={'Table No.'+rowData.tableID} titleStyle={{fontSize:20, backgroundColor:titleColor,color:'#FAFAFA'}} containerStyle={stylesFloor.cardStyle}>
                  <Text style={{marginBottom: 10,fontSize: 20,fontWeight: 'bold'}}> Capacity: {rowData.capacity}</Text>
                  <Text style={{marginBottom: 10,fontSize: 20,fontWeight: 'bold'}}>{rowData.orderDetails===null?'Customer: ' : 'Customer: '+ rowData.orderDetails.customer.customerName.toString()}</Text>
                  <Text style={{marginBottom: 10,fontSize: 20,fontWeight: 'bold'}}> No. of Persons: {rowData.orderDetails===null?0:rowData.orderDetails.noofPerson}</Text>
