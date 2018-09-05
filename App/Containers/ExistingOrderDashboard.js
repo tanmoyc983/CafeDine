@@ -24,6 +24,13 @@ class ExistingOrderDashboard extends Component{
         this.props.dispatch({type:ReduxActions.GET_ORDER_DETAILS_FOR_CAPTAIN, selectedTable})
         this.props.navigation.navigate('CaptainOrderView')
     }
+
+    continueOrder(selectedTable, data){
+        debugger;
+    console.log(selectedTable);
+    console.log(data);
+    }
+
     changeFloor(val, index){        
         let selectedValue = val.match(/\d+/)[0];
         this.props.dispatch({type: ReduxActions.CAPTAIN_SELECTED_FLOOR, selectedValue})
@@ -70,6 +77,8 @@ class ExistingOrderDashboard extends Component{
             if(rowData.isOccupied===true && rowData.orderDetails!==null){
                 titleColor='#f44336';
                 btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.getOrderDetails.bind(this,rowData)} 
+                fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='View Order Details' />);
+                btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.continueOrder.bind(this,rowData)} 
                 fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='View Order Details' />);
             } 
             if(rowData.isOccupied && rowData.isApproved===true && rowData.orderDetails!==null){
