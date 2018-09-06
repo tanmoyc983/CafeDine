@@ -51,7 +51,7 @@ class MenuItemsComponent extends React.Component {
                     return (
                     <Card containerStyle={stylesFloor.cardStyle} title={item.itemName} image={getImageonType('ULNVP')}>
                         <View style={{ flexDirection: 'row', justifyContent:'flex-start',alignItems:'flex-start' }}>
-                         <Text style={{fontSize: 20,fontWeight: 'bold'}}>Rs. {item.itemPrice}</Text>  
+                         <Text style={{fontSize: 17,fontWeight: 'bold', color: '#42484C'}}>Rs. {item.itemPrice}</Text>  
                         </View> 
                         <View style={{ flexDirection: 'row', justifyContent:'flex-end',alignItems:'flex-end' }}>                     
                             <TouchableHighlight onPress={() => this.updateIndex(item,false,section.categoryName)} style={{ padding: 10 }}>

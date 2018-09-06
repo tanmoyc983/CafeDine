@@ -63,10 +63,13 @@ class FloorsAndTables extends React.Component {
 
               <Card containerStyle={stylesFloor.cardStyle}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Table {tableNo.tableID}</Text>
-                  <Text style={tableNo.isOccupied ? stylesFloor.circleOccupied : stylesFloor.circleFree}>
-                    {tableNo.capacity}
-                  </Text>
+                    <View style={{ flexDirection: 'column', justifyContent: 'space-between', width:68 + '%', paddingButtom: 10, marginBottom: 10}}>
+                      <Text style={{ fontSize: 20, fontWeight: 'bold',justifyContent: 'flex-start', color: '#42484C'}}>Table: {tableNo.tableID}</Text>
+                      <Text style={{ fontSize: 20, fontWeight: 'bold', justifyContent: 'flex-start', color: '#42484C' }}>Capacity: {tableNo.capacity}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'column', justifyContent: 'space-between', width:30 + '%'}}>
+                        <Text style={tableNo.isOccupied ? stylesFloor.circleOccupied : stylesFloor.circleFree}></Text>
+                    </View>
                 </View>
               </Card>
             </TouchableOpacity>
@@ -97,16 +100,16 @@ class FloorsAndTables extends React.Component {
               labelFontSize={25}
               fontSize={25}
               onChangeText={this.changeFloor.bind(this)}
-              label='Select Floor' baseColor='#039be5'
+              label='Select floor' baseColor='#039be5'
               data={floors}/>
           </View>
           <View style={{flexDirection:'column',flex:2,marginLeft:100, justifyContent:'space-between'}}>
-            <TextBoxMaterial keyboardTextType="numeric"   label="No. of persons" changeField = {this.changeField.bind(this)}/>
+            <TextBoxMaterial keyboardTextType="numeric"   label="No. of guests" changeField = {this.changeField.bind(this)}/>
           </View>
         </View>
            <View style={{flex: 8, padding: 0 }} >
             <ScrollView>
-              <View style={{flex: 1, flexWrap:'wrap',flexDirection: 'row', justifyContent:'flex-start',alignContent:'space-around', padding: 0 }} > 
+              <View style={{flex: 1, flexWrap:'wrap',flexDirection: 'row', justifyContent:'flex-start',alignContent:'space-around', paddingTop: 50, marginTop: 50 }} > 
                 {tableArray}
               </View>
             </ScrollView>
@@ -143,7 +146,7 @@ const stylesFloor = StyleSheet.create({
     // marginVertical: 10
   },
   cardStyle: {
-    height: 80,
+    height: 90,
     width: 250,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -166,26 +169,30 @@ const stylesFloor = StyleSheet.create({
     width:60,
     height:60,
     borderRadius:250,
+    borderColor: '#000',
+    borderWidth: 0.5,
+    opacity: 0.7,
     alignItems:'center',
     fontSize:30,
     color:'#fff',
     lineHeight:50,
     textAlign:'center',
-    backgroundColor:'#ff8080',
-    marginTop: -3 + '%'
+    backgroundColor:'#CC3232'
     },
   circleFree:
     {
     width:60,
     height:60,
     borderRadius:250,
+    borderColor: '#000',
+    borderWidth: 0.5,
+    opacity: 0.5,
     alignItems:'center',
     fontSize:30,
     color:'#fff',
     lineHeight:50,
     textAlign:'center',
-    backgroundColor:'#2196f3',
-    marginTop: -3 + '%'
+    backgroundColor:'#2dc937' // #16641B
     }
 });
 

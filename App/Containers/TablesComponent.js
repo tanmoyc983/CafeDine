@@ -74,7 +74,7 @@ export default class TablesComponent extends React.Component {
                     <ActivityIndicator size="large" color="red" /></View>}
                 {!this.state.showIndicator && <View style={{ height: 100, flex: 1 }}>
                     <Dropdown style={{ justifyContent: 'flex-start', color: 'white' }} onChangeText={this.changeFloor.bind(this)}
-                        label='Select Floor' baseColor='white'
+                        label='Select Floor' baseColor='white' labelFontSize={25}
                         data={this.state.floorList}
                     />
                 </View>}

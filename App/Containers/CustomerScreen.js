@@ -121,7 +121,7 @@ class Customer extends React.Component {
     } else {
       button = <Button style={{ height: 50, width: 200, justifyContent: 'center' }} onPress = {this.navigateToFLoor.bind(this)}>
         <Icon active name="navigate-next" size={24} color="#FAFAFA" />
-        <Text style={stylesDrawer.textStyle}>Next</Text>
+        <Text style={stylesDrawer.textStyle}>Select</Text>
       </Button>
     }
 

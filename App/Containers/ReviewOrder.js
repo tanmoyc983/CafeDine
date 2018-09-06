@@ -52,8 +52,7 @@ class ReviewOrderComponent extends React.Component {
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />                
                 {!__.isEmpty(this.props.ReviewOrderDetails) && <View style={{flex:1, flexDirection: 'column'}}>
                     <ScrollView>{btns}</ScrollView> 
-                    <View style={{ borderWidth: 0.5, borderColor: 'black', margin: 10 }} />
-                    <Badge containerStyle={{ backgroundColor: 'orange'}}>
+                    <Badge containerStyle={{ backgroundColor: 'orange', height: 40}}>
                         <View style={{ flexDirection: 'row',alignItems: 'baseline',paddingLeft: 20, width: 95 + '%', alignItems:'center', justifyContent:'center' }}>
                             <Text h1 style={{justifyContent:'flex-start', fontWeight: 'bold', fontSize: 25,color:'white' , float: 'left'}}>Total Price: </Text>
                             <Icon name="rupee" style={{justifyContent:'flex-end', fontWeight: 'bold', fontSize: 25, color:'white', float: 'left'}}>
