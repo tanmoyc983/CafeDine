@@ -82,9 +82,9 @@ class OrderComponent extends React.Component {
             if(element.quantity>0)
             {
               btns.push( <Card title={element.modeName} containerStyle={stylesFloor.cardStyle} image={getImageonType(element.modeType)}>
-              <Text style={{marginBottom: 10,fontSize: 20,fontWeight: 'bold'}}> Quantity: {element.quantity}</Text>
-              <Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={() => this.changeMode(element)}
-                fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle}
+              <Text style={{marginBottom: 10,fontSize: 17,color: '#42484C', fontWeight: 'bold'}}> Quantity: {element.quantity}</Text>
+              <Button icon={<Icon name='restaurant-menu' size= {25} color='white' />} onPress={() => this.changeMode(element)}
+                buttonStyle={stylesFloor.buttonStyle}
                 title='View Menu' /> 
               </Card>);
             }
@@ -151,7 +151,7 @@ const stylesFloor = StyleSheet.create({
         borderRadius: 5,
         width: 150,
         height: 50,
-        marginHorizontal: 10,
+        marginHorizontal: 10
     },
     cardStyle:{
         height:300,
@@ -172,7 +172,9 @@ const stylesFloor = StyleSheet.create({
       },
       container: {
         flex: 1,
-        flexWrap:'wrap'
+        flexWrap:'wrap',
+        color: 'black',
+        fontSize: 20
       },
       contentContainer: {
         width: Dimensions.get('window').width,
