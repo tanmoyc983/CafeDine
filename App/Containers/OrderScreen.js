@@ -1,5 +1,7 @@
 import React from 'react';
-import { ActivityIndicator, StyleSheet,FlatList, Text, View, ScrollView, TouchableOpacity, Button, Image, Alert } from 'react-native';
+import { ActivityIndicator, StyleSheet,FlatList, Text, View, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
+import { Button } from 'native-base';
+
 import {getImageonType } from "../Utilities/Utility";
 import { Card } from 'react-native-elements';
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -10,6 +12,7 @@ import ReduxActions from "../Redux/ActionTypes/Action";
 import SagaActions from "../Sagas/ActionTypes/Action";
 import {NavigationActions } from 'react-navigation';
 import { Dimensions } from "react-native";
+import comStyles, {customerIconColor} from './Styles/CommonStyles';
 
 class OrderComponent extends React.Component {
     constructor() {
@@ -81,106 +84,59 @@ class OrderComponent extends React.Component {
         this.props.modeDetails.map((element)=>{
             if(element.quantity>0)
             {
-              btns.push( <Card title={element.modeName} containerStyle={stylesFloor.cardStyle} image={getImageonType(element.modeType)}>
-              <Text style={{marginBottom: 10,fontSize: 17,color: '#42484C', fontWeight: 'bold'}}> Quantity: {element.quantity}</Text>
-              <Button icon={<Icon name='restaurant-menu' size= {25} color='white' />} onPress={() => this.changeMode(element)}
-                buttonStyle={stylesFloor.buttonStyle}
-                title='View Menu' /> 
+              btns.push( <Card title={element.modeName} containerStyle={comStyles.mdCardStyle} image={getImageonType(element.modeType)}>
+              <Text style={ [comStyles.smTxtStyle, comStyles.marginBottom]}> Quantity: {element.quantity}</Text>
+              <Button style={comStyles.xsButtonStyle} onPress={() => this.changeMode(element)}>
+               <Icon active name="restaurant-menu" size={17} color={customerIconColor} />
+                <Text style={comStyles.smWhiteTxtStyle}>View Menu</Text>
+              </Button>
               </Card>);
             }
         })
         return (
             <View style={styles.mainContainer}>
-                 {this.props.modeDetails.length===0 && <View style={[stylesFloor.container, stylesFloor.horizontal]}>
-                    <ActivityIndicator size="large" color="red" /></View>}
+                 {this.props.modeDetails.length===0 && 
+                <View style={[comStyles.rowContainer, comStyles.horizontal]}>
+                    <ActivityIndicator size="largecomStyles" color="red" />
+                 </View>}
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
-                {this.props.modeDetails.length>0 && <ScrollView height={70 + '%'}>
-                <View style={{flex:1, flexWrap:'wrap', flexDirection:"row"}}>
-                 {btns}</View>
-                </ScrollView>   } 
-                {this.props.modeDetails.length>0 && <View style={{flex:1,flexDirection: 'row',alignItems:'flex-end',justifyContent:'space-around'}}>
-            <TouchableOpacity onPress={this.reviewOrder.bind(this)} style={stylesFloor.buttonStyle} disabled={this.props.OrderID===''} >
-              <Icon name='assignment' size= {25} color="white" />
-              <Text style={stylesFloor.textStyle}>Review</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={this.CheckoutOrder.bind(this)} style={stylesFloor.buttonStyle} disabled={this.props.OrderID===''} >
-              <Icon name='input' size= {25} color="white" />
-              <Text style={stylesFloor.textStyle}>Checkout</Text>
-            </TouchableOpacity>
+                {
+                    this.props.modeDetails.length>0 && 
+                    <ScrollView height={70 + '%'}>
+                        <View style={{flex:1, flexWrap:'wrap', flexDirection:"row"}}>
+                        {btns}
+                        </View>
+                    </ScrollView>
+                } 
+                {
+                    this.props.modeDetails.length>0 && 
+                    <View style={{flex:1,flexDirection: 'row',alignItems:'flex-end',justifyContent:'space-around'}}>
+                        <TouchableOpacity onPress={this.reviewOrder.bind(this)} style={comStyles.buttonStyle} disabled={this.props.OrderID===''} >
+                            <Icon name='assignment' size= {25} color={customerIconColor} />
+                            <Text style={comStyles.whiteTxtStyle}>Review</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this.CheckoutOrder.bind(this)} style={comStyles.buttonStyle} disabled={this.props.OrderID===''} >
+                            <Icon name='input' size= {25} color={customerIconColor} />
+                            <Text style={comStyles.whiteTxtStyle}>Checkout</Text>
+                        </TouchableOpacity>
 
-            <TouchableOpacity onPress={this.updateOrder.bind(this)} style={stylesFloor.buttonStyle} >
-              <Icon name='done-all' size= {25} color="white" />
-              <Text style={stylesFloor.textStyle}>Submit</Text>
-            </TouchableOpacity>
+                        <TouchableOpacity onPress={this.updateOrder.bind(this)} style={comStyles.buttonStyle} >
+                        <Icon name='done-all' size= {25} color={customerIconColor} />
+                        <Text style={comStyles.whiteTxtStyle}>Submit</Text>
+                        </TouchableOpacity>
 
-            {/* {this.props.OrderID =='' && <TouchableOpacity onPress={this.Confirmation.bind(this)} style={stylesFloor.buttonStyle} >
-              <Icon name='highlight-off' size= {25} color="white" />
-              <Text style={stylesFloor.textStyle}>Cancel</Text>
-            </TouchableOpacity>} */}
-            
-                </View>}
+                        {/* {this.props.OrderID =='' && <TouchableOpacity onPress={this.Confirmation.bind(this)} style={stylesFloor.buttonStyle} >
+                        <Icon name='highlight-off' size= {25} color="white" />
+                        <Text style={stylesFloor.textStyle}>Cancel</Text>
+                        </TouchableOpacity>} */}
+                    </View>
+                }
             </View>
 
         );
     }
 }
 
-const stylesFloor = StyleSheet.create({
-    list: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        alignContent:'flex-start',        
-    },
-    btnStyle: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        height: 60,
-        borderBottomWidth: 1,
-        marginHorizontal: 10
-    },
-    buttonStyle: {
-        flex: 1,
-        flexDirection: 'row',
-        alignContent:'space-around',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#64B5F6',
-        borderRadius: 5,
-        width: 150,
-        height: 50,
-        marginHorizontal: 10
-    },
-    cardStyle:{
-        height:300,
-        width:250,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2
-    },
-    textStyle: {
-        fontSize:20,
-        color: 'white',
-      },
-      horizontal: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        padding: 10
-      },
-      container: {
-        flex: 1,
-        flexWrap:'wrap',
-        color: 'black',
-        fontSize: 20
-      },
-      contentContainer: {
-        width: Dimensions.get('window').width,
-        height: Dimensions.get('window').height
-      },
-});
 
 const mapStateToProps=(state)=>{
     return {

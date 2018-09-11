@@ -12,6 +12,7 @@ import OrderMode from "./EditOrder/OrderMode";
 import { NavigationActions } from 'react-navigation';
 import {Toast} from 'native-base';
 import __  from "lodash";
+import comStyles from './Styles/CommonStyles';
 
 class MenuItemsComponent extends React.Component {
     constructor() {
@@ -79,15 +80,15 @@ class MenuItemsComponent extends React.Component {
     _renderHeader(section, index, isActive) {
         let test = [];
         if (!isActive) {
-            test.push(<Icon active name="arrow-up-drop-circle-outline" size={42} color="#1A237E" />);
+            test.push(<Icon active name="arrow-up-drop-circle-outline" size={42} style={{color: comStyles.subOrderStyle.color}}  />);
         }
         else if (isActive) {
-            test.push(<Icon active name="arrow-down-drop-circle-outline" size={42} color="#1A237E" />);
+            test.push(<Icon active name="arrow-down-drop-circle-outline" size={42} style={{color: comStyles.subOrderStyle.color}} />);
         }
         return (
             <View style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: '#FAFAFA', marginTop: 5, height: 60, borderWidth: 1, borderColor: '#9E9E9E' }} >
                 <View style={{ flexGrow: 1 }}>
-                    <Text style={{ color: '#1A237E', marginLeft: 10, fontSize: 30 }}>Round {section.subOrderNumber}</Text>
+                    <Text style={{ color: comStyles.subOrderStyle.color, marginLeft: 10, fontSize: 30 }}>Round {section.subOrderNumber}</Text>
                 </View>
                 <View>{test}</View>
             </View>
@@ -121,7 +122,7 @@ class MenuItemsComponent extends React.Component {
                 myOrders.push( <View style={{flex:1,flexDirection:'row', justifyContent:'flex-end',alignItems:'flex-end'}}>
                {this.isSubOrderApproved(section) && <Button onPress={()=>this.approveOrder(section.subOrderNumber)} style={{height:100+'%',width:15+'%',marginRight:5+'%',justifyContent:'center', backgroundColor:'#00a152'}}>
                     <Icon active name="approval" size={24} color="#FAFAFA" />
-                    <Text style={stylesFloor.textStyle}>Approve</Text>
+                    <Text style={comStyles.whiteTxtStyle}>Approve</Text>
                 </Button>}
             </View>)           
         return (myOrders);            
@@ -170,35 +171,13 @@ class MenuItemsComponent extends React.Component {
                 <View style={{ flex: 1, flexDirection: 'row', marginRight: 10, alignItems: 'flex-end', justifyContent: 'flex-end' }}>
                   {this.isOrderApproved(this.props.tableWithOrderDetails.isApproved) && <Button style={{ height: 50, width: 200, justifyContent: 'center' }} onPress={() => this.checkoutOrder()}>
                         <Icon active name="check-all" size={24} color="#FAFAFA" />
-                        <Text style={stylesFloor.textStyle}>Checkout</Text>
+                        <Text style={comStyles.whiteTxtStyle}>Checkout</Text>
                     </Button>}
                 </View>
             </View>
-
         );
     }
 }
-
-const stylesFloor = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        flexWrap: 'wrap'
-    },
-    cardStyle: {
-        height: 300,
-        width: 350,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2
-    },
-    textStyle: {
-        fontSize: 24,
-        color: 'white',
-        fontFamily: 'Avenir-Book'
-    }
-});
 
 const mapStateToProps = (state) => {
     return {

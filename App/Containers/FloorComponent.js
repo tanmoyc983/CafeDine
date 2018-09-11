@@ -10,6 +10,7 @@ import { Images } from '../Themes';
 import styles from './Styles/LaunchScreenStyles';
 import TextBoxMaterial from "../Components/TextBox";
 import { Toast } from 'native-base';
+import comStyles, {dropdownColor, defaultTxtColor} from './Styles/CommonStyles';
 
 class FloorsAndTables extends React.Component {
   constructor() {
@@ -61,14 +62,14 @@ class FloorsAndTables extends React.Component {
           <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
             <TouchableOpacity onPress={() => this.fillTable(tableNo)} disabled={tableNo.isOccupied}>
 
-              <Card containerStyle={stylesFloor.cardStyle}>
+              <Card containerStyle={comStyles.xsCardStyle}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <View style={{ flexDirection: 'column', justifyContent: 'space-between', width:68 + '%', paddingButtom: 10, marginBottom: 10}}>
-                      <Text style={{ fontSize: 20, fontWeight: 'bold',justifyContent: 'flex-start', color: '#42484C'}}>Table: {tableNo.tableID}</Text>
-                      <Text style={{ fontSize: 20, fontWeight: 'bold', justifyContent: 'flex-start', color: '#42484C' }}>Capacity: {tableNo.capacity}</Text>
+                      <Text style={comStyles.tableTxtStyle}>Table: {tableNo.tableID}</Text>
+                      <Text style={comStyles.tableTxtStyle}>Capacity: {tableNo.capacity}</Text>
                     </View>
                     <View style={{ flexDirection: 'column', justifyContent: 'space-between', width:30 + '%'}}>
-                        <Text style={tableNo.isOccupied ? stylesFloor.circleOccupied : stylesFloor.circleFree}></Text>
+                        <Text style={tableNo.isOccupied ? comStyles.circleOccupied : comStyles.circleFree}></Text>
                     </View>
                 </View>
               </Card>
@@ -92,19 +93,20 @@ class FloorsAndTables extends React.Component {
           <View style={{ flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
             <Dropdown style={{ justifyContent: 'flex-start' }}
               dropdownPosition={0}
-              textColor='#424242'
-              itemColor='#039be5'
-              baseColor='#039be5'
-              containerStyle={{ color: '#039be5' }}
-              overlayStyle={{ color: '#039be5' }}
+              textColor={defaultTxtColor}
+              itemColor={dropdownColor}
+              baseColor={dropdownColor}
+              containerStyle={{ color: dropdownColor }}
+              overlayStyle={{ color: dropdownColor }}
               labelFontSize={25}
               fontSize={25}
               onChangeText={this.changeFloor.bind(this)}
-              label='Select floor' baseColor='#039be5'
+              label='Select floor' baseColor={dropdownColor}
               data={floors}/>
           </View>
-          <View style={{flexDirection:'column',flex:2,marginLeft:100, justifyContent:'space-between'}}>
-            <TextBoxMaterial keyboardTextType="numeric"   label="No. of guests" changeField = {this.changeField.bind(this)}/>
+          <View style={{flexDirection:'column',flex:2,marginLeft:100, justifyContent:'space-between', fontSize: 25}}>
+            <TextBoxMaterial keyboardTextType="numeric" label="No. of guests"   labelFontSize={25}
+              fontSize={25} changeField = {this.changeField.bind(this)}/>
           </View>
         </View>
            <View style={{flex: 8, padding: 0 }} >
@@ -121,79 +123,7 @@ class FloorsAndTables extends React.Component {
 }
 
 const stylesFloor = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    flexWrap: 'wrap'
-  },
-  btnStyle: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    height: 50,
-    // marginVertical: 10
-  },
-  filled: {
-    backgroundColor: '#ff8080',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    height: 50
-    // marginVertical: 10
-  },
-  cardStyle: {
-    height: 90,
-    width: 250,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    paddingTop: 10
-},
-  empty: {
-    backgroundColor: '#a5dad5',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    height: 50,
-    marginVertical: 10
-  },
-  circleOccupied:
-    {
-    width:60,
-    height:60,
-    borderRadius:250,
-    borderColor: '#000',
-    borderWidth: 0.5,
-    opacity: 0.7,
-    alignItems:'center',
-    fontSize:30,
-    color:'#fff',
-    lineHeight:50,
-    textAlign:'center',
-    backgroundColor:'#CC3232'
-    },
-  circleFree:
-    {
-    width:60,
-    height:60,
-    borderRadius:250,
-    borderColor: '#000',
-    borderWidth: 0.5,
-    opacity: 0.5,
-    alignItems:'center',
-    fontSize:30,
-    color:'#fff',
-    lineHeight:50,
-    textAlign:'center',
-    backgroundColor:'#2dc937' // #16641B
-    }
+  
 });
 
 

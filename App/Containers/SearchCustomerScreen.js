@@ -10,6 +10,7 @@ import { setCustomer, setMenuItems, saveFloors } from '../Utilities/Utility';
 import TextBoxMaterial from "../Components/TextBox";
 import {List,ListItem,Text,Button,Icon,SwipeRow,H1,Toast } from 'native-base';
 import __ from "lodash";
+import comStyles, {dradioColor, customerIconColor, orderColor} from './Styles/CommonStyles';
 
 class SearchCustomerScreen extends Component {
     constructor(){
@@ -123,7 +124,7 @@ class SearchCustomerScreen extends Component {
         <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
          <View style={{flex:3,flexDirection:'row'}}>
          <View style={{flex:1,flexDirection:'column'}}>
-          <RadioGroup size={28} thickness={4} color='#9575b2' onSelect= {this.onSelect.bind(this)}>          
+          <RadioGroup size={28} thickness={4} color={radioColor} onSelect= {this.onSelect.bind(this)}>          
           <RadioButton  value={'Name'} >
             <Text style={styles.subtitle} size= {20}>Search by name</Text>
           </RadioButton>
@@ -135,47 +136,27 @@ class SearchCustomerScreen extends Component {
           <View style={{flex:1,flexDirection: 'column'}}>
             <TextBoxMaterial keyboardTextType={this.props.RadiobuttonSelected=="Name"?"default":"numeric"} value={this.props.SearchedText}  label={this.props.RadiobuttonSelected} changeField = {this.changeField.bind(this)}/>
            
-            <Button iconLeft rounded success style={stylesDrawer.buttonStyle} onPress={this.fetchUser.bind(this)}>
-            <Icon name='search' size= {25} style={{color:"white"}}  />
-            <Text style={stylesDrawer.textStyle}>Search</Text>
+            <Button iconLeft rounded success style={comStyles.smButtonStyle} onPress={this.fetchUser.bind(this)}>
+            <Icon name='search' size= {25} style={{color: customerIconColor}}  />
+            <Text style={comStyles.txtStyle}>Search</Text>
             </Button>
         </View>
         </View>
         
         <View style={{flex:10}}>
         {searchedusers.length>0 &&
-        <H1 style={{alignItems:'flex-start',justifyContent:'flex-start',color:'#F44336',fontSize:30}}>Searched Results</H1>}
+        <H1 style={{alignItems:'flex-start',justifyContent:'flex-start',color: orderColor[1],fontSize:30}}>Searched Results</H1>}
         <ScrollView>
         <View style={{flex:8,flexDirection:'row',flexWrap:'wrap'}}>
         {isUsersFound && searchedusers}
         </View>
         </ScrollView>
-          </View>
+          </View> 
         </View>
     );
   }
 }
 
-const stylesDrawer = StyleSheet.create({
-    textStyle: {
-      fontSize:24
-    },
-    
-    buttonStyle: {
-      width: 170,
-      height: 50
-    },
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      zIndex: 999
-    },
-    horizontal: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      padding: 10
-    }
-  })
   
   const mapStateToProps = (state) => {  
     return{

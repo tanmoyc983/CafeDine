@@ -8,6 +8,7 @@ import {Button,Toast,Content } from 'native-base';
 import SagaActions from "../Sagas/ActionTypes/Action";
 import ReduxActions from "../Redux/ActionTypes/Action";
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import comStyles, { customerIconColor } from './Styles/CommonStyles';
 
 class Customer extends React.Component {
 
@@ -114,52 +115,34 @@ class Customer extends React.Component {
     let button;
     if (this.props.loginSuccess === 'failed') {
       button =
-        <Button style={{ height: 50, width: 200, justifyContent: 'center' }} disabled={inputValidation} onPress={this.saveUser.bind(this)}>
-          <Icon active name="save" size={24} color="#FAFAFA" />
-          <Text style={stylesDrawer.textStyle}>Save</Text>
+        <Button style={comStyles.smButtonStyle} disabled={inputValidation} onPress={this.saveUser.bind(this)}>
+          <Icon active name="save" size={24} color={customerIconColor} />
+          <Text style={comStyles.whiteTxtStyle}>Save</Text>
         </Button>;
     } else {
-      button = <Button style={{ height: 50, width: 200, justifyContent: 'center' }} onPress = {this.navigateToFLoor.bind(this)}>
-        <Icon active name="navigate-next" size={24} color="#FAFAFA" />
-        <Text style={stylesDrawer.textStyle}>Select</Text>
+      button = <Button style={ comStyles.smButtonStyle } onPress = {this.navigateToFLoor.bind(this)}>
+        <Icon active name="navigate-next" size={24} color={customerIconColor}/>
+        <Text style={comStyles.whiteTxtStyle}>Select</Text>
       </Button>
     }
 
     return (
       <View style={styles.mainContainer}>
         <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
-        {this.props.loginSuccess === 'searching' && <View style={[stylesDrawer.container, stylesDrawer.horizontal]}>
+        {this.props.loginSuccess === 'searching' && <View style={[comStyles.rowContainer, comStyles.horizontal]}>
           <ActivityIndicator size="large" color="red" /></View>}
         {this.props.loginSuccess !== 'searching' &&
           <React.Fragment>
             <Content>
               {children}
             </Content>
-            <View style={{ flex: 1, flexDirection: 'row', marginRight: 10, alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+            <View style={comStyles.flexEnd}>
               {button}</View></React.Fragment>}
       </View >
     );
   }
 }
 
-const stylesDrawer = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    zIndex: 999,
-    marginLeft: 10
-  },
-  horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10
-  },
-  textStyle: {
-    fontSize: 24,
-    color: 'white',
-    fontFamily: 'Avenir-Book'
-  }
-});
 
 const mapStateToProps = (state) => {
   return {

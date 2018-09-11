@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import {h1} from 'react-native-elements';
 import CheckoutItems from './CheckOutItems';
+import comStyles, {orderColor} from '../Styles/CommonStyles';
 
 export default class CheckoutModes extends React.Component {
     constructor() {
@@ -19,7 +20,7 @@ export default class CheckoutModes extends React.Component {
             
             <View style={{flexDirection: 'column',flexWrap: 'wrap'}}>
                     <View style={{flexDirection: 'row',justifyContent:'space-between',alignItems:'baseline'}}>
-                    <Text style={{ color: 'orange',fontWeight: 'bold',fontSize: 20 }}> {this.props.mode.modeName}  
+                    <Text style={{ color: orderColor[3],fontWeight: 'bold',fontSize: 20 }}> {this.props.mode.modeName}  
                     </Text>
                     <Text h1 style={{fontWeight: 'bold',fontSize: 18 }}>{Modeinfo}</Text>
                     </View>

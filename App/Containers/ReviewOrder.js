@@ -12,6 +12,7 @@ import SagaActions from "../Sagas/ActionTypes/Action";
 import styles from './Styles/LaunchScreenStyles';
 import __  from "lodash";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import comStyles, {dropdownColor, orderColor, customerIconColor} from './Styles/CommonStyles';
 
 class ReviewOrderComponent extends React.Component {
     constructor() {
@@ -39,7 +40,7 @@ class ReviewOrderComponent extends React.Component {
             let roundTitle=' Round: '+ item.subOrderNumber +"   "+submittedTime;
                 btns.push(                   
                 <Card title={OrderNumber} textStyle={{fontSize:25}}>
-                    <Badge value={roundTitle} textStyle={{ color: 'orange', fontSize:25 }}/>
+                    <Badge value={roundTitle} textStyle={{ color: orderColor[3], fontSize:25 }}/>
                     {myOrders}               
                 </Card>
                 );
@@ -48,15 +49,15 @@ class ReviewOrderComponent extends React.Component {
         return (
             <View style={styles.mainContainer}>
                 {__.isEmpty(this.props.ReviewOrderDetails) && <View>
-                   <ActivityIndicator size="large" color="green" /></View>}
+                   <ActivityIndicator size="large" color= { orderColor[2] } /></View>}
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />                
                 {!__.isEmpty(this.props.ReviewOrderDetails) && <View style={{flex:1, flexDirection: 'column'}}>
                     <ScrollView>{btns}</ScrollView> 
-                    <Badge containerStyle={{ backgroundColor: 'orange', height: 40}}>
+                    <Badge containerStyle={{ backgroundColor: orderColor[3], height: 40}}>
                         <View style={{ flexDirection: 'row',alignItems: 'baseline',paddingLeft: 20, width: 95 + '%', alignItems:'center', justifyContent:'center' }}>
-                            <Text h1 style={{justifyContent:'flex-start', fontWeight: 'bold', fontSize: 25,color:'white' , float: 'left'}}>Total Price: </Text>
-                            <Icon name="rupee" style={{justifyContent:'flex-end', fontWeight: 'bold', fontSize: 25, color:'white', float: 'left'}}>
-                                <Text h1 style={{fontWeight: 'bold', fontSize: 25,color:'white' }}> {this.props.ReviewOrderDetails.totalPrice}</Text>
+                            <Text h1 style={{justifyContent:'flex-start', fontWeight: 'bold', fontSize: 25,color: customerIconColor , float: 'left'}}>Total Price: </Text>
+                            <Icon name="rupee" style={{justifyContent:'flex-end', fontWeight: 'bold', fontSize: 25, color: customerIconColor, float: 'left'}}>
+                                <Text h1 style={comStyles.whiteTxtStyle}> {this.props.ReviewOrderDetails.totalPrice}</Text>
                             </Icon>
                         </View>
                     </Badge>    
@@ -65,13 +66,6 @@ class ReviewOrderComponent extends React.Component {
         )
     }
 }
-
-const stylesFloor = StyleSheet.create({
-    container: {
-        flexDirection: 'column',
-        flexWrap: 'wrap',
-        height:100
-    }});
 
 
 const mapStateToProps=(state)=>{

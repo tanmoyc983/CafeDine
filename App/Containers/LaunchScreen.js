@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import SagaActions from "../Sagas/ActionTypes/Action";
 import ReduxActions from "../Redux/ActionTypes/Action";
 import {Toast} from 'native-base';
+import comStyles from './Styles/CommonStyles';
 
 class LaunchScreen extends Component {
   constructor(){
@@ -59,43 +60,15 @@ class LaunchScreen extends Component {
             </Text>
             <TextBoxMaterial keyboardTextType="numeric"  label="Phone Number" value= {this.props.PhoneNumber} changeField = {this.changeField.bind(this)}/>
               
-            <TouchableOpacity onPress={this.fetchUser.bind(this)} style={stylesDrawer.buttonStyle} disabled={this.props.searchDisabled} >
+            <TouchableOpacity onPress={this.fetchUser.bind(this)} style={comStyles.buttonStyle} disabled={this.props.searchDisabled} >
               <Icon name='search' size= {25} color="white" />
-              <Text style={stylesDrawer.textStyle}>Search</Text>
+              <Text style={comStyles.whiteTxtStyle}>Search</Text>
             </TouchableOpacity>
         </ScrollView>
       </View>
     )
   }
 }
-
-const stylesDrawer = StyleSheet.create({
-  textStyle: {
-    fontSize:20,
-    color: 'white',
-  },
-  
-  buttonStyle: {
-    flex:1, 
-    flexDirection: 'row', 
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#64B5F6',
-    borderRadius:5,
-    width: 150,
-    height: 50
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    zIndex: 999
-  },
-  horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10
-  }
-})
 
 const mapStateToProps = (state) => {
   return{
