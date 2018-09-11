@@ -101,13 +101,13 @@ class ModifyCustomerScreen extends Component {
     let button;
     if (this.props.editCustomer===true) {
       
-      button =<Button style={comStyles.buttonStyle}  onPress={this.saveUser.bind(this)}>
+      button =<Button style={comStyles.smButtonStyle}  onPress={this.saveUser.bind(this)}>
               <Icon active name="information-circle" />
               <Text style={comStyles.whiteTxtStyle}>Save</Text>
               </Button>;
      } 
      else if(this.props.deleteCustomer===true) {
-      button = <Button style={comStyles.buttonStyle} danger onPress={this.deleteUser.bind(this)}>
+      button = <Button style={comStyles.smButtonStyle} danger onPress={this.deleteUser.bind(this)}>
                <Icon active name="trash" />
                <Text style={comStyles.whiteTxtStyle}>Delete</Text>
                </Button>;

@@ -76,13 +76,18 @@ class ExistingOrderDashboard extends Component{
     
         this.props.TablesonSelectedFloor.map((rowData)=>{
             let btn=[];
+            let cardStyle = comStyles.smCardStyle;
             let titleColor= orderColor[0];
             if(rowData.isOccupied===true && rowData.orderDetails!==null){
                 titleColor= orderColor[1];
                 btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.getOrderDetails.bind(this,rowData)} 
-                fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='View Order Details' />);
+                fontFamily='Lato' buttonStyle={comStyles.smCustButtonStyle} title='View Order Details' />);
+                btn.push(<View style={{height: 20, width: 250}}></View>);
                 btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.continueOrder.bind(this,rowData)} 
-                fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='Continue Order' />);
+                fontFamily='Lato' buttonStyle={comStyles.smCustButtonStyle} title='Continue Order' />);
+                btn.push(<View style={{height: 20, width: 250}}></View>);
+                btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.releaseTable.bind(this,rowData)} 
+                fontFamily='Lato' buttonStyle={comStyles.smCustButtonStyle} title='Release Table' />);
             } 
             if(rowData.isOccupied && rowData.isApproved===true && rowData.orderDetails!==null){
                 titleColor= orderColor[2];
@@ -91,11 +96,12 @@ class ExistingOrderDashboard extends Component{
             } 
             if(rowData.isOccupied && (rowData.isOccupiedWithoutOrder || rowData.orderDetails===null )){
                 titleColor=orderColor[3];
+                cardStyle = comStyles.smCardCustStyle;
                 btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.releaseTable.bind(this,rowData)} 
-                fontFamily='Lato' buttonStyle={comStyles.buttonStyle} title='Release Table' />);
+                fontFamily='Lato' buttonStyle={comStyles.smCustButtonStyle} title='Release Table' />);
             } 
             tcards.push(     
-                <Card title={'Table No.'+rowData.tableID} titleStyle={{fontSize:20, backgroundColor: titleColor, color: customerIconColor}} containerStyle={comStyles.smCardStyle}>
+                <Card title={'Table No.'+rowData.tableID} titleStyle={{fontSize:20, backgroundColor: titleColor, color: customerIconColor}} containerStyle={cardStyle}>
                  <Text style={{marginBottom: 10,fontSize: 20,fontWeight: 'bold'}}> Capacity: {rowData.capacity}</Text>
                  <Text style={{marginBottom: 10,fontSize: 20,fontWeight: 'bold'}}>{rowData.orderDetails===null?'Customer: ' : 'Customer: '+ rowData.orderDetails.customer.customerName.toString()}</Text>
                  <Text style={{marginBottom: 10,fontSize: 20,fontWeight: 'bold'}}> No. of Persons: {rowData.orderDetails===null?0:rowData.orderDetails.noofPerson}</Text>

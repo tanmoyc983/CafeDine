@@ -38,10 +38,10 @@ class CaptainDashboardComponent extends Component {
         type: "danger"
       });
     } else {
-      if (val === "NewUser") {
+      if (val === "NewOrder") {
         this.props.navigation.navigate('BeforeModeSelectionStack');
       }
-      else if (val === "ExistingUser") {
+      else if (val === "ExistingOrder") {
         this.props.navigation.navigate('ExistingOrderStack')
       }
       else if (val === "ModifyUser") {
@@ -72,7 +72,7 @@ class CaptainDashboardComponent extends Component {
       <CardItem header bordered>
         <Text  style= {styles.sectionText}>Order</Text>
       </CardItem>
-      <CardItem button bordered style={{cursor:'pointer'}} onPress={() =>this.props.navigation.navigate('BeforeModeSelectionStack')}>
+      <CardItem button bordered style={{cursor:'pointer'}} onPress={(event) =>this.ValidateAPIEndpoint(event,'NewOrder')}>
       <Icon active name="local-dining" size={42} style= {comStyles.localDiningIconStyle} />
       <View style={{width: 80 + '%' }}><Text style={styles.subtitle}>
             New Order
@@ -82,7 +82,7 @@ class CaptainDashboardComponent extends Component {
           </View>
       </CardItem>
       {/* <View style={{ borderWidth: 0.5, borderColor: 'black', margin: 10 }} /> */}
-      <CardItem button bordered style={{cursor:'pointer'}} onPress={() => this.props.navigation.navigate('ExistingOrderStack')}>
+      <CardItem button bordered style={{cursor:'pointer'}} onPress={(event) =>this.ValidateAPIEndpoint(event,'ExistingOrder')}>
       <Icon active name="local-grocery-store" size={42} style={comStyles.localGroceryStoreIconStyle} />
           <View style={{width: 80 + '%' }}><Text style={styles.subtitle}>
             Existing Order
@@ -95,7 +95,7 @@ class CaptainDashboardComponent extends Component {
       <CardItem header bordered>
         <Text style= {styles.sectionText}>Customer</Text>
       </CardItem>
-      <CardItem button bordered style={{cursor:'pointer'}} onPress={() => this.props.navigation.navigate('CaptainStack')}>
+      <CardItem button bordered style={{cursor:'pointer'}} onPress={(event) =>this.ValidateAPIEndpoint(event,'ModifyUser')}>
       <Icon active name="person" size={42} style={comStyles.personIconStyle } />
       <View style={{width: 80 + '%' }}><Text style={styles.subtitle}>
             Modify
@@ -104,18 +104,6 @@ class CaptainDashboardComponent extends Component {
                 <Icon active size={42} name="arrow-forward" />
           </View>
       </CardItem>
-      <CardItem header bordered>
-        <Text style= {styles.sectionText}>Settings</Text>
-      </CardItem>
-      <CardItem button bordered style={{cursor:'pointer'}} onPress={() => this.props.navigation.navigate('AppSettingStack')}>
-      <Icon active name="settings" size={42} style={comStyles.settingIconStyle } />
-      <View style={{width: 80 + '%' }}><Text style={styles.subtitle}>
-            Set Api Endpoint
-          </Text></View>
-            <View style={{ width: 10 + '%' }}>
-              <Icon active size={42} name="arrow-forward" />
-            </View>
-          </CardItem>
           <CardItem header bordered>
             <Text style={styles.sectionText}>{CheckIP}</Text>
           </CardItem>

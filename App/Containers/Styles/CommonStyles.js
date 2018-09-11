@@ -55,6 +55,14 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    smCustButtonStyle: {
+        height: 50,
+        width: 200,
+        alignContent:'space-around',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 50
+    },
     xsButtonStyle: {
         height: 30,
         width: 200,
@@ -129,6 +137,14 @@ export default StyleSheet.create({
         shadowRadius: 2
     },
     smCardStyle: {
+        height: 370,
+        width: 280,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2
+    },
+    smCardCustStyle: {
         height: 250,
         width: 280,
         shadowColor: '#000',

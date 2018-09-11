@@ -10,7 +10,7 @@ import { setCustomer, setMenuItems, saveFloors } from '../Utilities/Utility';
 import TextBoxMaterial from "../Components/TextBox";
 import {List,ListItem,Text,Button,Icon,SwipeRow,H1,Toast } from 'native-base';
 import __ from "lodash";
-import comStyles, {dradioColor, customerIconColor, orderColor} from './Styles/CommonStyles';
+import comStyles, {radioColor, customerIconColor, orderColor} from './Styles/CommonStyles';
 
 class SearchCustomerScreen extends Component {
     constructor(){
@@ -80,7 +80,7 @@ class SearchCustomerScreen extends Component {
         }
         body={
           <View style={{flexDirection:"row",height:60,width:1250,justifyContent:'center',alignItems:'center'}}>
-            <Text style={stylesDrawer.textStyle}>{data.customerName+'\t'+'-' +'\t'+data.customerID}</Text>
+            <Text style={comStyles.txtStyle}>{data.customerName+'\t'+'-' +'\t'+data.customerID}</Text>
           </View>
         }
         // right={
@@ -102,7 +102,7 @@ class SearchCustomerScreen extends Component {
         }
         body={
           <View style={{flexDirection:"row",height:60,width:1250,justifyContent:'center',alignItems:'center'}}>
-            <Text style={stylesDrawer.textStyle}>{this.props.customer.customerName+'\t'+'-' +'\t'+this.props.customer.customerID}</Text>
+            <Text style={comStyles.txtStyle}>{this.props.customer.customerName+'\t'+'-' +'\t'+this.props.customer.customerID}</Text>
           </View>
         }
         // right={
