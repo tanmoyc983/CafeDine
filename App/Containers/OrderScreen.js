@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, StyleSheet,FlatList, Text, View, ScrollView, TouchableOpacity, Button, Image, Alert } from 'react-native';
+import { ActivityIndicator, StyleSheet,FlatList, Text, View, ScrollView, TouchableOpacity, Button, Image, Alert,Dimensions } from 'react-native';
 import {getImageonType } from "../Utilities/Utility";
 import { Card } from 'react-native-elements';
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import ReduxActions from "../Redux/ActionTypes/Action";
 import SagaActions from "../Sagas/ActionTypes/Action";
 import {NavigationActions } from 'react-navigation';
-import { Dimensions } from "react-native";
 
 class OrderComponent extends React.Component {
     constructor() {
@@ -66,7 +65,7 @@ class OrderComponent extends React.Component {
                 FullOrderDetails.orderID=this.props.OrderID;
                 FullOrderDetails.noofPerson=this.props.NoOfPerson;
                 FullOrderDetails.customer.customerID=this.props.customerID;
-                FullOrderDetails.tableID=this.props.selectedtable.tableID;      
+                FullOrderDetails.tableID=this.props.OrderID===""?this.props.selectedtable.tableID:0;      
                 FullOrderDetails.subOrder.push({
                     "subOrderNumber":this.props.subOrderNumber+1,
                     "modes":this.props.OrderedItems
@@ -84,8 +83,7 @@ class OrderComponent extends React.Component {
               btns.push( <Card title={element.modeName} containerStyle={stylesFloor.cardStyle} image={getImageonType(element.modeType)}>
               <Text style={{marginBottom: 10,fontSize: 20,fontWeight: 'bold'}}> Quantity: {element.quantity}</Text>
               <Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={() => this.changeMode(element)}
-                fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle}
-                title='View Menu' /> 
+                fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='View Menu' /> 
               </Card>);
             }
         })

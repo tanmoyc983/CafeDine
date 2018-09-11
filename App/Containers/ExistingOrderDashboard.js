@@ -25,10 +25,12 @@ class ExistingOrderDashboard extends Component{
         this.props.navigation.navigate('CaptainOrderView')
     }
 
-    continueOrder(selectedTable, data){
-        debugger;
-    console.log(selectedTable);
-    console.log(data);
+    continueOrder(selectedTable){
+      this.props.dispatch({type:ReduxActions.SELECTED_MODE,selectedMode:selectedTable.selectedModeDetails});  
+      this.props.dispatch({type:ReduxActions.UPDATE_SUBORDER_NUMBER}); 
+      this.props.dispatch({type: ReduxActions.SAVED_NEW_USER_DETAILS, response: selectedTable.orderDetails.customer.customerID});
+      this.props.dispatch({ type: ReduxActions.SET_ORDER_ID, orderID:selectedTable.orderDetails.orderID });
+      this.props.navigation.navigate('AfterModeSelectionStack');
     }
 
     changeFloor(val, index){        
@@ -79,7 +81,7 @@ class ExistingOrderDashboard extends Component{
                 btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.getOrderDetails.bind(this,rowData)} 
                 fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='View Order Details' />);
                 btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.continueOrder.bind(this,rowData)} 
-                fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='View Order Details' />);
+                fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='Continue Order' />);
             } 
             if(rowData.isOccupied && rowData.isApproved===true && rowData.orderDetails!==null){
                 titleColor='#00a152';
