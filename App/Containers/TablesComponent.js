@@ -2,10 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, FlatList, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native';
 import { Dropdown } from 'react-native-material-dropdown';
 import { setMenuItems, getFloors, setFullOrders, getFloorList, setSelectedTable, getStackParam, setTableOrder, saveFloors } from "../Utilities/Utility";
-
 import { Images } from '../Themes';
-
 import styles from './Styles/LaunchScreenStyles';
+import comStyles, {dropdownColor, orderColor, customerIconColor} from './Styles/CommonStyles';
 
 export default class TablesComponent extends React.Component {
     constructor() {
@@ -70,32 +69,32 @@ export default class TablesComponent extends React.Component {
         return (
             <View style={styles.mainContainer}>
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
-                {this.state.showIndicator && <View style={[stylesFloor.activityContainer, stylesFloor.horizontal]}>
+                {this.state.showIndicator && <View style={[comStyles.rowContainer, comStyles.horizontal]}>
                     <ActivityIndicator size="large" color="red" /></View>}
                 {!this.state.showIndicator && <View style={{ height: 100, flex: 1 }}>
-                    <Dropdown style={{ justifyContent: 'flex-start', color: 'white' }} onChangeText={this.changeFloor.bind(this)}
-                        label='Select Floor' baseColor='white' labelFontSize={25}
+                    <Dropdown style={{ justifyContent: 'flex-start', color: customerIconColor }} onChangeText={this.changeFloor.bind(this)}
+                        label='Select Floor' baseColor={customerIconColor} labelFontSize={25}
                         data={this.state.floorList}
                     />
                 </View>}
                 {!this.state.showIndicator && <View style={{ flex: 5 }} >
                     <View style={{ flexDirection: 'row' }}>
-                        <Text style={{ flex: 8, textAlign: 'center', color: 'white' }}>
+                        <Text style={{ flex: 8, textAlign: 'center', color: customerIconColor }}>
                             Table Number
                             </Text>
-                        <Text style={{ flex: 8, textAlign: 'center', color: 'white' }}>
+                        <Text style={{ flex: 8, textAlign: 'center', color: customerIconColor }}>
                             Capacity
                             </Text>
                     </View>
                     <FlatList
                         data={this.state.floorDetails}
                         renderItem={({ item }) => (
-                            <TouchableOpacity onPress={() => this.fillTable(item)} style={[stylesFloor.btnStyle, item.isOccupied ? stylesFloor.filled : stylesFloor.empty]} disabled={!item.isOccupied}>
+                            <TouchableOpacity onPress={() => this.fillTable(item)} style={[comStyles.buttonStyle, item.isOccupied ? stylesFloor.filled : stylesFloor.empty]} disabled={!item.isOccupied}>
                                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                                    <Text style={{ flex: 8, textAlign: 'center', color: 'black' }}>
+                                    <Text style={{ flex: 8, textAlign: 'center', color: defaultTxtColor }}>
                                         Table {item.tableID}
                                     </Text>
-                                    <Text style={{ flex: 8, textAlign: 'center', color: 'black' }}>
+                                    <Text style={{ flex: 8, textAlign: 'center', color: defaultTxtColor }}>
                                         {item.capacity}
                                     </Text>
                                 </View>
@@ -108,50 +107,3 @@ export default class TablesComponent extends React.Component {
         );
     }
 }
-
-const stylesFloor = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        flexWrap: 'wrap'
-    },
-    btnStyle: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 5,
-        height: 50,
-        marginVertical: 10
-    },
-    filled: {
-        backgroundColor: 'red',
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 5,
-        height: 50,
-        marginVertical: 10
-    },
-    empty: {
-        backgroundColor: '#4DB6AC',
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 5,
-        height: 50,
-        marginVertical: 10
-    },
-    activityContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        zIndex: 999
-    },
-    horizontal: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        padding: 10
-    }
-});

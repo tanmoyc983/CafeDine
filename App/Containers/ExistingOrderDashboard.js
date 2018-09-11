@@ -11,6 +11,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { Images } from '../Themes';
 import {NavigationActions } from 'react-navigation';
 import {Toast} from 'native-base';
+import comStyles, {orderColor, customerIconColor, dropdownColor, defaultTxtColor} from './Styles/CommonStyles';
 
 class ExistingOrderDashboard extends Component{
     constructor(){
@@ -66,24 +67,24 @@ class ExistingOrderDashboard extends Component{
     
         this.props.TablesonSelectedFloor.map((rowData)=>{
             let btn=[];
-            let titleColor='#3949ab'
+            let titleColor= orderColor[0];
             if(rowData.isOccupied===true && rowData.orderDetails!==null){
-                titleColor='#f44336';
+                titleColor= orderColor[1];
                 btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.getOrderDetails.bind(this,rowData)} 
-                fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='View Order Details' />);
+                fontFamily='Lato' buttonStyle={comStyles.buttonStyle} title='View Order Details' />);
             } 
             if(rowData.isOccupied && rowData.isApproved===true && rowData.orderDetails!==null){
-                titleColor='#00a152';
+                titleColor= orderColor[2];
                 // btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.getOrderDetails.bind(this,rowData)} 
                 // fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='View Order Details' />);
             } 
             if(rowData.isOccupied && (rowData.isOccupiedWithoutOrder || rowData.orderDetails===null )){
-                titleColor='#ff5722';
+                titleColor=orderColor[3];
                 btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.releaseTable.bind(this,rowData)} 
-                fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='Release Table' />);
+                fontFamily='Lato' buttonStyle={comStyles.buttonStyle} title='Release Table' />);
             } 
             tcards.push(     
-                <Card title={'Table No.'+rowData.tableID} titleStyle={{fontSize:20, backgroundColor:titleColor,color:'#FAFAFA'}} containerStyle={stylesFloor.cardStyle}>
+                <Card title={'Table No.'+rowData.tableID} titleStyle={{fontSize:20, backgroundColor: titleColor, color: customerIconColor}} containerStyle={comStyles.smCardStyle}>
                  <Text style={{marginBottom: 10,fontSize: 20,fontWeight: 'bold'}}> Capacity: {rowData.capacity}</Text>
                  <Text style={{marginBottom: 10,fontSize: 20,fontWeight: 'bold'}}>{rowData.orderDetails===null?'Customer: ' : 'Customer: '+ rowData.orderDetails.customer.customerName.toString()}</Text>
                  <Text style={{marginBottom: 10,fontSize: 20,fontWeight: 'bold'}}> No. of Persons: {rowData.orderDetails===null?0:rowData.orderDetails.noofPerson}</Text>
@@ -95,23 +96,23 @@ class ExistingOrderDashboard extends Component{
         return(
             <View style={styles.mainContainer}>
              <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
-             {floors.length===0 && <View style={[stylesFloor.container, stylesFloor.horizontal]}>
+             {floors.length===0 && <View style={[comStyles.colContainer, comStyles.horizontal]}>
                     <ActivityIndicator size="large" color="red" /></View>}
              {floors.length>0 &&  
               <View>
               <Dropdown style={{ justifyContent:'center'}}
               dropdownPosition={0}
-              textColor='#424242'
-              itemColor='#039be5'
-              baseColor='#039be5'
-              containerStyle={{color:'#039be5'}}
-              overlayStyle={{color:'#039be5'}}
+              textColor={defaultTxtColor}
+              itemColor={dropdownColor}
+              baseColor={dropdownColor}
+              containerStyle={{color: dropdownColor}}
+              overlayStyle={{color: dropdownColor}}
               labelFontSize={25}
               fontSize={25}
               onChangeText={this.changeFloor.bind(this)}
-              label='Select Floor' baseColor='#039be5'
+              label='Select Floor' baseColor={dropdownColor}
               data={floors}/>
-                 <ScrollView>
+                 <ScrollView style={{height: 80 + '%'}}>
                  {this.props.TablesonSelectedFloor.length>0 && <View style={{flex:8,flexDirection:'row',flexWrap:'wrap'}}>{tcards}</View>}
                 </ScrollView>
                 </View>}
@@ -120,38 +121,6 @@ class ExistingOrderDashboard extends Component{
 
     }
 }
-const stylesFloor = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        flexWrap: 'wrap'
-      },
-    horizontal: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        padding: 10
-      },
-    cardStyle:{
-        height:280,
-        width:250,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2
-    },
-    buttonStyle: {
-        flex: 1,
-        flexDirection: 'row',
-        alignContent:'space-around',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#64B5F6',
-        borderRadius: 5,
-        width: 150,
-        height: 50,
-        marginHorizontal: 10,
-    }
-});
 
 const mapStateToProps = (state) =>{
     return{

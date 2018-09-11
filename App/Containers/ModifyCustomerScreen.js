@@ -8,6 +8,7 @@ import SagaActions from "../Sagas/ActionTypes/Action";
 import {Button,Icon,Content } from 'native-base';
 import ReduxActions from "../Redux/ActionTypes/Action";
 import {NavigationActions } from 'react-navigation';
+import comStyles from './Styles/CommonStyles';
 
 class ModifyCustomerScreen extends Component {
   constructor() {
@@ -100,15 +101,15 @@ class ModifyCustomerScreen extends Component {
     let button;
     if (this.props.editCustomer===true) {
       
-      button =<Button style={{height:50,width:200,justifyContent:'center'}}  onPress={this.saveUser.bind(this)}>
+      button =<Button style={comStyles.buttonStyle}  onPress={this.saveUser.bind(this)}>
               <Icon active name="information-circle" />
-              <Text style={stylesDrawer.textStyle}>Save</Text>
+              <Text style={comStyles.whiteTxtStyle}>Save</Text>
               </Button>;
      } 
      else if(this.props.deleteCustomer===true) {
-      button = <Button style={{height:50,width:200,justifyContent:'center'}} danger onPress={this.deleteUser.bind(this)}>
+      button = <Button style={comStyles.buttonStyle} danger onPress={this.deleteUser.bind(this)}>
                <Icon active name="trash" />
-               <Text style={stylesDrawer.textStyle}>Delete</Text>
+               <Text style={comStyles.whiteTxtStyle}>Delete</Text>
                </Button>;
     }
     
@@ -125,23 +126,6 @@ class ModifyCustomerScreen extends Component {
   }
 }
 
-const stylesDrawer = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    zIndex: 999
-  },
-  horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10
-  },
-  textStyle: {
-    fontSize:24,
-    color:'white',
-    fontFamily:'Avenir-Book'
-  }
-});
 
 const mapStateToProps = (state) => {
   return{

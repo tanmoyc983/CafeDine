@@ -12,8 +12,8 @@ export default class Customer extends React.Component {
   render() {
     return (
         <TextField
-              fontSize={30}
-              labelFontSize={30}
+              fontSize={25}
+              labelFontSize={25}
               titleFontSize={38}
               disabled={this.props.isDisabled}
               label={this.props.label}
@@ -28,9 +28,3 @@ export default class Customer extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-
-  },
-});

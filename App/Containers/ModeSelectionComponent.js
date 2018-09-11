@@ -8,6 +8,7 @@ import styles from './Styles/LaunchScreenStyles';
 import { connect } from 'react-redux';
 import {Button } from 'native-base';
 import {Toast} from 'native-base';
+import CommonStyles, {plusMinusIconColor, defaultTxtColor, customerIconColor} from './Styles/CommonStyles';
 
 class ModeSelectionComponent extends Component {
     constructor(props) {
@@ -76,60 +77,37 @@ class ModeSelectionComponent extends Component {
                 <FlatList
                     data={this.props.modeDetails}
                     renderItem={({ item }) => (
-                        <View style={stylesMode.btnStyle}>
+                        <View style={CommonStyles.customButtonStyle}>
                             <View style={{ flex: 1, flexDirection: 'row' }}> 
                                 <View style={{flexDirection: 'row', justifyContent:'flex-start',alignItems:'flex-start', width: 60 + '%'}}>                           
-                                    <Text style={{ marginVertical: 18, fontSize: 25, marginLeft: 5,  color: 'black' }}>
+                                    <Text style={{ marginVertical: 18, fontSize: 25, marginLeft: 5,  color: defaultTxtColor }}>
                                         {item.modeName}
                                     </Text>
                                 </View>
                                 <View style={{ flexDirection: 'row',justifyContent:'flex-start',alignItems:'flex-end', width: 15 + '%'}}>
-                                    <Text style={{ marginVertical: 18, fontSize: 25, color: 'black', width: 100 }}>Rs. {item.defaultItemPrice}</Text>
+                                    <Text style={{ marginVertical: 18, fontSize: 25, color: defaultTxtColor, width: 100 }}>Rs. {item.defaultItemPrice}</Text>
                                 </View>
                                 <View style={{ flexDirection: 'row',justifyContent:'flex-start',alignItems:'flex-end', width: 20 + '%'}}>
                                         <TouchableHighlight onPress={() => this.updateIndex(item, 0)} style={{ padding: 10 }}>
-                                        <Icon name="minus-circle" size={45} color="#2196f3" /></TouchableHighlight>
-                                        <Text style={{ marginVertical: 18, fontSize: 25, color: 'black' }}>{item.quantity}</Text>
+                                        <Icon name="minus-circle" size={45} color={plusMinusIconColor} /></TouchableHighlight>
+                                        <Text style={{ marginVertical: 18, fontSize: 25, color: defaultTxtColor }}>{item.quantity}</Text>
                                         <TouchableHighlight onPress={() => this.updateIndex(item, 1)} style={{ padding: 10 }}>
-                                        <Icon name="plus-circle" size={45} color="#2196f3" /></TouchableHighlight>                                        
+                                        <Icon name="plus-circle" size={45} color={plusMinusIconColor} /></TouchableHighlight>                                        
                                 </View>
                             </View>
                         </View>
                     )}
                 />
                 <View style={{flex:1,flexDirection:'row',marginRight:10,alignItems:'flex-end',justifyContent:'flex-end'}}>
-                <Button style={{height:50,width:350,justifyContent:'center'}} onPress={this.submitModes.bind(this)}>
-                    <Icon active name="skip-next" size={24} color="#FAFAFA" />
-                    <Text style={stylesMode.textStyle}>Submit</Text>
+                <Button style={CommonStyles.smButtonStyle} onPress={this.submitModes.bind(this)}>
+                    <Icon active name="skip-next" size={24} color={customerIconColor} />
+                    <Text style={CommonStyles.whiteTxtStyle}>Submit</Text>
                 </Button>
             </View>
             </View>
         )
     }
 };
-
-const stylesMode = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        flexWrap: 'wrap'
-    },
-    btnStyle: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        height: 60,
-        borderBottomWidth: 1,
-        marginHorizontal: 10
-    },
-    textStyle: {
-        fontSize:24,
-        color:'white',
-        fontFamily:'Avenir-Book'
-      }
-});
 
 const mapStateToProps=(state)=>{
     return {

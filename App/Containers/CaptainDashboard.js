@@ -6,6 +6,7 @@ import { Images } from '../Themes';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 import ReduxActions from "../Redux/ActionTypes/Action";
+import comStyles from './Styles/CommonStyles';
 
 class CaptainDashboardComponent extends Component {
 
@@ -32,8 +33,8 @@ class CaptainDashboardComponent extends Component {
 render() {
     return (
         <View style={styles.mainContainer}>
-       <View style={stylesDrawer.viewStyle}>
-            <Text style={stylesDrawer.textStyle}>Dashboard</Text>
+       <View style= {comStyles.headerBackgroundStyle}>
+            <Text style={comStyles.headerWhitetxtStyle}>Dashboard</Text>
         </View>
         <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
       <Card style={{flex:10}}>
@@ -41,7 +42,7 @@ render() {
         <Text  style= {styles.sectionText}>Order</Text>
       </CardItem>
       <CardItem button bordered style={{cursor:'pointer'}} onPress={() =>this.props.navigation.navigate('BeforeModeSelectionStack')}>
-      <Icon active name="local-dining" size={42} style={{  color: "#fbc02d" }} />
+      <Icon active name="local-dining" size={42} style= {comStyles.localDiningIconStyle} />
       <View style={{width: 80 + '%' }}><Text style={styles.subtitle}>
             New Order
           </Text></View>
@@ -51,7 +52,7 @@ render() {
       </CardItem>
       {/* <View style={{ borderWidth: 0.5, borderColor: 'black', margin: 10 }} /> */}
       <CardItem button bordered style={{cursor:'pointer'}} onPress={() => this.props.navigation.navigate('ExistingOrderStack')}>
-      <Icon active name="local-grocery-store" size={42} style={{  color: "#ff9800" }} />
+      <Icon active name="local-grocery-store" size={42} style={comStyles.localGroceryStoreIconStyle} />
           <View style={{width: 80 + '%' }}><Text style={styles.subtitle}>
             Existing Order
           </Text></View>
@@ -64,7 +65,7 @@ render() {
         <Text style= {styles.sectionText}>Customer</Text>
       </CardItem>
       <CardItem button bordered style={{cursor:'pointer'}} onPress={() => this.props.navigation.navigate('CaptainStack')}>
-      <Icon active name="person" size={42} style={{  color: "#039be5" }} />
+      <Icon active name="person" size={42} style={comStyles.personIconStyle } />
       <View style={{width: 80 + '%' }}><Text style={styles.subtitle}>
             Modify
           </Text></View>
@@ -76,7 +77,7 @@ render() {
         <Text style= {styles.sectionText}>Settings</Text>
       </CardItem>
       <CardItem button bordered style={{cursor:'pointer'}} onPress={() => this.props.navigation.navigate('AppSettingStack')}>
-      <Icon active name="settings" size={42} style={{  color: "#039be5" }} />
+      <Icon active name="settings" size={42} style={comStyles.settingIconStyle } />
       <View style={{width: 80 + '%' }}><Text style={styles.subtitle}>
             Set Api Endpoint
           </Text></View>
@@ -90,25 +91,6 @@ render() {
     );
   }
 }
-
-const stylesDrawer = StyleSheet.create({
-viewStyle:{
-  flex:1,
-  flexDirection:'row',
-  backgroundColor: '#039be5',
-  justifyContent: 'center',
-  alignItems: 'center',
-  height:60,
-  paddingTop:15,
-  elevation:2
-},
-textStyle:{
-  fontSize:30,
-  fontWeight: 'bold',
-  fontFamily:'Avenir-Black',
-  color:'white'
-}
-})
 
 const mapStateToProps = (state) => {
   return{

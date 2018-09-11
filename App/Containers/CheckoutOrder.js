@@ -11,6 +11,7 @@ import __  from "lodash";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {NavigationActions } from 'react-navigation';
 import {Toast} from 'native-base';
+import comStyles from './Styles/CommonStyles';
 
 class CheckoutOrderComponent extends React.Component {
     constructor() {
@@ -98,26 +99,13 @@ class CheckoutOrderComponent extends React.Component {
                             title='Checkout Order' />
                     </TouchableOpacity>
                 </View>}
-                {__.isEmpty(this.props.CheckOrderDetails) && <View style={[stylesFloor.container, stylesFloor.horizontal]}>
+                {__.isEmpty(this.props.CheckOrderDetails) && <View style={[comStyles.rowContainer, comStyles.horizontal]}>
                     <ActivityIndicator size="large" color="red" /></View>}
             </View>
         )
     }
 }
 
-const stylesFloor = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        zIndex: 999,
-        flexDirection: 'row'
-      },
-      horizontal: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        padding: 10
-      }
-});
 
 const mapStateToProps=(state)=>{
     return{
