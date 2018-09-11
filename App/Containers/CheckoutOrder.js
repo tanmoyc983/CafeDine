@@ -60,7 +60,7 @@ class CheckoutOrderComponent extends React.Component {
         {  
         let order = Object.assign({},this.props.CheckOrderDetails);
         TotalPrice = order.totalPrice;
-        userName = order.customer.customerName + " ( " + order.customer.customerID + " ) " + "\n" + "Order Number: " + order.orderID;
+        userName = order.customer.customerName  + "\n" + "Order Number: " + order.orderID;
         
         let mode = this.props.CheckOrderDetails.modes.map((data, i) => {
             myOrders.push(<CheckoutModes mode={data} />);
@@ -84,10 +84,10 @@ class CheckoutOrderComponent extends React.Component {
                         <Card title={userName} textStyle={{fontsize:25}}>
                             {myOrders}
                             <View style={{ borderWidth: 0.5, borderColor: 'black', margin: 10 }} />
-                            <View style={{flex:1,flexDirection: 'row',alignItems: 'baseline',paddingLeft: 20}}>
-                                <Text h1 style={{ justifyContent:'flex-start', fontWeight: 'bold', fontSize: 25, width: 20 + '%' }}>Total Price:</Text>
-                                <Icon name="rupee" style={{justifyContent:'flex-start', fontWeight: 'bold', fontSize: 25, width: 10 + '%' }}>
-                                <Text style={{justifyContent:'flex-end', fontWeight: 'bold', fontSize: 25, width: 20 + '%' }}> {TotalPrice}</Text>
+                            <View style={{flex:1,flexDirection: 'row',alignItems: 'baseline',paddingLeft: 70 + '%'}}>
+                                <Text h1 style={{ justifyContent:'flex-start', fontWeight: 'bold', fontSize: 25 }}>Total Price:</Text>
+                                <Icon name="rupee" style={{justifyContent:'flex-start', fontWeight: 'bold', fontSize: 25 }}>
+                                <Text style={{justifyContent:'flex-end', fontWeight: 'bold', fontSize: 25 }}> {TotalPrice}</Text>
                                 </Icon>
                             </View>
                         </Card>

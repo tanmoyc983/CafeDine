@@ -79,12 +79,12 @@ class ModeSelectionComponent extends Component {
                         <View style={stylesMode.btnStyle}>
                             <View style={{ flex: 1, flexDirection: 'row' }}> 
                                 <View style={{flexDirection: 'row', justifyContent:'flex-start',alignItems:'flex-start', width: 60 + '%'}}>                           
-                                <Text style={{ marginVertical: 18, fontSize: 30, marginLeft: 5 }}>
-                                    {item.modeName}
-                                </Text>
+                                    <Text style={{ marginVertical: 18, fontSize: 25, marginLeft: 5,  color: 'black' }}>
+                                        {item.modeName}
+                                    </Text>
                                 </View>
                                 <View style={{ flexDirection: 'row',justifyContent:'flex-start',alignItems:'flex-end', width: 15 + '%'}}>
-                                  <Text style={{ marginVertical: 18, fontSize: 25, color: 'black', width: 100 }}>Rs. {item.defaultItemPrice}</Text>
+                                    <Text style={{ marginVertical: 18, fontSize: 25, color: 'black', width: 100 }}>Rs. {item.defaultItemPrice}</Text>
                                 </View>
                                 <View style={{ flexDirection: 'row',justifyContent:'flex-start',alignItems:'flex-end', width: 20 + '%'}}>
                                         <TouchableHighlight onPress={() => this.updateIndex(item, 0)} style={{ padding: 10 }}>
@@ -100,7 +100,7 @@ class ModeSelectionComponent extends Component {
                 <View style={{flex:1,flexDirection:'row',marginRight:10,alignItems:'flex-end',justifyContent:'flex-end'}}>
                 <Button style={{height:50,width:350,justifyContent:'center'}} onPress={this.submitModes.bind(this)}>
                     <Icon active name="skip-next" size={24} color="#FAFAFA" />
-                    <Text style={stylesMode.textStyle}>Submit Selections</Text>
+                    <Text style={stylesMode.textStyle}>Submit</Text>
                 </Button>
             </View>
             </View>

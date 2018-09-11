@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActivityIndicator, StyleSheet,FlatList, Text, View, ScrollView, TouchableOpacity, Button, Image, Alert,Dimensions } from 'react-native';
+import { ActivityIndicator, StyleSheet,Text, View, ScrollView, TouchableOpacity, Image, Alert,Dimensions } from 'react-native';
 import {getImageonType } from "../Utilities/Utility";
 import { Card } from 'react-native-elements';
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import ReduxActions from "../Redux/ActionTypes/Action";
 import SagaActions from "../Sagas/ActionTypes/Action";
 import {NavigationActions } from 'react-navigation';
-
+import { Button } from "native-base";
 class OrderComponent extends React.Component {
     constructor() {
         super();
@@ -80,11 +80,13 @@ class OrderComponent extends React.Component {
         this.props.modeDetails.map((element)=>{
             if(element.quantity>0)
             {
-              btns.push( <Card title={element.modeName} containerStyle={stylesFloor.cardStyle} image={getImageonType(element.modeType)}>
-              <Text style={{marginBottom: 10,fontSize: 20,fontWeight: 'bold'}}> Quantity: {element.quantity}</Text>
-              <Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={() => this.changeMode(element)}
-                fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='View Menu' /> 
-              </Card>);
+                btns.push( <Card title={element.modeName} containerStyle={comStyles.mdCardStyle} image={getImageonType(element.modeType)}>
+                <Text style={ [comStyles.smTxtStyle, comStyles.marginBottom]}> Quantity: {element.quantity}</Text>
+                <Button style={comStyles.xsButtonStyle} onPress={() => this.changeMode(element)}>
+                <Icon active name="restaurant-menu" size={17} color={customerIconColor} />
+                <Text style={comStyles.smWhiteTxtStyle}>View Menu</Text>
+                </Button>
+                </Card>);
             }
         })
         return (
@@ -149,7 +151,7 @@ const stylesFloor = StyleSheet.create({
         borderRadius: 5,
         width: 150,
         height: 50,
-        marginHorizontal: 10,
+        marginHorizontal: 10
     },
     cardStyle:{
         height:300,
@@ -170,7 +172,9 @@ const stylesFloor = StyleSheet.create({
       },
       container: {
         flex: 1,
-        flexWrap:'wrap'
+        flexWrap:'wrap',
+        color: 'black',
+        fontSize: 20
       },
       contentContainer: {
         width: Dimensions.get('window').width,

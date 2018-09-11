@@ -55,7 +55,7 @@ class LaunchScreen extends Component {
         </View>
         <ScrollView style={{flex:1, flexDirection: 'column',marginLeft:10}}>
             <Text style={[styles.sectionText]}>
-              Search Customer
+            Enter Phone Number
             </Text>
             <TextBoxMaterial keyboardTextType="numeric"  label="Phone Number" value= {this.props.PhoneNumber} changeField = {this.changeField.bind(this)}/>
               
