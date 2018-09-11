@@ -14,6 +14,7 @@ import ModifyCustomerScreen from '../Containers/ModifyCustomerScreen';
 import ExistingOrderDashboard from '../Containers/ExistingOrderDashboard';
 import CaptainOrderView from '../Containers/CaptainOrderView';
 import AppSettingsScreen from "../Containers/AppSettings";
+import LoginScreen from "../Containers/LoginScreen";
 const transitionConfig = () => {
   return {
     transitionSpec: {
@@ -220,7 +221,18 @@ const CaptainStack = StackNavigator({
     }
   );
 
-  const AppSettingStack= StackNavigator({
+  const LoginStack= StackNavigator({
+    LoginScreen: {
+      screen: LoginScreen,
+      navigationOptions: ({ navigation }) => ({
+        headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
+        shadowOffset:{width: 0, height: 3},
+        shadowOpacity: 0.3 },
+        headerTitle: 'Log in',
+        headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
+        headerTintColor: 'white',
+      })
+    },
     AppSettingsScreen:{
       screen: AppSettingsScreen,
       navigationOptions: ({ navigation }) => ({
@@ -234,7 +246,7 @@ const CaptainStack = StackNavigator({
       })
     }
   },{
-    initialRouteName: 'AppSettingsScreen',
+    initialRouteName: 'LoginScreen',
     transitionConfig
   })
 
@@ -254,7 +266,7 @@ const DrawerStack = StackNavigator({
   AfterModeSelectionStack: { screen: AfterModeSelectionStack },
   CaptainStack: { screen: CaptainStack },
   ExistingOrderStack: {screen: ExistingOrderStack},
-  AppSettingStack: { screen: AppSettingStack}
+  LoginStack: { screen: LoginStack}
 }, {
     initialRouteName: "CaptainDashboardScreen",
     transitionConfig,
