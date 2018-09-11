@@ -1,7 +1,6 @@
 import React from 'react';
-import { ActivityIndicator, StyleSheet,FlatList, Text, View, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
+import { ActivityIndicator, Text, View, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
 import { Button } from 'native-base';
-
 import {getImageonType } from "../Utilities/Utility";
 import { Card } from 'react-native-elements';
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -11,7 +10,6 @@ import { connect } from 'react-redux';
 import ReduxActions from "../Redux/ActionTypes/Action";
 import SagaActions from "../Sagas/ActionTypes/Action";
 import {NavigationActions } from 'react-navigation';
-import { Dimensions } from "react-native";
 import comStyles, {customerIconColor} from './Styles/CommonStyles';
 
 class OrderComponent extends React.Component {
@@ -69,7 +67,7 @@ class OrderComponent extends React.Component {
                 FullOrderDetails.orderID=this.props.OrderID;
                 FullOrderDetails.noofPerson=this.props.NoOfPerson;
                 FullOrderDetails.customer.customerID=this.props.customerID;
-                FullOrderDetails.tableID=this.props.selectedtable.tableID;      
+                FullOrderDetails.tableID=this.props.OrderID===""?this.props.selectedtable.tableID:0;      
                 FullOrderDetails.subOrder.push({
                     "subOrderNumber":this.props.subOrderNumber+1,
                     "modes":this.props.OrderedItems

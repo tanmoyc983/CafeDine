@@ -141,6 +141,10 @@ export const OrderReducer = (state = INITIAL_STATE, action) => {
         return Object.assign({}, state,INITIAL_STATE);
         break;
 
+        case ReduxActions.SET_ORDER_ID:
+        return Object.assign({},state,{OrderID:action.orderID})
+        break;
+
         default:
         return Object.assign({},state);
     }

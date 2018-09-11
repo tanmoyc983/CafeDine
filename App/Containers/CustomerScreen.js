@@ -109,7 +109,7 @@ class Customer extends React.Component {
         />
       )
     });
-    if (this.props.customer.customerName !== "" && this.props.customer.email !== "") {
+    if (this.props.customer.customerName !== "" && this.props.PhoneNumber!=="") {
       inputValidation = false;
     }
     let button;

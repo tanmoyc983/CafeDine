@@ -57,7 +57,6 @@ export const userReducer = (state = INITIAL_STATE, action) => {
     break;
 
     case ReduxActions.SAVED_NEW_USER_DETAILS:
-    debugger;
     let newCustomer =  Object.assign({}, state.customer,{
       customerID: action.response,
       customerName: '',
