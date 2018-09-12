@@ -52,11 +52,9 @@ class CaptainDashboardComponent extends Component {
 
 
   render() {
-    debugger;
     this.GetIP_Port();
     console.log(this.props.ipAddress, this.props.port);
     let CheckIP = '';
-    debugger;
     if (this.props.ipAddress === null || this.props.ipAddress === "" || this.props.port === null || this.props.port === "") {
       CheckIP = 'IP Configuration';
     } else {

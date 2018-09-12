@@ -105,7 +105,7 @@ class ExistingOrderDashboard extends Component{
             } 
             if(rowData.isOccupied && rowData.isApproved===true && rowData.orderDetails!==null){
                 titleColor= orderColor[2];
-                cardStyle = comStyles.smCardCustStyle;
+                //cardStyle = comStyles.smCardCustStyle;
                 // btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.getOrderDetails.bind(this,rowData)} 
                 // fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='View Order Details' />);
             } 
