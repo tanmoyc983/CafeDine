@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native'
 import {Fonts, Metrics, Colors} from '../../Themes/'
 export var defaultTxtColor = 'black';
-export var plusMinusIconColor = '#2196f3';
+export var plusMinusIconColor = '#3848AB';
 export var arrowDropdownIconColor = '#1A237E';
 export var customerIconColor = '#FAFAFA';
 export var dropdownColor = '#039be5';
@@ -42,7 +42,7 @@ export default StyleSheet.create({
         alignContent:'space-around',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#64B5F6',
+        backgroundColor: '#3848AB',
         borderRadius: 5,
         width: 150,
         height: 50,
@@ -56,12 +56,13 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     smCustButtonStyle: {
-        height: 50,
-        width: 200,
+        height: 30,
+        width: 230,
         alignContent:'space-around',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 50
+        marginHorizontal: 10,
+        color: '#000'
     },
     xsButtonStyle: {
         height: 30,
@@ -70,7 +71,7 @@ export default StyleSheet.create({
         alignContent:'space-around',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#64B5F6',
+        backgroundColor: '#3848AB',
         marginHorizontal: 10,
         color: '#000'
     },
@@ -85,7 +86,7 @@ export default StyleSheet.create({
         marginHorizontal: 10
     },
     headerBackgroundStyle: {
-        backgroundColor: '#039be5',
+        backgroundColor: '#3848AB',
         flex:1,
         flexDirection:'row',
         justifyContent: 'center',
@@ -137,7 +138,7 @@ export default StyleSheet.create({
         shadowRadius: 2
     },
     smCardStyle: {
-        height: 370,
+        height: 360,
         width: 280,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },

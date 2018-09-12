@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ScrollView ,Image,Button,ActivityIndicator } from 'react-native'
+import { View, StyleSheet, ScrollView ,Image,ActivityIndicator } from 'react-native'
+import { Button } from 'native-base'
 import { Card } from 'react-native-elements';
 import { connect } from 'react-redux'
 import SagaActions from "../Sagas/ActionTypes/Action";
@@ -76,29 +77,47 @@ class ExistingOrderDashboard extends Component{
     
         this.props.TablesonSelectedFloor.map((rowData)=>{
             let btn=[];
-            let cardStyle = comStyles.smCardStyle;
+            let cardStyle = comStyles.smCardCustStyle;
             let titleColor= orderColor[0];
             if(rowData.isOccupied===true && rowData.orderDetails!==null){
                 titleColor= orderColor[1];
-                btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.getOrderDetails.bind(this,rowData)} 
-                fontFamily='Lato' buttonStyle={comStyles.smCustButtonStyle} title='View Order Details' />);
+                cardStyle = comStyles.smCardStyle;
+                btn.push(
+                    <Button style={comStyles.smCustButtonStyle} onPress={this.getOrderDetails.bind(this,rowData)}>
+                        <Icon active name="restaurant-menu" size={17} color={customerIconColor} />
+                        <Text style={comStyles.smWhiteTxtStyle}>View Order Details</Text>
+                    </Button>
+                );
                 btn.push(<View style={{height: 20, width: 250}}></View>);
-                btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.continueOrder.bind(this,rowData)} 
-                fontFamily='Lato' buttonStyle={comStyles.smCustButtonStyle} title='Continue Order' />);
+                btn.push(
+                    <Button style={comStyles.smCustButtonStyle} onPress={this.continueOrder.bind(this,rowData)}>
+                        <Icon active name="restaurant-menu" size={17} color={customerIconColor} />
+                        <Text style={comStyles.smWhiteTxtStyle}>Continue Order</Text>
+                    </Button>
+                );
                 btn.push(<View style={{height: 20, width: 250}}></View>);
-                btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.releaseTable.bind(this,rowData)} 
-                fontFamily='Lato' buttonStyle={comStyles.smCustButtonStyle} title='Release Table' />);
+                btn.push(
+                    <Button style={comStyles.smCustButtonStyle} onPress={this.releaseTable.bind(this,rowData)}>
+                        <Icon active name="restaurant-menu" size={17} color={customerIconColor} />
+                        <Text style={comStyles.smWhiteTxtStyle}>Release Table</Text>
+                    </Button>
+                );
             } 
             if(rowData.isOccupied && rowData.isApproved===true && rowData.orderDetails!==null){
                 titleColor= orderColor[2];
+                cardStyle = comStyles.smCardCustStyle;
                 // btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.getOrderDetails.bind(this,rowData)} 
                 // fontFamily='Lato' buttonStyle={stylesFloor.buttonStyle} title='View Order Details' />);
             } 
             if(rowData.isOccupied && (rowData.isOccupiedWithoutOrder || rowData.orderDetails===null )){
                 titleColor=orderColor[3];
                 cardStyle = comStyles.smCardCustStyle;
-                btn.push(<Button icon={<Icon name='restaurant-menu'size= {25} color='white' />} onPress={this.releaseTable.bind(this,rowData)} 
-                fontFamily='Lato' buttonStyle={comStyles.smCustButtonStyle} title='Release Table' />);
+                btn.push(
+                    <Button style={comStyles.smCustButtonStyle} onPress={this.releaseTable.bind(this,rowData)}>
+                        <Icon active name="restaurant-menu" size={17} color={customerIconColor} />
+                        <Text style={comStyles.smWhiteTxtStyle}>Release Table</Text>
+                    </Button>
+                );
             } 
             tcards.push(     
                 <Card title={'Table No.'+rowData.tableID} titleStyle={{fontSize:20, backgroundColor: titleColor, color: customerIconColor}} containerStyle={cardStyle}>
