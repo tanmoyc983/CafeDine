@@ -17,7 +17,8 @@ const INITIAL_STATE ={
     SelectedMenuItems:{},
     ReviewOrderDetails:{},
     CheckOrderDetails:{},
-    isCheckedOut: false  
+    isCheckedOut: false,
+    isModalOpen: false  
 };
 
 export const OrderReducer = (state = INITIAL_STATE, action) => {
@@ -143,6 +144,11 @@ export const OrderReducer = (state = INITIAL_STATE, action) => {
 
         case ReduxActions.SET_ORDER_ID:
         return Object.assign({},state,{OrderID:action.orderID})
+        break;
+
+        case ReduxActions.UPDATE_MODAL:
+        let modalstate=state.isModalOpen?false:true;
+        return Object.assign({},state,{isModalOpen:modalstate})
         break;
 
         default:

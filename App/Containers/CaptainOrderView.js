@@ -5,14 +5,15 @@ import Accordion from 'react-native-collapsible/Accordion';
 import { connect } from "react-redux";
 import { Images } from '../Themes';
 import styles from './Styles/LaunchScreenStyles';
-import { Button, Content, Card, CardItem, Text,H1,H2 } from 'native-base';
+import { Button, Content, Card, CardItem, Text,H1,H2, H3 } from 'native-base';
 import ReduxActions from "../Redux/ActionTypes/Action";
 import SagaActions from "../Sagas/ActionTypes/Action";
 import OrderMode from "./EditOrder/OrderMode";
 import { NavigationActions } from 'react-navigation';
 import {Toast} from 'native-base';
 import __  from "lodash";
-import comStyles from './Styles/CommonStyles';
+import comStyles, {customerIconColor, borderColor, orderColor, dropdownColor, accountStarIconColor} from './Styles/CommonStyles';
+import Icon2 from 'react-native-vector-icons/FontAwesome';
 
 class MenuItemsComponent extends React.Component {
     constructor() {
@@ -80,13 +81,13 @@ class MenuItemsComponent extends React.Component {
     _renderHeader(section, index, isActive) {
         let test = [];
         if (!isActive) {
-            test.push(<Icon active name="arrow-up-drop-circle-outline" size={42} style={{color: comStyles.subOrderStyle.color}}  />);
+            test.push(<Icon active name="arrow-up-drop-circle-outline" size={42} style={comStyles.subOrderStyle}  />);
         }
         else if (isActive) {
-            test.push(<Icon active name="arrow-down-drop-circle-outline" size={42} style={{color: comStyles.subOrderStyle.color}} />);
+            test.push(<Icon active name="arrow-down-drop-circle-outline" size={42} style={comStyles.subOrderStyle} />);
         }
         return (
-            <View style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: '#FAFAFA', marginTop: 5, height: 60, borderWidth: 1, borderColor: '#9E9E9E' }} >
+            <View style={{ flexDirection: 'row', justifyContent: 'center', backgroundColor: customerIconColor, marginTop: 5, height: 60, borderWidth: 1, borderColor: borderColor }} >
                 <View style={{ flexGrow: 1 }}>
                     <Text style={{ color: comStyles.subOrderStyle.color, marginLeft: 10, fontSize: 30 }}>Round {section.subOrderNumber}</Text>
                 </View>
@@ -120,8 +121,10 @@ class MenuItemsComponent extends React.Component {
             </React.Fragment>);                     
                 })
                 myOrders.push( <View style={{flex:1,flexDirection:'row', justifyContent:'flex-end',alignItems:'flex-end'}}>
-               {this.isSubOrderApproved(section) && <Button onPress={()=>this.approveOrder(section.subOrderNumber)} style={{height:100+'%',width:15+'%',marginRight:5+'%',justifyContent:'center', backgroundColor:'#00a152'}}>
-                    <Icon active name="approval" size={24} color="#FAFAFA" />
+               {this.isSubOrderApproved(section) && 
+               <Button onPress={()=>this.approveOrder(section.subOrderNumber)} 
+               style={comStyles.smButtonStyle}>
+                    <Icon active name="approval" size={25} color= {customerIconColor} />
                     <Text style={comStyles.whiteTxtStyle}>Approve</Text>
                 </Button>}
             </View>)           
@@ -148,21 +151,27 @@ class MenuItemsComponent extends React.Component {
         return (
             <View style={styles.mainContainer}>
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
-                {this.props.tableWithOrderDetails.orderDetails !== undefined && <ScrollView>
+                {this.props.tableWithOrderDetails.orderDetails !== undefined && 
+                <ScrollView>
                     <Content padder>
-                    <Card>
-                        <CardItem header bordered>
-                        <Icon active name="bowl" size={42} style={{  color: "#ff3d00" }} />
-                        <H1 style={{textAlign:'center',color:'#2196f3'}}> Order Number: {this.props.tableWithOrderDetails.orderDetails.orderID}</H1>
-                        </CardItem>
-                        <CardItem footer bordered>
-                        <Icon active name="account-star" size={42} style={{  color: "#fbc02d" }} />
-                        <H2 style={{textAlign:'center',color:'#2196f3'}}> Customer Details: {this.props.tableWithOrderDetails.orderDetails.customer.customerName} ( {this.props.tableWithOrderDetails.orderDetails.customer.customerID} )</H2>
-                        </CardItem>
+                        <Card>
+                            <CardItem header bordered>
+                                <View style={{flexDirection: 'row', width: 50 + '%'}}>
+                                    <Icon active name="bowl" size={30} style={{  color: orderColor[1] }} />
+                                    <H3 style={{textAlign:'center', color: dropdownColor}}> Order Number: {this.props.tableWithOrderDetails.orderDetails.orderID}</H3>
+                                </View>
+                                <View style={{flexDirection: 'row', width: 50 + '%', justifyContent: 'flex-end'}}>
+                                    <H3 style={{textAlign:'center', color: dropdownColor}}> Total Price: <Icon2 active name="rupee"  size={20} style={{  color: dropdownColor, marginRight: 10}}/>{this.props.tableWithOrderDetails.orderDetails.totalPrice}</H3>
+                                </View>
+                            </CardItem>
+                            <CardItem footer bordered>
+                                <Icon active name="account-star" size={42} style={{  color: accountStarIconColor }} />
+                                <H2 style={{textAlign:'center', color: dropdownColor}}> Customer Details: {this.props.tableWithOrderDetails.orderDetails.customer.customerName} ( {this.props.tableWithOrderDetails.orderDetails.customer.customerID} )</H2>
+                            </CardItem>
                        </Card>
-                </Content>
+                    </Content>
                     {/* <H1 style={{ flex: 1, justifyContent: 'space-around', alignItems: 'center' }}>{orderDetails}</H1> */}
-                    <Accordion underlayColor='#C5CAE9'
+                    <Accordion underlayColor={borderColor}
                         sections={this.props.tableWithOrderDetails.orderDetails.subOrder}
                         renderHeader={this._renderHeader.bind(this)}
                         renderContent={this._renderContent.bind(this)} />
@@ -170,7 +179,7 @@ class MenuItemsComponent extends React.Component {
 
                 <View style={{ flex: 1, flexDirection: 'row', marginRight: 10, alignItems: 'flex-end', justifyContent: 'flex-end' }}>
                   {this.isOrderApproved(this.props.tableWithOrderDetails.isApproved) && <Button style={{ height: 50, width: 200, justifyContent: 'center' }} onPress={() => this.checkoutOrder()}>
-                        <Icon active name="check-all" size={24} color="#FAFAFA" />
+                        <Icon active name="check-all" size={24} color= {customerIconColor} />
                         <Text style={comStyles.whiteTxtStyle}>Checkout</Text>
                     </Button>}
                 </View>

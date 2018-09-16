@@ -100,13 +100,22 @@ class Customer extends React.Component {
 
     customerInfoFields.forEach(element => {
       children.push(
-        <TextBoxMaterial
-          label={element.label}
-          value={element.value}
-          isDisabled={this.props.loginSuccess === 'success' ? true : false}
-          changeField={this.changeField.bind(this, element.type)}
-          type={element.type}
-        />
+        // <TextBoxMaterial
+        //   label={element.label}
+        //   value={element.value}
+        //   isDisabled={this.props.loginSuccess === 'success' ? true : false}
+        //   changeField={this.changeField.bind(this, element.type)}
+        //   type={element.type}
+        // />
+        <View style={{flex: 1, flexDirection:'row', padding: 5}}>
+            <View style={[comStyles.customerView, comStyles.customerBorderLeft]}>
+                <TextBoxMaterial style={comStyles.customerTxtStyle} label={element.label} isDisabled='true'/>
+            </View>
+            <View style={[comStyles.customerView, comStyles.customerBorderRight]}>
+                <TextBoxMaterial style={comStyles.customerTxtStyle} tintColor= '#EEEEEE' value={element.value}   isDisabled={this.props.loginSuccess === 'success' ? true : false}
+                changeField={this.changeField.bind(this, element.type)} type={element.type}/>
+            </View>
+        </View>
       )
     });
     if (this.props.customer.customerName !== "" && this.props.PhoneNumber!=="") {
@@ -133,7 +142,7 @@ class Customer extends React.Component {
           <ActivityIndicator size="large" color="red" /></View>}
         {this.props.loginSuccess !== 'searching' &&
           <React.Fragment>
-            <Content>
+            <Content style={{paddingBottom: 5}}>
               {children}
             </Content>
             <View style={comStyles.flexEnd}>

@@ -16,21 +16,17 @@ export const DashBoardReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
 
         case ReduxActions.SET_IP_ADDRESS:
-            debugger;
             return Object.assign({}, state, { setipAddress: action.IP });
             break;
 
         case ReduxActions.SET_PORT:
-            debugger;
             return Object.assign({}, state, { setPort: action.PortAddress });
             break;
 
         case ReduxActions.GET_IP_ADDRESS:
-            debugger;
             return Object.assign({}, state, { getipAddress: action.IP });
             break;
         case ReduxActions.GET_PORT:
-            debugger;
             return Object.assign({}, state, { getport: action.PortAddress });
             break;
 

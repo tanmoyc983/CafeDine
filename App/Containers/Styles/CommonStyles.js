@@ -1,6 +1,9 @@
 import {StyleSheet} from 'react-native'
 import {Fonts, Metrics, Colors} from '../../Themes/'
 export var defaultTxtColor = 'black';
+export var accountStarIconColor = '#fbc02d';
+export var borderColor = '#9E9E9E';
+export var backgroundColor = '#EEEEEE'
 export var plusMinusIconColor = '#3848AB';
 export var arrowDropdownIconColor = '#1A237E';
 export var customerIconColor = '#FAFAFA';
@@ -35,6 +38,14 @@ export default StyleSheet.create({
         fontSize: 17,
         fontFamily: 'Avenir-Book',
         fontWeight: 'bold'
+    },
+    blackTxtStyle: {
+        color: 'black', 
+        fontSize: 22, 
+        fontFamily: 'Avenir-Book',  
+        fontWeight: 'bold',
+        justifyContent:'flex-start',
+        marginLeft: 10
     },
     buttonStyle: {
         flex: 1,
@@ -242,5 +253,39 @@ export default StyleSheet.create({
     },
     marginBottom10: {
         marginBottom: 10
-    }
+    },
+    customerView: {
+        width: 50 + '%',
+        justifyContent: 'flex-start',
+        padding: 10,
+        borderColor: 'grey',
+        backgroundColor: 'white',
+        height: 76,
+        paddingTop: -50
+    },
+    customerBorderLeft: {
+        borderTopWidth: 0.5,
+        borderBottomWidth:0.5,
+        borderLeftWidth: 0.5,
+        borderRightWidth: 0,
+    },
+    customerBorderRight: {
+        borderTopWidth: 0.5,
+        borderBottomWidth:0.5,
+        borderLeftWidth: 0,
+        borderRightWidth: 0.5,
+    },
+    customerTxtStyle: {
+        color: '#039be5',
+        fontSize: 25
+    },
+    width60: {
+        width: 60 + '%'
+    },
+    width20: {
+        width: 20 + '%'
+    },
+    width15: {
+        width: 15 + '%'
+    },
 })

@@ -30,7 +30,6 @@ export const tableReducer = (state = INITIAL_STATE, action) => {
         return Object.assign({}, state, {NoOfPerson: action.noofperson})
 
         case ReduxActions.ORDER_APPROVED:
-        debugger;
         let roundApproved=[];        
         if (action.response.isroundApproved){
             roundApproved.push(action.response.round);
