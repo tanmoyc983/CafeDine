@@ -38,13 +38,6 @@ class AppSettingsComponent extends React.Component {
     changeField(changedText, type) {
         if (type === "ip") {
             this.props.dispatch({ type: ReduxActions.SET_IP_ADDRESS, IP: isNullOrUndefined(changedText) ? "" : changedText });
-            //if (/^(?=.*[^\.]$)((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.?){4}$/.test(changedText)) {
-            //     this.props.dispatch({ type: ReduxActions.SET_IP_ADDRESS, IP: changedText });
-            // }
-            // if (/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(changedText)) {
-            //     
-            //     this.props.dispatch({ type: ReduxActions.SET_IP_ADDRESS, IP: changedText });
-            // }
         }
         else if (type === "port") {
             this.props.dispatch({ type: ReduxActions.SET_PORT, PortAddress: isNullOrUndefined(changedText) ? "" : changedText });
