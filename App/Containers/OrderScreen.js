@@ -81,6 +81,22 @@ class OrderComponent extends React.Component {
         //     this.props.dispatch({type:ReduxActions.UPDATE_SUBORDER_NUMBER});                       
         //}        
     }
+    placeOrder() {
+            this.props.dispatch({ type: ReduxActions.UPDATE_MODAL })
+            if(typeof this.props.OrderedItems !== 'undefined' && this.props.OrderedItems.length > 0){
+                let FullOrderDetails= Object.assign({},this.props.Order);
+                    FullOrderDetails.orderID=this.props.OrderID;
+                    FullOrderDetails.noofPerson=this.props.NoOfPerson;
+                    FullOrderDetails.customer.customerID=this.props.customerID;
+                    FullOrderDetails.tableID=this.props.OrderID===""?this.props.selectedtable.tableID:0;      
+                    FullOrderDetails.subOrder.push({
+                        "subOrderNumber":this.props.subOrderNumber+1,
+                        "modes":this.props.OrderedItems
+                    });
+                this.props.dispatch({type:SagaActions.SAVE_ORDER_DETAILS,FullOrderDetails});
+                this.props.dispatch({type:ReduxActions.UPDATE_SUBORDER_NUMBER});                       
+            }        
+    }
 
     render() {
         debugger;
@@ -89,25 +105,24 @@ class OrderComponent extends React.Component {
         if(this.props.OrderedItems !== undefined && this.props.OrderedItems !== '' && this.props.OrderedItems !== null) {
             
             this.props.OrderedItems.map((element)=>{
-                element.orders.map((childElement)=>{
+                itemDetails=[];
+                element.orders.map((childElement)=>{                   
                     itemDetails.push(
                         <View style={{flex: 1, flexDirection: 'row'}}>
                             <Text style={[comStyles.blackTxtStyle, comStyles.width60]}>{childElement.itemName}</Text>
                             <Text style={[comStyles.blackTxtStyle, comStyles.width20]}>Quantity: {childElement.quantity}</Text>
                             <Text style={[comStyles.blackTxtStyle, comStyles.width15]}>Price: {childElement.itemPrice}</Text>
                         </View>
-                    )
+                    ) });
                     orderDetails.push(
                         <View style={{flex: 1, flexDirection: 'column'}}>
-                            <View  style={{flex: 1, flexDirection: 'row', alignContent:'space-around',  justifyContent: 'center', alignItems: 'center', backgroundColor: 'green'}} >
+                            <View  style={{flex: 1, flexDirection: 'row', alignContent:'space-around',  justifyContent: 'center', alignItems: 'center', backgroundColor: 'green',  borderRadius: 5}} >
                                 <View style={{justifyContent: 'flex-start', marginLeft: 10}}><Text style={comStyles.whiteTxtStyle}>{element.modeName}</Text></View>
                                 <View style={{justifyContent: 'flex-end', marginRight: 10}}><Text style={comStyles.whiteTxtStyle}>{element.modeType}</Text></View>
                             </View>
                             <View style={{flex: 1, flexDirection: 'column', backgroundColor: backgroundColor}}>{itemDetails}</View>
                         </View>
                     )
-                });
-                
             })
             //orderDetails = this.props.OrderedItems;
         }
@@ -168,16 +183,20 @@ class OrderComponent extends React.Component {
                         </TouchableOpacity>} */}
                     </View>
                 }
-                <Modal isVisible={this.props.isModalOpen} >
+                <Modal backdropColor="black" backdropOpacity="0.4" isVisible={this.props.isModalOpen} style={{backgroundColor: backgroundColor, borderRadius: 5}} >
                 <ScrollView height={80 + '%'}>
                     <View style={{flex: 1, flexWrap: 'wrap', flexDirection: "column", borderColor: '#1A237E', borderWidth: 1 }}>
                         {orderDetails}
                     </View>
                     </ScrollView>
-                    <TouchableOpacity onPress={this.updateOrder.bind(this)} style={{flex: 1, flexDirection: 'row', alignContent:'space-around',  justifyContent: 'center', alignItems: 'center', backgroundColor: '#1A237E'}} >
-                        <Icon name='done-all' size={25} color={customerIconColor} />
-                        <Text style={comStyles.whiteTxtStyle}>Ok</Text>
-                    </TouchableOpacity>
+                    <View style={{flex: 1, flexDirection: "row", justifyContent: 'space-evenly', alignItems: 'center'}}>
+                        <TouchableOpacity onPress={this.updateOrder.bind(this)} style={comStyles.smButtonStyle} >
+                            <Text style={comStyles.whiteTxtStyle}>Cancle</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={this.placeOrder.bind(this)} style={comStyles.smButtonStyle} >
+                            <Text style={comStyles.whiteTxtStyle}>Place order</Text>
+                        </TouchableOpacity>
+                    </View>
                 </Modal>
             </View>
 

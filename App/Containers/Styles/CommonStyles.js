@@ -65,6 +65,7 @@ export default StyleSheet.create({
         alignContent:'space-around',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#1A237E'
     },
     smCustButtonStyle: {
         height: 30,
