@@ -58,7 +58,7 @@ class LaunchScreen extends Component {
             <Text style={[styles.sectionText]}>
             Enter Phone Number
             </Text>
-            <TextBoxMaterial keyboardTextType="numeric"  label="Phone Number" value= {this.props.PhoneNumber} changeField = {this.changeField.bind(this)}/>
+            <TextBoxMaterial tintColor="#039be5" keyboardTextType="numeric"  label="Phone Number" value= {this.props.PhoneNumber} changeField = {this.changeField.bind(this)}/>
               
             <TouchableOpacity onPress={this.fetchUser.bind(this)} style={comStyles.buttonStyle} disabled={this.props.searchDisabled} >
               <Icon name='search' size= {25} color="white" />

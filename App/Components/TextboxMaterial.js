@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 
-
 export default class Customer extends React.Component {
 
    txtChange(event){
@@ -20,7 +19,7 @@ export default class Customer extends React.Component {
               value={this.props.value}
               onChange={this.txtChange.bind(this) }
               tintColor= {this.props.tintColor}
-              baseColor= "#039be5"
+              baseColor= {this.props.baseColor}
               textColor	="#424242"
               autoFocus = {this.props.shouldFocus}
               keyboardType={this.props.keyboardTextType}

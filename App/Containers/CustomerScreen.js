@@ -100,7 +100,7 @@ class Customer extends React.Component {
 
     customerInfoFields.forEach(element => {
       children.push(
-        // <TextBoxMaterial
+        // <TextBoxMaterial tintColor="#039be5"
         //   label={element.label}
         //   value={element.value}
         //   isDisabled={this.props.loginSuccess === 'success' ? true : false}
@@ -109,10 +109,10 @@ class Customer extends React.Component {
         // />
         <View style={{flex: 1, flexDirection:'row', padding: 5}}>
             <View style={[comStyles.customerView, comStyles.customerBorderLeft]}>
-                <TextBoxMaterial style={comStyles.customerTxtStyle} label={element.label} isDisabled='true'/>
+                <TextBoxMaterial tintColor="#039be5" style={comStyles.customerTxtStyle} label={element.label} isDisabled='true'/>
             </View>
             <View style={[comStyles.customerView, comStyles.customerBorderRight]}>
-                <TextBoxMaterial style={comStyles.customerTxtStyle} tintColor= '#EEEEEE' value={element.value}   isDisabled={this.props.loginSuccess === 'success' ? true : false}
+                <TextBoxMaterial tintColor="#039be5" style={comStyles.customerTxtStyle} tintColor= '#EEEEEE' value={element.value}   isDisabled={this.props.loginSuccess === 'success' ? true : false}
                 changeField={this.changeField.bind(this, element.type)} type={element.type}/>
             </View>
         </View>

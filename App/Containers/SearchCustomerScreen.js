@@ -134,7 +134,7 @@ class SearchCustomerScreen extends Component {
           </RadioGroup>
           </View>          
           <View style={{flex:1,flexDirection: 'column'}}>
-            <TextBoxMaterial keyboardTextType={this.props.RadiobuttonSelected=="Name"?"default":"numeric"} value={this.props.SearchedText}  label={this.props.RadiobuttonSelected} changeField = {this.changeField.bind(this)}/>
+            <TextBoxMaterial tintColor="#039be5" keyboardTextType={this.props.RadiobuttonSelected=="Name"?"default":"numeric"} value={this.props.SearchedText}  label={this.props.RadiobuttonSelected} changeField = {this.changeField.bind(this)}/>
            
             <Button iconLeft rounded success style={comStyles.smButtonStyle} onPress={this.fetchUser.bind(this)}>
             <Icon name='search' size= {25} style={{color: customerIconColor}}  />

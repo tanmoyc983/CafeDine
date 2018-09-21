@@ -105,7 +105,7 @@ class FloorsAndTables extends React.Component {
               data={floors}/>
           </View>
           <View style={{flexDirection:'column',flex:2,marginLeft:100, justifyContent:'space-between', fontSize: 25}}>
-            <TextBoxMaterial keyboardTextType="numeric" label="No. of guests"   labelFontSize={25}
+            <TextBoxMaterial tintColor="#039be5" keyboardTextType="numeric" label="No. of guests"   labelFontSize={25}
               fontSize={25} changeField = {this.changeField.bind(this)}/>
           </View>
         </View>

@@ -27,6 +27,7 @@ import { CheckoutOrder } from './OnestaSagas/CheckOutOrderSaga';
 import { ApproveOrder } from "./OnestaSagas/ApproveOrderSaga";
 import {BookTable} from "./OnestaSagas/BookTableSaga";
 import {ReleaseTable} from "./OnestaSagas/ReleaseTableSaga";
+import {registerCaptain} from "./OnestaSagas/LoginSaga";
 /* ------------- Action Types ------------- */
 import SagaActions from './ActionTypes/Action'
 
@@ -59,6 +60,7 @@ export default function * root () {
     takeLatest(SagaActions.CHECKOUT_FINAL_ORDER, CheckoutOrder),
     takeLatest(SagaActions.APPROVE_THE_ORDER, ApproveOrder),
     takeLatest(SagaActions.BOOK_TABLE, BookTable),
-    takeLatest(SagaActions.RELEASE_TABLE, ReleaseTable)
+    takeLatest(SagaActions.RELEASE_TABLE, ReleaseTable),
+    takeLatest(SagaActions.CREATE_CAPTAIN, registerCaptain)    
   ])
 }
