@@ -5,8 +5,6 @@ import Styles from './Styles/LaunchScreenStyles';
 import { Card, View, Right, Container, Content, CardItem, Button, Item, Input } from "native-base";
 import TextBoxMaterial from "../Components/TextBox";
 import ReduxActions from "../Redux/ActionTypes/Action";
-import { NavigationActions } from 'react-navigation';
-import { SSL_OP_SINGLE_DH_USE } from 'constants';
 
 class LoginPageComponent extends Component {
     constructor() {
@@ -47,8 +45,8 @@ class LoginPageComponent extends Component {
                             onPress={this.onButtonPress.bind(this)}>
                             <Text style={styles.buttonText}>LOGIN</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity>
-                            <Text style={styles.buttonText}>Forgot Password?</Text>
+                        <TouchableOpacity style={{justifyContent:'center', paddingVertical: 25}}>
+                            <Text style={{fontsize:25, textAlign:'center'}}>Forgot Password?</Text>
                         </TouchableOpacity>
                     </Content>
                 </View>
