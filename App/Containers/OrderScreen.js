@@ -115,10 +115,10 @@ class OrderComponent extends React.Component {
                         </View>
                     ) });
                     orderDetails.push(
-                        <View style={{flex: 1, flexDirection: 'column'}}>
+                        <View style={{flex: 1, flexDirection: 'column',borderRadius: 5}}>
                             <View  style={{flex: 1, flexDirection: 'row', alignContent:'space-around',  justifyContent: 'center', alignItems: 'center', backgroundColor: 'green',  borderRadius: 5}} >
                                 <View style={{justifyContent: 'flex-start', marginLeft: 10}}><Text style={comStyles.whiteTxtStyle}>{element.modeName}</Text></View>
-                                <View style={{justifyContent: 'flex-end', marginRight: 10}}><Text style={comStyles.whiteTxtStyle}>{element.modeType}</Text></View>
+                                {/* <View style={{justifyContent: 'flex-end', marginRight: 10}}><Text style={comStyles.whiteTxtStyle}>{element.modeType}</Text></View> */}
                             </View>
                             <View style={{flex: 1, flexDirection: 'column', backgroundColor: backgroundColor}}>{itemDetails}</View>
                         </View>

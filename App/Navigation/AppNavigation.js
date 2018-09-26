@@ -272,26 +272,6 @@ const DrawerStack = StackNavigator({
     transitionConfig,
     headerMode:'none'
   });
-// const DrawerStack = SwitchNavigator({
-//     CaptainDashboardScreen: {
-//       screen: CaptainDashboardScreen,
-//       navigationOptions: ({ navigation }) => ({
-//               headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
-//               shadowOffset:{width: 0, height: 3},
-//               shadowOpacity: 0.3 },
-//               headerTitle: 'Dashboard',
-//               headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
-//           headerTintColor: 'white'
-//       })
-//     },
-//     BeforeModeSelectionStack: { screen: BeforeModeSelectionStack },
-//     AfterModeSelectionStack: { screen: AfterModeSelectionStack },
-//     CaptainStack: { screen: CaptainStack },
-//     ExistingOrderStack: {screen: ExistingOrderStack}
-//   }, {
-//       initialRouteName: "CaptainDashboardScreen",
-//       transitionConfig,
-//       headerMode:'none'
-//     });
+
 
 export default DrawerStack;
