@@ -86,7 +86,7 @@ class ModifyCustomerScreen extends Component {
     
     customerInfoFields.forEach(element => {
       children.push(
-        <TextBoxMaterial
+        <TextBoxMaterial tintColor="#039be5"
           label={element.label}
           value={element.value}
           isDisabled={element.type==='customerID'? true: this.props.deleteCustomer}

@@ -86,11 +86,12 @@ class AppSettingsComponent extends React.Component {
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
                 <Content style={{ marginLeft: 2 + '%' }}>
                     <TextBoxMaterial
+                    tintColor="#039be5"
                         label="IP Address"
                         value={this.props.ipAddress}
                         changeField={this.changeField.bind(this)}
                         type="ip" />
-                    <TextBoxMaterial
+                    <TextBoxMaterial tintColor="#039be5"
                         label="Port"
                         value={this.props.port}
                         changeField={this.changeField.bind(this)}

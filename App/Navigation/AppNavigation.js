@@ -15,6 +15,7 @@ import ExistingOrderDashboard from '../Containers/ExistingOrderDashboard';
 import CaptainOrderView from '../Containers/CaptainOrderView';
 import AppSettingsScreen from "../Containers/AppSettings";
 import LoginScreen from "../Containers/LoginScreen";
+import RegisterScreen from "../Containers/RegisterScreen";
 const transitionConfig = () => {
   return {
     transitionSpec: {
@@ -225,13 +226,39 @@ const CaptainStack = StackNavigator({
     LoginScreen: {
       screen: LoginScreen,
       navigationOptions: ({ navigation }) => ({
+        headerStyle: {
+        backgroundColor: '#3949ab',
+        shadowColor:'#000',
+        shadowOffset:{
+          width: 0, 
+          height: 3
+        },
+        height:0+'%',
+        shadowOpacity: 0.3 
+        },
+        // headerTitle: 'Log in',
+        // headerTitleStyle:
+        //  { 
+        //    alignSelf: 'flex-end', 
+        //    color: 'white', 
+        //    marginBottom: 14, 
+        //    fontWeight: 'bold', 
+        //    fontSize: 30 
+        //   },
+        // headerTintColor: 'white',
+      })
+    },
+    RegisterScreen: {
+      screen: RegisterScreen,
+      navigationOptions: ({ navigation }) => ({
         headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
         shadowOffset:{width: 0, height: 3},
         shadowOpacity: 0.3 },
-        headerTitle: 'Log in',
+        headerTitle: 'Register',
         headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
         headerTintColor: 'white',
-      })
+        headerLeft: null
+  })
     },
     AppSettingsScreen:{
       screen: AppSettingsScreen,

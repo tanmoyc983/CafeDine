@@ -37,6 +37,23 @@ export const saveNewCustomer = (objUser) => {
      });
     }
 
+export const RegisterCaptain = (objUser) => {
+  return fetch(baseUrl+'onesta/customer/createCaptain', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(objUser),
+      }).then((response) => {
+        return response.json();
+      }).then(responseJson => {  
+        return responseJson;     
+      }).catch(err => {
+        console.log(err);
+      });
+    }
+
 export const setMenuItems=()=>{
       return fetch(baseUrl+'onesta/item/all')
           .then(res => { return res.json() })

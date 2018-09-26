@@ -1,79 +1,27 @@
 import React, { Component } from 'react';
-import { Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { connect } from 'react-redux';
-import Styles from './Styles/LaunchScreenStyles';
-import { Card, View, Right, Container, Content, CardItem, Button, Item, Input } from "native-base";
-import TextBoxMaterial from "../Components/TextBox";
-import ReduxActions from "../Redux/ActionTypes/Action";
-import { NavigationActions } from 'react-navigation';
+import { Container, Header, Tab, Tabs, TabHeading, Icon, Text, StyleSheet } from 'native-base';
+import LoginPageComponent from './LoginTab';
+import RegisterScreen from './RegisterScreen';
 
-class LoginPageComponent extends Component {
+class LoginRegisterTab extends Component {
     constructor() {
         super();
     }
-    changeField(changedText, type) {
-        if (type === "userid") {
-            this.props.dispatch({ type: ReduxActions.SETADMIN_USERID, userID: changedText });
-        }
-        else if (type === "password") {
-            this.props.dispatch({ type: ReduxActions.SETADMIN_PASSWORD, adminPassword: changedText });
-        }
-    }
-    onButtonPress() {  
-        this.props.navigation.navigate("AppSettingsScreen");
-    }
-    render() {
-        return (
-            <Container>
-                <View style={Styles.mainContainer}>
-                    <Content style={{ marginLeft: 2 + '%', marginRight: 2 + '%' }}>
-                        <TextBoxMaterial
-                            label="User ID"
-                            value={this.props.userID}
-                            changeField={this.changeField.bind(this)}
-                            type="userid" />
-                        <TextBoxMaterial
-                            label="Password"
-                            value={this.props.adminPassword}
-                            changeField={this.changeField.bind(this)}
-                            type="password" />
-
-                        <TouchableOpacity style={styles.buttonContainer}
-                            onPress={this.onButtonPress.bind(this)}>
-                            <Text style={styles.buttonText}>LOGIN</Text>
-                        </TouchableOpacity>
-                    </Content>
-                </View>
-            </Container>
-        )
-    }
+  render() {
+    return (
+      <Container>
+        <Header hasTabs/>
+        <Tabs>
+          <Tab heading={ <TabHeading><Text style={{fontSize: 20}}>Login</Text></TabHeading>}>
+            <LoginPageComponent />
+          </Tab>
+          <Tab heading={ <TabHeading><Text style={{fontSize: 20}}>Register</Text></TabHeading>}>
+            <RegisterScreen />
+          </Tab>
+          
+        </Tabs>
+      </Container>
+    );
+  }
 }
-const styles = StyleSheet.create({
-    container: {
-        padding: 20
-    },
-    input: {
-        height: 40,
-        backgroundColor: 'rgba(225,225,225,0.2)',
-        marginBottom: 10,
-        padding: 10,
-        color: '#fff'
-    },
-    buttonContainer: {
-        backgroundColor: '#2980b6',
-        paddingVertical: 15
-    },
-    buttonText: {
-        color: '#fff',
-        textAlign: 'center',
-        fontWeight: '700'
-    }
-})
-const mapStateToProps = (state) => {
-    return {
-        userID: state.DashBoardReducer.userID,
-        adminPassword: state.DashBoardReducer.adminPassword
-    };
-}
-
-export default connect(mapStateToProps, null)(LoginPageComponent)
+export default LoginRegisterTab;
