@@ -4,6 +4,9 @@ import { addNavigationHelpers,NavigationActions } from 'react-navigation'
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers'
 import { connect } from 'react-redux'
 import AppNavigation from './AppNavigation'
+import signalr from 'react-native-signalr';
+import {Toast} from 'native-base';
+import ReduxActions from "../Redux/ActionTypes/Action";
 
 class ReduxNavigation extends React.Component {
   componentWillMount () {
@@ -29,6 +32,60 @@ class ReduxNavigation extends React.Component {
     }      
     })
   }
+  componentDidMount(){
+    const connection = signalr.hubConnection('http://10.31.101.118:8080/signalr/hubs');
+    connection.logging = true;
+
+    const proxy = connection.createHubProxy('PushNotificationHub');
+    //receives broadcast messages from a hub function, called "helloApp"    
+    proxy.on('OrderPlaced', (response) => {
+      debugger;
+      this.props.dispatch({ type: ReduxActions.UPDATE_NOTIFICATON_COUNT, count: this.props.notificationCount+1});  
+      Toast.show({
+        text: 'OrderNumber :' + response.OrderNumber +"\t"+"Submitted On"+response.CreatedDateTime,
+        textStyle: { fontSize: 25, fontFamily:'Avenir-Black',fontWeight:'bold' },
+        duration: 2000,
+        buttonTextStyle:{fontSize: 20, fontFamily:'Avenir-Black'},
+        buttonText: "Okay",
+        type: "success"
+     })
+      //Alert.alert('OrderNumber :' + response.OrderNumber +"\t"+"Submitted On"+response.CreatedDateTime);
+      //Here I could response by calling something else on the server...
+    });
+
+    // atempt connection, and handle errors
+    connection.start().done(() => {
+      //Alert.alert('Now connected, connection ID=' + connection.id);
+
+      // proxy.invoke('helloServer', 'Hello Server, how are you?')
+      //   .done((directResponse) => {
+      //     console.log('direct-response-from-server', directResponse);
+      //   }).fail(() => {
+      //     console.warn('Something went wrong when calling server, it might not be up and running?')
+      //   });
+
+    }).fail(() => {
+      Alert.alert('Failed');
+    });
+
+    //connection-handling
+    connection.connectionSlow(() => {
+      Alert.alert('Onesta currently experiencing difficulties with the connection.')
+    });
+
+    connection.error((error) => {
+      const errorMessage = error.message;
+      let detailedError = '';
+      if (error.source && error.source._response) {
+        detailedError = error.source._response;
+      }
+      if (detailedError === 'An SSL error has occurred and a secure connection to the server cannot be made.') {
+        Alert.alert('When using react-native-signalr on ios with http remember to enable http in App Transport Security https://github.com/olofd/react-native-signalr/issues/14')
+      }
+      Alert.alert('SignalR error: ' + errorMessage, detailedError)
+    });
+    
+  }
 
   componentWillUnmount () {
     if (Platform.OS === 'ios') return
@@ -40,5 +97,5 @@ class ReduxNavigation extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ nav: state.nav })
+const mapStateToProps = state => ({ nav: state.nav ,notificationCount: state.RealtimeReducer.notificatioCount})
 export default connect(mapStateToProps)(ReduxNavigation)

@@ -1,3 +1,4 @@
+import React from "react";
 import {Animated, Easing } from 'react-native';
 import { StackNavigator} from 'react-navigation';
 import LaunchScreen from '../Containers/LaunchScreen';
@@ -16,6 +17,8 @@ import CaptainOrderView from '../Containers/CaptainOrderView';
 import AppSettingsScreen from "../Containers/AppSettings";
 import LoginScreen from "../Containers/LoginScreen";
 import RegisterScreen from "../Containers/RegisterScreen";
+import RightHeader from "../Components/headerRight";
+
 const transitionConfig = () => {
   return {
     transitionSpec: {
@@ -67,10 +70,11 @@ const BeforeModeSelectionStack = StackNavigator({
   LaunchScreen: {
     screen: LaunchScreen,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
+      headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
       shadowOffset:{width: 0, height: 3},
       shadowOpacity: 0.3 },
       headerTitle: 'Search Customer',
+      headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
       headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
       headerTintColor: 'white',
       headerLeft: null
@@ -79,10 +83,11 @@ const BeforeModeSelectionStack = StackNavigator({
   CustomerScreen: {
     screen: CustomerScreen,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
+      headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
       shadowOffset:{width: 0, height: 3},
       shadowOpacity: 0.3 },
       headerTitle: 'Customer Details',
+      headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
       headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
       headerTintColor: 'white'
 })
@@ -90,10 +95,11 @@ const BeforeModeSelectionStack = StackNavigator({
   FloorScreen: {
     screen: FloorScreen,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
+      headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
       shadowOffset:{width: 0, height: 3},
       shadowOpacity: 0.3 },
       headerTitle: 'Floors',
+      headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
       headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
       headerTintColor: 'white',
     })
@@ -101,9 +107,10 @@ const BeforeModeSelectionStack = StackNavigator({
   ModeSelectionScreen: {
     screen: ModeSelectionScreen,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
+      headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
       shadowOffset:{width: 0, height: 3},
       shadowOpacity: 0.3 },
+      headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
       headerTitle: 'Select Modes',
       headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
       headerTintColor: 'white',
@@ -118,7 +125,7 @@ const AfterModeSelectionStack = StackNavigator({
   OrderScreen: {
     screen: OrderScreen,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
+      headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
       shadowOffset:{width: 0, height: 3},
       shadowOpacity: 0.3 },
       headerTitle: 'Order Details',
@@ -130,7 +137,7 @@ const AfterModeSelectionStack = StackNavigator({
   MenuItemsScreen: {
     screen: MenuItemsScreen,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
+      headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
       shadowOffset:{width: 0, height: 3},
       shadowOpacity: 0.3 },
       headerTitle: 'Menu Items',
@@ -141,7 +148,7 @@ const AfterModeSelectionStack = StackNavigator({
   ReviewOrderScreen: {
     screen: ReviewOrderScreen,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
+      headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
       shadowOffset:{width: 0, height: 3},
       shadowOpacity: 0.3 },
       headerTitle: 'Review Order',
@@ -152,7 +159,7 @@ const AfterModeSelectionStack = StackNavigator({
   CheckoutOrderScreen: {
     screen: CheckoutOrderScreen,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
+      headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
       shadowOffset:{width: 0, height: 3},
       shadowOpacity: 0.3 },
       headerTitle: 'Checkout Order',
@@ -166,10 +173,11 @@ const CaptainStack = StackNavigator({
   SearchCustomerScreen: {
     screen: SearchCustomerScreen,
     navigationOptions: ({ navigation }) => ({
-      headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
+      headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
       shadowOffset:{width: 0, height: 3},
       shadowOpacity: 0.3 },
       headerTitle: 'Search Customer',
+      headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
       headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
       headerTintColor: 'white',
       headerLeft: null
@@ -178,10 +186,11 @@ const CaptainStack = StackNavigator({
       ModifyCustomerScreen: {
       screen: ModifyCustomerScreen,
       navigationOptions: ({ navigation }) => ({
-        headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
+        headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
         shadowOffset:{width: 0, height: 3},
         shadowOpacity: 0.3 },
         headerTitle: 'Modify Customer',
+        headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
         headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
         headerTintColor: 'white'
       })
@@ -196,10 +205,11 @@ const CaptainStack = StackNavigator({
     ExistingOrderDashboard:{
       screen: ExistingOrderDashboard,
       navigationOptions: ({ navigation }) => ({
-        headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
+        headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
         shadowOffset:{width: 0, height: 3},
         shadowOpacity: 0.3 },
         headerTitle: 'Existing Order Details',
+        headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
         headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
         headerTintColor: 'white',
         headerLeft: null
@@ -208,10 +218,11 @@ const CaptainStack = StackNavigator({
     CaptainOrderView:{
       screen: CaptainOrderView,
       navigationOptions: ({ navigation }) => ({
-        headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
+        headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
         shadowOffset:{width: 0, height: 3},
         shadowOpacity: 0.3 },
         headerTitle: 'Order Details',
+        headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
         headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
         headerTintColor: 'white',
       })
@@ -227,7 +238,7 @@ const CaptainStack = StackNavigator({
       screen: LoginScreen,
       navigationOptions: ({ navigation }) => ({
         headerStyle: {
-        backgroundColor: '#3949ab',
+        backgroundColor: '#1C227E',
         shadowColor:'#000',
         shadowOffset:{
           width: 0, 
@@ -235,35 +246,13 @@ const CaptainStack = StackNavigator({
         },
         height:0+'%',
         shadowOpacity: 0.3 
-        },
-        // headerTitle: 'Log in',
-        // headerTitleStyle:
-        //  { 
-        //    alignSelf: 'flex-end', 
-        //    color: 'white', 
-        //    marginBottom: 14, 
-        //    fontWeight: 'bold', 
-        //    fontSize: 30 
-        //   },
-        // headerTintColor: 'white',
+        }
       })
-    },
-    RegisterScreen: {
-      screen: RegisterScreen,
-      navigationOptions: ({ navigation }) => ({
-        headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
-        shadowOffset:{width: 0, height: 3},
-        shadowOpacity: 0.3 },
-        headerTitle: 'Register',
-        headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
-        headerTintColor: 'white',
-        headerLeft: null
-  })
     },
     AppSettingsScreen:{
       screen: AppSettingsScreen,
       navigationOptions: ({ navigation }) => ({
-        headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
+        headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
         shadowOffset:{width: 0, height: 3},
         shadowOpacity: 0.3 },
         headerTitle: 'Set IP address and Port',
@@ -281,10 +270,11 @@ const DrawerStack = StackNavigator({
   CaptainDashboardScreen: {
     screen: CaptainDashboardScreen,
     navigationOptions: ({ navigation }) => ({
-            headerStyle: { backgroundColor: '#3949ab',shadowColor:'#000',
+            headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
             shadowOffset:{width: 0, height: 3},
             shadowOpacity: 0.3 },
             headerTitle: 'Dashboard',
+            headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
             headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
         headerTintColor: 'white'
     })

@@ -4,18 +4,23 @@ import TextBoxMaterial from "../Components/TextBox";
 import { Images } from '../Themes';
 import { connect } from 'react-redux';
 import styles from './Styles/LaunchScreenStyles';
-import {Button,Toast,Content } from 'native-base';
+import { Button, Toast, Content, DatePicker } from 'native-base';
 import SagaActions from "../Sagas/ActionTypes/Action";
 import ReduxActions from "../Redux/ActionTypes/Action";
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import comStyles, { customerIconColor } from './Styles/CommonStyles';
-
+import comStyles, { customerIconColor, dropdownColor, defaultTxtColor } from './Styles/CommonStyles';
+import { Dropdown } from 'react-native-material-dropdown';
 class Customer extends React.Component {
 
-  constructor() {
-    super();
-  }
+  constructor(props) {
+    super(props);
 
+    this.state = { chosenDate: new Date() };
+    this.setDate = this.setDate.bind(this);
+  }
+  setDate(newDate) {
+    this.setState({ chosenDate: newDate });
+  }
   componentWillMount() {
     if (this.props.loginSuccess === 'searching') { }
   }
@@ -91,34 +96,108 @@ class Customer extends React.Component {
       { label: "Phone Number", value: this.props.PhoneNumber.toString(), type: "customerID" },
       { label: "Customer Name", value: this.props.customer.customerName, type: "customerName" },
       { label: "EmailID", value: this.props.customer.email, type: "email" },
+      { label: "Gender", value: this.props.customer.gender, type: "gender" },
+      { label: "Date of Birth", value: this.props.customer.dob, type: "dob" },
       { label: "Address", value: this.props.customer.address, type: "address" },
       { label: "City", value: this.props.customer.city, type: "city" },
       { label: "State", value: this.props.customer.state, type: "state" }
-    ]
+    ];
+    let genderList = [
+      { value: 'Male' },
+      { value: 'Female' },
+      { value: 'Others' }
+    ];
 
     let children = [];
 
     customerInfoFields.forEach(element => {
-      children.push(
-        // <TextBoxMaterial tintColor="#039be5"
-        //   label={element.label}
-        //   value={element.value}
-        //   isDisabled={this.props.loginSuccess === 'success' ? true : false}
-        //   changeField={this.changeField.bind(this, element.type)}
-        //   type={element.type}
-        // />
-        <View style={{flex: 1, flexDirection:'row', padding: 5}}>
+      if (element.label == 'Gender') {
+        children.push(
+          // <TextBoxMaterial
+          //   label={element.label}
+          //   value={element.value}
+          //   isDisabled={this.props.loginSuccess === 'success' ? true : false}
+          //   changeField={this.changeField.bind(this, element.type)}
+          //   type={element.type}
+          // />
+          <View style={{ flex: 1, flexDirection: 'row', padding: 5 }}>
             <View style={[comStyles.customerView, comStyles.customerBorderLeft]}>
-                <TextBoxMaterial tintColor="#039be5" style={comStyles.customerTxtStyle} label={element.label} isDisabled='true'/>
+              <TextBoxMaterial style={comStyles.customerTxtStyle} label={element.label} isDisabled='true' />
             </View>
             <View style={[comStyles.customerView, comStyles.customerBorderRight]}>
-                <TextBoxMaterial tintColor="#039be5" style={comStyles.customerTxtStyle} tintColor= '#EEEEEE' value={element.value}   isDisabled={this.props.loginSuccess === 'success' ? true : false}
-                changeField={this.changeField.bind(this, element.type)} type={element.type}/>
+              <Dropdown style={{ justifyContent: 'flex-start' }}
+                dropdownPosition={0}
+                textColor={defaultTxtColor}
+                itemColor={dropdownColor}
+                isDisabled={this.props.loginSuccess === 'success' ? true : false}
+                baseColor={dropdownColor}
+                containerStyle={{ color: dropdownColor }}
+                overlayStyle={{ color: dropdownColor }}
+                labelFontSize={25}
+                fontSize={25}
+                value={element.value}
+                type={element.type}
+                onChangeText={this.changeField.bind(this, element.type)}
+                baseColor={dropdownColor}
+                data={genderList} />
             </View>
-        </View>
-      )
+          </View>
+        )
+
+      } else if (element.label == "Date of Birth") {
+        children.push(
+          <View style={{ flex: 1, flexDirection: 'row', padding: 5 }}>
+            <View style={[comStyles.customerView, comStyles.customerBorderLeft]}>
+              <TextBoxMaterial style={comStyles.customerTxtStyle} label={element.label} isDisabled='true' />
+            </View>
+            <View style={[comStyles.customerView, comStyles.customerBorderRight]}>
+              <DatePicker style={{flex: 1, justifyContent: 'flex-start' }}
+                minimumDate={new Date(1900, 1, 1)}
+                maximumDate={new Date()}
+                locale={"en"}
+                placeHolderText="DD/MM/YYYY"
+                timeZoneOffsetInMinutes={undefined}
+                modalTransparent={false}
+                animationType={"fade"}
+                androidMode={"default"}
+                // placeHolderIcon={<Icon active name="save" size={24} color={customerIconColor} />}
+                textStyle={{ color: defaultTxtColor, fontSize: 25,  marginTop: 30, marginLeft: -10, paddingLeft: -10 }}
+                placeHolderTextStyle={{ color: "#d3d3d3", fontSize: 25, marginTop: 30, marginLeft: -10, paddingLeft: -10  }}
+                onDateChange={this.setDate}
+                labelFontSize={25}
+                fontSize={25}
+                type={element.type}
+                isDisabled={this.props.loginSuccess === 'success' ? true : false}
+              />
+              {/* <Text>
+                Date: {this.state.chosenDate.toString().substr(4, 12)}
+              </Text> */}
+            </View>
+          </View>
+        )
+      }
+      else {
+        children.push(
+          // <TextBoxMaterial
+          //   label={element.label}
+          //   value={element.value}
+          //   isDisabled={this.props.loginSuccess === 'success' ? true : false}
+          //   changeField={this.changeField.bind(this, element.type)}
+          //   type={element.type}
+          // />
+          <View style={{ flex: 1, flexDirection: 'row', padding: 5 }}>
+            <View style={[comStyles.customerView, comStyles.customerBorderLeft]}>
+              <TextBoxMaterial style={comStyles.customerTxtStyle} label={element.label} isDisabled='true' />
+            </View>
+            <View style={[comStyles.customerView, comStyles.customerBorderRight]}>
+              <TextBoxMaterial style={comStyles.customerTxtStyle} tintColor='#EEEEEE' value={element.value} isDisabled={this.props.loginSuccess === 'success' ? true : false}
+                changeField={this.changeField.bind(this, element.type)} type={element.type} />
+            </View>
+          </View>
+        )
+      }
     });
-    if (this.props.customer.customerName !== "" && this.props.PhoneNumber!=="") {
+    if (this.props.customer.customerName !== "" && this.props.PhoneNumber !== "" && this.props.gender !== "" && this.props.dob !== "") {
       inputValidation = false;
     }
     let button;
@@ -129,8 +208,8 @@ class Customer extends React.Component {
           <Text style={comStyles.whiteTxtStyle}>Save</Text>
         </Button>;
     } else {
-      button = <Button style={ comStyles.smButtonStyle } onPress = {this.navigateToFLoor.bind(this)}>
-        <Icon active name="navigate-next" size={24} color={customerIconColor}/>
+      button = <Button style={comStyles.smButtonStyle} onPress={this.navigateToFLoor.bind(this)}>
+        <Icon active name="navigate-next" size={24} color={customerIconColor} />
         <Text style={comStyles.whiteTxtStyle}>Select</Text>
       </Button>
     }
@@ -142,7 +221,7 @@ class Customer extends React.Component {
           <ActivityIndicator size="large" color="red" /></View>}
         {this.props.loginSuccess !== 'searching' &&
           <React.Fragment>
-            <Content style={{paddingBottom: 5}}>
+            <Content style={{ paddingBottom: 5 }}>
               {children}
             </Content>
             <View style={comStyles.flexEnd}>

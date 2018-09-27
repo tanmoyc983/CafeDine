@@ -1,15 +1,15 @@
 import {StyleSheet} from 'react-native'
-import {Fonts, Metrics, Colors} from '../../Themes/'
+import {Fonts, Metrics, Colors} from '../../Themes'
 export var defaultTxtColor = 'black';
 export var accountStarIconColor = '#fbc02d';
 export var borderColor = '#9E9E9E';
 export var backgroundColor = '#EEEEEE'
-export var plusMinusIconColor = '#3848AB';
-export var arrowDropdownIconColor = '#1A237E';
+export var plusMinusIconColor = '#1C227E';
+export var arrowDropdownIconColor = '#1C227E';
 export var customerIconColor = '#FAFAFA';
 export var dropdownColor = '#039be5';
 export var radioColor = '#9575b2';
-export var orderColor  = ['#3949ab', '#f44336', '#00a152', '#ff5722'];
+export var orderColor  = ['#1C227E', '#f44336', '#00a152', '#ff5722'];
 export default StyleSheet.create({
     txtStyle: {
         color: '#42484C',
@@ -39,6 +39,13 @@ export default StyleSheet.create({
         fontFamily: 'Avenir-Book',
         fontWeight: 'bold'
     },
+    pushNotification: {
+        marginLeft: -30,
+        paddingLeft: -20,
+        color: 'red',
+        fontSize: 22,
+        padding: 10
+    },
     blackTxtStyle: {
         color: 'black', 
         fontSize: 22, 
@@ -53,7 +60,7 @@ export default StyleSheet.create({
         alignContent:'space-around',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#3848AB',
+        backgroundColor: '#1C227E',
         borderRadius: 5,
         width: 150,
         height: 50,
@@ -65,7 +72,7 @@ export default StyleSheet.create({
         alignContent:'space-around',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#1A237E'
+        backgroundColor: '#1C227E'
     },
     smCustButtonStyle: {
         height: 30,
@@ -83,9 +90,23 @@ export default StyleSheet.create({
         alignContent:'space-around',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#3848AB',
+        backgroundColor: '#1C227E',
         marginHorizontal: 10,
         color: '#000'
+    },
+    xmButtonStyle: {
+        height: 50,
+        width: 200,
+        padding: 5,
+        flexDirection: 'row',
+        alignContent:'space-around',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#3138a5',
+        marginHorizontal: 10,
+        color: '#000',
+        borderBottomWidth: 1,
+        borderColor: '#FAFAFA'
     },
     customButtonStyle: {
         flex: 1,
@@ -98,13 +119,24 @@ export default StyleSheet.create({
         marginHorizontal: 10
     },
     headerBackgroundStyle: {
-        backgroundColor: '#3848AB',
+        backgroundColor: '#1C227E',
         flex:1,
         flexDirection:'row',
         justifyContent: 'center',
         alignItems: 'center',
         height:60,
-        paddingTop:15,
+        paddingTop:10,
+        elevation:2
+    },
+    contextgroundStyle: {
+        flex:1,
+        flexDirection:'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height:60,
+        paddingTop:5,
+        borderWidth: 1,
+        borderColor: 'black',
         elevation:2
     },
     headerWhitetxtStyle:{
@@ -126,7 +158,7 @@ export default StyleSheet.create({
         color: "#039be5"
     },
     subOrderStyle: {
-        color: "#1A237E"
+        color: "#1C227E"
     },
     colContainer: {
         flex: 1,
@@ -289,4 +321,14 @@ export default StyleSheet.create({
     width15: {
         width: 15 + '%'
     },
+    borderStyle: {
+        borderTopWidth: 0.5,
+        borderBottomWidth:0.5,
+        borderLeftWidth: 0.5,
+        borderRightWidth: 0.5,
+        borderColor: 'black',
+        justifyContent: 'flex-start',
+        paddingLeft: 10,
+        backgroundColor: '#FFFFFF'
+    }
 })

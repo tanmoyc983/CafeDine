@@ -6,7 +6,7 @@ import { Images } from '../Themes';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 import ReduxActions from "../Redux/ActionTypes/Action";
-import comStyles from './Styles/CommonStyles';
+import comStyles,{dropdownColor } from './Styles/CommonStyles';
 import { isNullOrUndefined } from "util";
 import { Toast } from 'native-base';
 
@@ -106,7 +106,7 @@ class CaptainDashboardComponent extends Component {
             <Text style={styles.sectionText}>{CheckIP}</Text>
           </CardItem>
           <CardItem button bordered style={{ cursor: 'pointer' }} onPress={() => this.props.navigation.navigate('LoginStack')}>
-            <Icon active name="settings" size={42} style={{ color: "#039be5" }} />
+            <Icon active name="settings" size={42} style={{ color: dropdownColor  }} />
             <View style={{ width: 80 + '%' }}><Text style={styles.subtitle}>
               Log In
                 </Text></View>
