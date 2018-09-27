@@ -1,15 +1,12 @@
-import React, { Component } from 'react';
-import { Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React from 'react';
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import Styles from './Styles/LaunchScreenStyles';
-import { Card, View, Right, Container, Content, CardItem, Button, Item, Input } from "native-base";
+import { View, Container, Content } from "native-base";
 import TextBoxMaterial from "../Components/TextBox";
 import ReduxActions from "../Redux/ActionTypes/Action";
 
-class LoginPageComponent extends Component {
-    constructor() {
-        super();
-    }
+class LoginPageComponent extends React.Component {
     changeField(changedText, type) {
         if (type === "userid") {
             this.props.dispatch({ type: ReduxActions.SETADMIN_USERID, userID: changedText });

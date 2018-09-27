@@ -1,7 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, Text, View, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
 import { Button } from 'native-base';
-import {h1} from 'react-native-elements';
 import { getImageonType } from "../Utilities/Utility";
 import { Card } from 'react-native-elements';
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -13,7 +12,6 @@ import SagaActions from "../Sagas/ActionTypes/Action";
 import { NavigationActions } from 'react-navigation';
 import comStyles, { customerIconColor, orderColor, backgroundColor } from './Styles/CommonStyles';
 import Modal from "react-native-modal";
-import CheckoutItems from './Checkout/CheckOutItems';
 
 class OrderComponent extends React.Component {
     constructor() {
@@ -65,7 +63,6 @@ class OrderComponent extends React.Component {
     }
 
     updateOrder() {
-        debugger;
         this.props.dispatch({ type: ReduxActions.UPDATE_MODAL })
         // if(typeof this.props.OrderedItems !== 'undefined' && this.props.OrderedItems.length > 0){
         //     let FullOrderDetails= Object.assign({},this.props.Order);
@@ -99,7 +96,6 @@ class OrderComponent extends React.Component {
     }
 
     render() {
-        debugger;
         let orderDetails=[];
         let itemDetails=[];
         if(this.props.OrderedItems !== undefined && this.props.OrderedItems !== '' && this.props.OrderedItems !== null) {

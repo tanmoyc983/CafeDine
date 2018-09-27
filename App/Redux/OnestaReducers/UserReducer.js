@@ -9,14 +9,18 @@ const INITIAL_STATE = Immutable({
     address: "",
     city: "",
     state: "",
-    email: ""
+    email: "",
+    gender: "",
+    dob: ""
   },
   loginDetails: {
     loginSuccess: '',
     PhoneNumber: "",
     searchDisabled: true
   },
-  userRegisteredSuccessfully:false
+  userRegisteredSuccessfully:false,
+  modalVisible: false,
+  alertModalVisible: false 
 });
 
 export const userReducer = (state = INITIAL_STATE, action) => {
@@ -40,7 +44,9 @@ export const userReducer = (state = INITIAL_STATE, action) => {
       address: action.response.address,
       city: action.response.city,
       state: action.response.state,
-      email: action.response.email
+      email: action.response.email,
+      gender: action.response.gender,
+      dob: action.response.dob 
       });
       }
       let UpdatedloginDetails = Object.assign({}, state.loginDetails,{loginSuccess: action.response.customerID ? 'success' : 'failed'});
@@ -63,18 +69,24 @@ export const userReducer = (state = INITIAL_STATE, action) => {
       address: '',
       city: '',
       state: '',
-      email: ''
+      email: '',
+      gender: '',
+      dob: '' 
     });
     return Object.assign({},state,{customer: newCustomer,userRegisteredSuccessfully:true})
     break;
 
     case ReduxActions.FAILED_TO_SAVE_NEW_USER_DETAILS:
     return Object.assign({},state,{userRegisteredSuccessfully:false})
-      break;
 
     case ReduxActions.RESET_USER_DATA:
     return Object.assign({},state,INITIAL_STATE);
-    break;
+
+    case ReduxActions.SHOW_ALERT:
+    return Object.assign({},state,{alertModalVisible: action.visible});
+
+    case ReduxActions.SHOW_MODAL:
+    return Object.assign({},state,{modalVisible: action.visible});
 
     default:
       return Object.assign({}, state);

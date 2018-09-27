@@ -85,16 +85,11 @@ class RegisterScreen extends Component{
                 
                 <TextBoxMaterial tintColor={this.props.confPassValid?confPassColor:"#D50000"} baseColor={this.props.confPassValid?confPassColor:"#D50000"} value= {this.props.captainDetails} changeField = {this.changeConfirmPassword.bind(this)} placeholder='Confirm Password' secureTextEntry={true}/>
 
-                {/* <Button style={ comStyles.smButtonStyle } onPress = {this.registerCaptain.bind(this)}>
-                <Icon active name="navigate-next" size={24} color={'#FAFAFA'}/>
-                <Text style={comStyles.whiteTxtStyle}>Register</Text>
-                </Button> */}
                 <TouchableOpacity style={styles.buttonContainer}
                 onPress={this.registerCaptain.bind(this)}>
                 <Text style={styles.buttonText}>Register</Text>
                 </TouchableOpacity>
                 </Content>
-            {/* </KeyboardAvoidingView> */}
             </Container>
         )
     }
