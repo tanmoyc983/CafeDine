@@ -18,6 +18,9 @@ import AppSettingsScreen from "../Containers/AppSettings";
 import LoginScreen from "../Containers/LoginScreen";
 import RegisterScreen from "../Containers/RegisterScreen";
 import RightHeader from "../Components/headerRight";
+import WelcomeOnesta from '../Containers/Welcome';
+import UserSelection from '../Containers/UserSelection';
+
 
 const transitionConfig = () => {
   return {
@@ -74,7 +77,7 @@ const BeforeModeSelectionStack = StackNavigator({
       shadowOffset:{width: 0, height: 3},
       shadowOpacity: 0.3 },
       headerTitle: 'Search Customer',
-      headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
+      headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Test"></RightHeader>),
       headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
       headerTintColor: 'white',
       headerLeft: null
@@ -87,7 +90,7 @@ const BeforeModeSelectionStack = StackNavigator({
       shadowOffset:{width: 0, height: 3},
       shadowOpacity: 0.3 },
       headerTitle: 'Customer Details',
-      headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
+      headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Test"></RightHeader>),
       headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
       headerTintColor: 'white'
 })
@@ -99,7 +102,7 @@ const BeforeModeSelectionStack = StackNavigator({
       shadowOffset:{width: 0, height: 3},
       shadowOpacity: 0.3 },
       headerTitle: 'Floors',
-      headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
+      headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Test"></RightHeader>),
       headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
       headerTintColor: 'white',
     })
@@ -110,7 +113,7 @@ const BeforeModeSelectionStack = StackNavigator({
       headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
       shadowOffset:{width: 0, height: 3},
       shadowOpacity: 0.3 },
-      headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
+      headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Test"></RightHeader>),
       headerTitle: 'Select Modes',
       headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
       headerTintColor: 'white',
@@ -177,7 +180,7 @@ const CaptainStack = StackNavigator({
       shadowOffset:{width: 0, height: 3},
       shadowOpacity: 0.3 },
       headerTitle: 'Search Customer',
-      headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
+      headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Test"></RightHeader>),
       headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
       headerTintColor: 'white',
       headerLeft: null
@@ -190,7 +193,7 @@ const CaptainStack = StackNavigator({
         shadowOffset:{width: 0, height: 3},
         shadowOpacity: 0.3 },
         headerTitle: 'Modify Customer',
-        headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
+        headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Test"></RightHeader>),
         headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
         headerTintColor: 'white'
       })
@@ -209,7 +212,7 @@ const CaptainStack = StackNavigator({
         shadowOffset:{width: 0, height: 3},
         shadowOpacity: 0.3 },
         headerTitle: 'Existing Order Details',
-        headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
+        headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Test"></RightHeader>),
         headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
         headerTintColor: 'white',
         headerLeft: null
@@ -222,7 +225,7 @@ const CaptainStack = StackNavigator({
         shadowOffset:{width: 0, height: 3},
         shadowOpacity: 0.3 },
         headerTitle: 'Order Details',
-        headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
+        headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Test"></RightHeader>),
         headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
         headerTintColor: 'white',
       })
@@ -232,8 +235,48 @@ const CaptainStack = StackNavigator({
       transitionConfig
     }
   );
-
+  const AppSettingsStack= StackNavigator({
+    AppSettingsScreen:{
+      screen: AppSettingsScreen,
+      navigationOptions: ({ navigation }) => ({
+        headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
+        shadowOffset:{width: 0, height: 3},
+        shadowOpacity: 0.3 },
+        headerTitle: 'Set IP address and Port',
+        headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
+        headerTintColor: 'white',
+        headerLeft: null
+      })
+    }
+  });
+  const UserSelectionStack= StackNavigator({
+    UserSelection:{
+      screen: UserSelection,
+      navigationOptions: ({ navigation }) => ({
+        headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
+        shadowOffset:{width: 0, height: 3},
+        shadowOpacity: 0.3 },
+        headerTitle: 'User Selection Mode',
+        headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Test"></RightHeader>),
+        headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
+        headerTintColor: 'white',
+        headerLeft: null
+      })
+    }
+  });
   const LoginStack= StackNavigator({
+    // AppSettingsScreen:{
+    //   screen: AppSettingsScreen,
+    //   navigationOptions: ({ navigation }) => ({
+    //     headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
+    //     shadowOffset:{width: 0, height: 3},
+    //     shadowOpacity: 0.3 },
+    //     headerTitle: 'Set IP address and Port',
+    //     headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
+    //     headerTintColor: 'white',
+    //     headerLeft: null
+    //   })
+    // },
     LoginScreen: {
       screen: LoginScreen,
       navigationOptions: ({ navigation }) => ({
@@ -249,43 +292,34 @@ const CaptainStack = StackNavigator({
         }
       })
     },
-    AppSettingsScreen:{
-      screen: AppSettingsScreen,
-      navigationOptions: ({ navigation }) => ({
-        headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
-        shadowOffset:{width: 0, height: 3},
-        shadowOpacity: 0.3 },
-        headerTitle: 'Set IP address and Port',
-        headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
-        headerTintColor: 'white',
-        headerLeft: null
-      })
-    }
-  },{
-    initialRouteName: 'LoginScreen',
-    transitionConfig
+    
   })
-
+  // CaptainDashboardScreen
 const DrawerStack = StackNavigator({
-  CaptainDashboardScreen: {
-    screen: CaptainDashboardScreen,
+  WelcomeOnesta: {
+    screen: WelcomeOnesta,
     navigationOptions: ({ navigation }) => ({
-            headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
-            shadowOffset:{width: 0, height: 3},
-            shadowOpacity: 0.3 },
-            headerTitle: 'Dashboard',
-            headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Animesh"></RightHeader>),
-            headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
-        headerTintColor: 'white'
+        //     headerStyle: { backgroundColor: '#1C227E',shadowColor:'#000',
+        //     shadowOffset:{width: 0, height: 3},
+        //     shadowOpacity: 0.3 },
+        //     headerTitle: 'Dashboard',
+        //     headerRight: (<RightHeader navigation={navigation} alertNo="3" captainName="Test"></RightHeader>),
+        //     headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
+        // headerTintColor: 'white'
     })
   },
   BeforeModeSelectionStack: { screen: BeforeModeSelectionStack },
   AfterModeSelectionStack: { screen: AfterModeSelectionStack },
   CaptainStack: { screen: CaptainStack },
   ExistingOrderStack: {screen: ExistingOrderStack},
-  LoginStack: { screen: LoginStack}
+  AppSettingsStack: { screen: AppSettingsStack},
+  LoginStack: { screen: LoginStack},
+  UserSelectionStack: { screen: UserSelectionStack},
+  CaptainDashboardScreen: { screen: CaptainDashboardScreen },
+  // WelcomeOnesta: {screen: WelcomeOnesta},
+  UserSelection: {screen: UserSelection},
 }, {
-    initialRouteName: "CaptainDashboardScreen",
+    initialRouteName: "WelcomeOnesta",
     transitionConfig,
     headerMode:'none'
   });

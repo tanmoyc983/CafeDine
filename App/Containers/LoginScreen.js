@@ -17,10 +17,10 @@ class LoginRegisterTab extends React.Component {
     // }
 }
 onButtonPress() {  
-    this.props.navigation.navigate("AppSettingsScreen");
+    this.props.navigation.navigate("UserSelectionStack");
 }
 onRegister(){
-    this.props.navigation.navigate("RegisterScreen");
+    this.props.navigation.navigate("LoginStack");
 }
 
 changeCaptainId(input){

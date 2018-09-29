@@ -11,32 +11,33 @@ import { isNullOrUndefined } from "util";
 import { Toast } from 'native-base';
 
 class CaptainDashboardComponent extends Component {
-  async GetIP_Port() {
-    try {
-      const IPAddress = await AsyncStorage.getItem('IP');
-      const Port = await AsyncStorage.getItem('Port');
-      this.props.dispatch({ type: ReduxActions.GET_IP_ADDRESS, IP: isNullOrUndefined(IPAddress) ? "" : IPAddress });
-      this.props.dispatch({ type: ReduxActions.GET_PORT, PortAddress: isNullOrUndefined(Port) ? "" : Port });
-      return true;
-    } catch (error) {
-      // Error retrieving data
-      console.log(error.message);
-      return false;
-    }
-  }
+  // async GetIP_Port() {
+  //   try {
+  //     const IPAddress = await AsyncStorage.getItem('IP');
+  //     const Port = await AsyncStorage.getItem('Port');
+  //     this.props.dispatch({ type: ReduxActions.GET_IP_ADDRESS, IP: isNullOrUndefined(IPAddress) ? "" : IPAddress });
+  //     this.props.dispatch({ type: ReduxActions.GET_PORT, PortAddress: isNullOrUndefined(Port) ? "" : Port });
+  //     return true;
+  //   } catch (error) {
+  //     // Error retrieving data
+  //     console.log(error.message);
+  //     return false;
+  //   }
+  // }
 
   ValidateAPIEndpoint(event, val) {
     if (isNullOrUndefined(this.props.ipAddress) || isNullOrUndefined(this.props.port)
       || this.props.ipAddress === "" || this.props.port === "") {
-      Toast.show({
-        text: "Please provide ip details before proceeding!",
-        textStyle: { fontSize: 25, fontFamily: 'Avenir-Black' },
-        duration: 2000,
-        position: "bottom",
-        buttonTextStyle: { fontSize: 20, fontFamily: 'Avenir-Black' },
-        buttonText: "Ok",
-        type: "danger"
-      });
+      // Toast.show({
+      //   text: "Please provide ip details before proceeding!",
+      //   textStyle: { fontSize: 25, fontFamily: 'Avenir-Black' },
+      //   duration: 2000,
+      //   position: "bottom",
+      //   buttonTextStyle: { fontSize: 20, fontFamily: 'Avenir-Black' },
+      //   buttonText: "Ok",
+      //   type: "danger"
+      // });
+      this.props.navigation.navigate('AppSettingsStack');
     } else {
       if (val === "NewOrder") {
         this.props.navigation.navigate('BeforeModeSelectionStack');
@@ -52,14 +53,14 @@ class CaptainDashboardComponent extends Component {
 
 
   render() {
-    this.GetIP_Port();
-    console.log(this.props.ipAddress, this.props.port);
-    let CheckIP = '';
-    if (this.props.ipAddress === null || this.props.ipAddress === "" || this.props.port === null || this.props.port === "") {
-      CheckIP = 'IP Configuration';
-    } else {
-      CheckIP = 'Change IP';
-    }
+    // this.GetIP_Port();
+    // console.log(this.props.ipAddress, this.props.port);
+    // let CheckIP = '';
+    // if (this.props.ipAddress === null || this.props.ipAddress === "" || this.props.port === null || this.props.port === "") {
+    //   CheckIP = 'IP Configuration';
+    // } else {
+    //   CheckIP = 'Change IP';
+    // }
     return (
         <View style={styles.mainContainer}>
        <View style= {comStyles.headerBackgroundStyle}>
@@ -102,7 +103,7 @@ class CaptainDashboardComponent extends Component {
                 <Icon active size={42} name="arrow-forward" />
           </View>
       </CardItem>
-          <CardItem header bordered>
+          {/* <CardItem header bordered>
             <Text style={styles.sectionText}>{CheckIP}</Text>
           </CardItem>
           <CardItem button bordered style={{ cursor: 'pointer' }} onPress={() => this.props.navigation.navigate('LoginStack')}>
@@ -113,7 +114,7 @@ class CaptainDashboardComponent extends Component {
             <View style={{ width: 10 + '%' }}>
               <Icon active size={42} name="arrow-forward" />
             </View>
-          </CardItem>
+          </CardItem> */}
         </Card>
       </View>
     )
