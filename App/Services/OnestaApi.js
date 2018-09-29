@@ -38,7 +38,8 @@ export const saveNewCustomer = (objUser) => {
     }
 
 export const RegisterCaptain = (objUser) => {
-  return fetch(baseUrl+'onesta/customer/createCaptain', {
+  debugger;
+  return fetch(baseUrl+'onesta/captain/create', {
         method: 'POST',
         headers: {
           Accept: 'application/json',

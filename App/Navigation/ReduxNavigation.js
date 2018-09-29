@@ -65,7 +65,7 @@ class ReduxNavigation extends React.Component {
       //   });
 
     }).fail(() => {
-      Alert.alert('Failed');
+      //Alert.alert('Failed');
     });
 
     //connection-handling
@@ -82,7 +82,7 @@ class ReduxNavigation extends React.Component {
       if (detailedError === 'An SSL error has occurred and a secure connection to the server cannot be made.') {
         Alert.alert('When using react-native-signalr on ios with http remember to enable http in App Transport Security https://github.com/olofd/react-native-signalr/issues/14')
       }
-      Alert.alert('SignalR error: ' + errorMessage, detailedError)
+      //Alert.alert('SignalR error: ' + errorMessage, detailedError)
     });
     
   }

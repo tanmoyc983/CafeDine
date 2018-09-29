@@ -1,6 +1,5 @@
 import Immutable from 'seamless-immutable';
 import ReduxActions from "../ActionTypes/Action";
-import {Toast } from 'native-base';
 
 const INITIAL_STATE = Immutable({
   customer: {

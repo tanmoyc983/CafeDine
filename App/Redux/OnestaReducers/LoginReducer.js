@@ -1,5 +1,6 @@
 import Immutable from 'seamless-immutable';
 import ReduxActions from "../ActionTypes/Action";
+import {Toast } from 'native-base';
 
 const INITIAL_STATE = Immutable({   
     captainDetails:{
@@ -11,7 +12,8 @@ const INITIAL_STATE = Immutable({
     captainIdValid:true,
     nameValid:true,
     passValid:true,
-    confPassValid:true
+    confPassValid:true,
+    captainRegisteredSuccessfully:false,
 });
 
 export const loginReducer = (state = INITIAL_STATE, action) => {
@@ -33,6 +35,22 @@ export const loginReducer = (state = INITIAL_STATE, action) => {
 
         case ReduxActions.SET_COLOR_CONFPASS:
         return Object.assign({}, state, {confPassValid: action.isCorrect})
+
+        case ReduxActions.CAPTAIN_REGISTERED_SUCCESSFULLY:
+        let newcaptain =  Object.assign({}, state.customer,{
+            MobileNumber:'',
+            Name:'',
+            Password:''
+        });
+            Toast.show({
+                text: 'Register Successfully, Please login with your registered ID & Password.',
+                textStyle: { fontSize: 25, fontFamily:'Avenir-Black',fontWeight:'bold' },
+                duration: 2000,
+                buttonTextStyle:{fontSize: 20, fontFamily:'Avenir-Black'},
+                buttonText: "Okay",
+                type: "success"
+        })
+        return Object.assign({},state,{captainDetails:newcaptain,captainRegisteredSuccessfully:true});
 
         default:
         return Object.assign({},state);

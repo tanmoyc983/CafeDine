@@ -5,16 +5,22 @@ import TextBoxMaterial from "../Components/TextboxMaterial";
 import { connect } from "react-redux";
 import Styles from './Styles/LaunchScreenStyles';
 import comStyles from './Styles/CommonStyles';
+import sha256 from 'crypto-js/sha256';
+import SagaActions from "../Sagas/ActionTypes/Action";
+import hmacSHA512  from 'crypto-js/hmac-sha512';
+import Base64 from 'crypto-js/enc-base64';
+import ReduxActions from "../Redux/ActionTypes/Action";
+import Icon from 'react-native-vector-icons/Entypo';
 
 class LoginRegisterTab extends React.Component {
    
   changeField(changedText, type) {
-    // if (type === "userid") {
-    //     this.props.dispatch({ type: ReduxActions.SETADMIN_USERID, userID: changedText });
-    // }
-    // else if (type === "password") {
-    //     this.props.dispatch({ type: ReduxActions.SETADMIN_PASSWORD, adminPassword: changedText });
-    // }
+    if (type === "userid") {
+        this.props.dispatch({ type: ReduxActions.SETADMIN_USERID, userID: changedText });
+    }
+    else if (type === "password") {
+        this.props.dispatch({ type: ReduxActions.SETADMIN_PASSWORD, adminPassword: changedText });
+    }
 }
 onButtonPress() {  
     this.props.navigation.navigate("AppSettingsScreen");
@@ -24,56 +30,80 @@ onRegister(){
 }
 
 changeCaptainId(input){
-  // if(this.props.captainDetails.MobileNumber.length === 10 && /^[0-9]{1,10}$/.test(this.props.captainDetails.MobileNumber)){
-  //     this.props.dispatch({type: ReduxActions.SET_COLOR_ID, color: "#039be5"})  
-  // }
-  // let tempObj=Object.assign({},this.props.captainDetails);
-  // tempObj.MobileNumber=input;
-  // this.props.dispatch({type: ReduxActions.SET_LOGIN_ID, tempObj: tempObj})
+  if(this.props.captainDetails.MobileNumber.length === 10 && /^[0-9]{1,10}$/.test(this.props.captainDetails.MobileNumber)){
+      this.props.dispatch({type: ReduxActions.SET_COLOR_ID, color: "#039be5"})  
+  }
+  let tempObj=Object.assign({},this.props.captainDetails);
+  tempObj.MobileNumber=input;
+  this.props.dispatch({type: ReduxActions.SET_LOGIN_ID, tempObj: tempObj})
 }
 changeName(input){
-  // let tempObj=Object.assign({},this.props.captainDetails);
-  // tempObj.Name=input;
-  //this.props.dispatch({type: ReduxActions.SET_LOGIN_ID, tempObj: tempObj})
+  let tempObj=Object.assign({},this.props.captainDetails);
+  tempObj.Name=input;
+  this.props.dispatch({type: ReduxActions.SET_LOGIN_ID, tempObj: tempObj})
 }
 registerCaptain(){
-  // if(this.props.captainDetails.MobileNumber.length === 10 && /^[0-9]{1,10}$/.test(this.props.captainDetails.MobileNumber)){
-  //     if(this.props.captainDetails.Name.length>0){
-  //         if(this.props.captainDetails.Password.length>=8){
-  //             if(this.props.confPass===this.props.captainDetails.Password){
-  //                 this.props.dispatch({type: SagaActions.CREATE_CAPTAIN, loginId: this.props.captainDetails})
-  //             }else{this.props.dispatch({type:ReduxActions.SET_COLOR_CONFPASS, isCorrect: false})}
-  //         }else{this.props.dispatch({type:ReduxActions.SET_COLOR_PASS, isCorrect: false})}
-  //     }else{this.props.dispatch({type:ReduxActions.SET_COLOR_NAME, isCorrect: false})}
-  // }else{this.props.dispatch({type:ReduxActions.SET_COLOR_ID, isCorrect: false})}
-  
+  if(this.props.captainDetails.MobileNumber.length === 10 && /^[0-9]{1,10}$/.test(this.props.captainDetails.MobileNumber)){
+      if(this.props.captainDetails.Name.length>0){
+          if(this.props.captainDetails.Password.length>=8){
+              if(this.props.confPass===this.props.captainDetails.Password){
+                debugger;
+                  let tempObj=Object.assign({},this.props.captainDetails);
+                  tempObj.Password=Base64.stringify(hmacSHA512(sha256(tempObj.Password), "thanos"));
+                  this.props.dispatch({type: SagaActions.CREATE_CAPTAIN, captainDetails: tempObj})
+              }else{this.props.dispatch({type:ReduxActions.SET_COLOR_CONFPASS, isCorrect: false})}
+          }else{this.props.dispatch({type:ReduxActions.SET_COLOR_PASS, isCorrect: false})}
+      }else{this.props.dispatch({type:ReduxActions.SET_COLOR_NAME, isCorrect: false})}
+  }else{this.props.dispatch({type:ReduxActions.SET_COLOR_ID, isCorrect: false})}  
 }
-changePassword(input){
 
+changePassword(input){
   let tempObj=Object.assign({},this.props.captainDetails);
   tempObj.Password=input;
-  //this.props.dispatch({type: ReduxActions.SET_LOGIN_ID, tempObj: tempObj})
+  this.props.dispatch({type: ReduxActions.SET_LOGIN_ID, tempObj: tempObj})
 }
 changeConfirmPassword(input){
-  //this.props.dispatch({type:ReduxActions.SET_CONFIRM_PASS, input: input })
+  this.props.dispatch({type:ReduxActions.SET_CONFIRM_PASS, input: input })
 }
   render() {
+    if(this.props.captainDetails.MobileNumber.length === 10 && /^[0-9]{1,10}$/.test(this.props.captainDetails.MobileNumber)){
+      captainIdColor="#039be5";
+  }
+  else if(this.props.captainDetails.MobileNumber.length ===0){
+      captainIdColor="#039be5";
+  }
+  else{
+      captainIdColor='#D50000';
+  }
+  if(this.props.captainDetails.Password.length===0 || this.props.captainDetails.Password.length>=8){
+      passColor="#039be5";
+  }
+  else{
+      passColor="#D50000";
+  }
+  if (this.props.confPass.length===0 || this.props.captainDetails.Password===this.props.confPass){
+      confPassColor="#039be5";
+  }
+  else{
+      confPassColor="#D50000";
+  }
+
     return (
       <Container>
         <Header hasTabs/>
         <Tabs>
-          <Tab heading={ <TabHeading><Text style={comStyles.whiteTxtStyle}>Login</Text></TabHeading>}>
+          <Tab heading={ <TabHeading><Icon name="login" size={30} style={{color:comStyles.customerIconColor}} /><Text style={comStyles.whiteTxtStyle}>Login</Text></TabHeading>}>
           <Container>
                 <View style={Styles.mainContainer}>
                     <Content style={{ marginLeft: 2 + '%', marginRight: 2 + '%' }}>
-                        <TextBoxMaterial tintColor="#039be5"
+                    <TextBoxMaterial tintColor="#039be5"
                             label="User ID"
-                            value={'Test'}
+                            value={this.props.userID}
                             changeField={this.changeField.bind(this)}
                             type="userid" />
                         <TextBoxMaterial tintColor="#039be5"
                             label="Password"
-                            value={'Test'}
+                            value={this.props.adminPassword}
                             changeField={this.changeField.bind(this)}
                             type="password" 
                             secureTextEntry={true}/>
@@ -89,21 +119,20 @@ changeConfirmPassword(input){
                 </View>
             </Container>
           </Tab>
-          <Tab heading={ <TabHeading><Text style={comStyles.whiteTxtStyle}>Register</Text></TabHeading>}>
-          <Container>            
-            <Content style={{ marginLeft: 2 + '%', marginRight: 2 + '%' }}>               
-                <TextBoxMaterial tintColor={"#039be5"} baseColor={"#039be5"} label="User ID" keyboardTextType="numeric"  value= {'Test'} changeField = {this.changeCaptainId.bind(this)} placeholder='Mobile Number'/>
-                <TextBoxMaterial tintColor={"#039be5"} baseColor={"#039be5"} label="User Name"keyboardTextType="default" value= {'Test'} changeField = {this.changeName.bind(this)} placeholder='Name'/>
-                <TextBoxMaterial tintColor={"#D50000"} baseColor={"#D50000"} label="Password" value= {'Test'} changeField = {this.changePassword.bind(this)} placeholder='Password' secureTextEntry={true}/>                
-                <TextBoxMaterial tintColor={"#D50000"} baseColor={"#D50000"} label="Confirm Password" value= {'Test'} changeField = {this.changeConfirmPassword.bind(this)} placeholder='Confirm Password' secureTextEntry={true}/>
-                <TouchableOpacity style={styles.buttonContainer}
-                onPress={this.registerCaptain.bind(this)}>
-                <Text style={styles.buttonText}>Register</Text>
-                </TouchableOpacity>
-                </Content>
+          <Tab  heading={ <TabHeading><Icon name="add-user" size={30} style={{color:comStyles.customerIconColor}} /><Text style={comStyles.whiteTxtStyle}>Register</Text></TabHeading>}>
+          <Container>
+           <Content style={{ marginLeft: 2 + '%', marginRight: 2 + '%' }}>   
+              <TextBoxMaterial label="Mobile Number" tintColor={captainIdColor} baseColor={this.props.captainIdValid?"#039be5":"#D50000"} keyboardTextType="numeric"  value= {this.props.captainDetails.MobileNumber} changeField = {this.changeCaptainId.bind(this)} />
+              <TextBoxMaterial label="Name" tintColor={"#039be5"} baseColor={this.props.nameValid?"#039be5":"#D50000"}keyboardTextType="default" value= {this.props.captainDetails.Name} changeField = {this.changeName.bind(this)} />
+              <TextBoxMaterial label="Password" tintColor={this.props.passValid?passColor:"#D50000"} baseColor={this.props.passValid?passColor:"#D50000"} value= {this.props.captainDetails.Password} changeField = {this.changePassword.bind(this)}  secureTextEntry={true}/>
+              <TextBoxMaterial label="Confirm Password" tintColor={this.props.confPassValid?confPassColor:"#D50000"} baseColor={this.props.confPassValid?confPassColor:"#D50000"} value= {this.props.captainDetails} changeField = {this.changeConfirmPassword.bind(this)} secureTextEntry={true}/>
+              <TouchableOpacity style={styles.buttonContainer}
+              onPress={this.registerCaptain.bind(this)}>
+              <Text style={styles.buttonText}>Register</Text>
+              </TouchableOpacity>
+              </Content>
             </Container>
           </Tab>
-          
         </Tabs>
       </Container>
     );
@@ -134,6 +163,14 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    userID: state.DashBoardReducer.userID,
+    adminPassword: state.DashBoardReducer.adminPassword,
+    captainDetails: state.loginReducer.captainDetails,
+    confPass:state.loginReducer.confPass,
+    captainIdValid:state.loginReducer.captainIdValid,
+    nameValid:state.loginReducer.nameValid,
+    passValid:state.loginReducer.passValid,
+    confPassValid:state.loginReducer.confPassValid
   }
 }
 export default connect(mapStateToProps, null)(LoginRegisterTab)
