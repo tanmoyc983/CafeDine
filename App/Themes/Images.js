@@ -8,6 +8,8 @@ const images = {
   igniteClear: require('../Images/ignite-logo-transparent.png'),
   tileBg: require('../Images/tile_bg.png'),
   background: require('../Images/BG.png'),
+  onesta: require('../Images/onesta.png'),
+  onestaNew: require('../Images/OnestaNew.png'),
   buttonBackground: require('../Images/button-bg.png'),
   api: require('../Images/Icons/icon-api-testing.png'),
   components: require('../Images/Icons/icon-components.png'),
@@ -19,7 +21,16 @@ const images = {
   chevronRight: require('../Images/Icons/chevron-right.png'),
   hamburger: require('../Images/Icons/hamburger.png'),
   backButton: require('../Images/Icons/back-button.png'),
-  closeButton: require('../Images/Icons/close-button.png')
+  closeButton: require('../Images/Icons/close-button.png'),
+  onestaSelected: require('../Images/onestaSelected.png'),
+  // onesta1: require('../Images/Icons/1.png'),
+  // onesta2: require('../Images/Icons/2.png'),
+  // onesta3: require('../Images/Icons/3.png'),
+  // onesta4: require('../Images/Icons/4.png'),
+  // onesta5: require('../Images/Icons/5.png'),
+  // onesta6: require('../Images/Icons/6.png'),
+  // onesta7: require('../Images/Icons/7.png'),
+  // onesta8: require('../Images/Icons/8.png'),
 }
 
 export default images
