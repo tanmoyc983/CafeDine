@@ -47,13 +47,10 @@ class AppSettingsComponent extends React.Component {
     async saveAppSettings() {
         try {
         let regex=/^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-        debugger;
-        if (regex.test(this.props.ipAddress)) {
-            debugger;
+      if (regex.test(this.props.ipAddress)) {
             await AsyncStorage.setItem('IP', this.props.ipAddress);
             await AsyncStorage.setItem('Port', this.props.port);
             console.log('<>' +  this.props.ipAddress);
-            debugger;
             Toast.show({
                 text: 'IP Address & Port saved successfully',
                 textStyle: { fontSize: 25, fontFamily: 'Avenir-Black', fontWeight: 'bold' },

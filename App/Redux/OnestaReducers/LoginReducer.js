@@ -8,12 +8,18 @@ const INITIAL_STATE = Immutable({
         Name:'',
         Password:''
     },
+    captainloginDetils:{
+        mobileNo:"",
+        loggedInUserName:""
+    },
+    tabSettings:'',
     confPass:'',
     captainIdValid:true,
     nameValid:true,
     passValid:true,
     confPassValid:true,
     captainRegisteredSuccessfully:false,
+    loginSuccessfully:false
 });
 
 export const loginReducer = (state = INITIAL_STATE, action) => {
@@ -37,7 +43,7 @@ export const loginReducer = (state = INITIAL_STATE, action) => {
         return Object.assign({}, state, {confPassValid: action.isCorrect})
 
         case ReduxActions.CAPTAIN_REGISTERED_SUCCESSFULLY:
-        let newcaptain =  Object.assign({}, state.customer,{
+        let newcaptain =  Object.assign({}, state.captainDetails,{
             MobileNumber:'',
             Name:'',
             Password:''
@@ -51,6 +57,19 @@ export const loginReducer = (state = INITIAL_STATE, action) => {
                 type: "success"
         })
         return Object.assign({},state,{captainDetails:newcaptain,captainRegisteredSuccessfully:true});
+
+        case ReduxActions.SUCCESSFULLY_LOGIN:
+        let loggedIncaptain =  Object.assign({}, state.captainloginDetils,{
+            mobileNo:action.captainID,
+            loggedInUserName:action.captainName
+        });
+        return Object.assign({},state,{captainloginDetils:loggedIncaptain,loginSuccessfully:true});
+
+        case ReduxActions.FAILED_TO_LOGIN:
+        return Object.assign({},state,{loginSuccessfully:false});
+
+        case ReduxActions.SET_TAB_SETTINGS:
+        return Object.assign({}, state, {tabSettings: action.TabSettings})
 
         default:
         return Object.assign({},state);

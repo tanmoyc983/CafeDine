@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container,Content, Header, Tab, Tabs, TabHeading, View } from 'native-base';
+import { Container,Content, Header, Tab, Tabs, TabHeading, View,AsyncStorage } from 'native-base';
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import TextBoxMaterial from "../Components/TextboxMaterial";
 import { connect } from "react-redux";
@@ -11,9 +11,10 @@ import hmacSHA512  from 'crypto-js/hmac-sha512';
 import Base64 from 'crypto-js/enc-base64';
 import ReduxActions from "../Redux/ActionTypes/Action";
 import Icon from 'react-native-vector-icons/Entypo';
+import { isNullOrUndefined } from "util";
 
 class LoginRegisterTab extends React.Component {
-   
+
   changeField(changedText, type) {
     if (type === "userid") {
         this.props.dispatch({ type: ReduxActions.SETADMIN_USERID, userID: changedText });
@@ -22,13 +23,36 @@ class LoginRegisterTab extends React.Component {
         this.props.dispatch({ type: ReduxActions.SETADMIN_PASSWORD, adminPassword: changedText });
     }
 }
-onButtonPress() {  
-    this.props.navigation.navigate("UserSelectionStack");
+onButtonPress() { 
+    if(this.props.userID && this.props.adminPassword)
+    {
+        let LoginDetails=   {
+                "mobileNo": parseInt(this.props.userID),
+                "password": this.props.adminPassword
+            }
+        this.props.dispatch({type:SagaActions.LOGIN_CAPTAIN,loginDetails:LoginDetails});
+    }
 }
 onRegister(){
     this.props.navigation.navigate("LoginStack");
 }
 
+componentDidUpdate(prevProps, prevState){
+if (this.props.loginSuccessfully){
+    if(this.props.tabSettings)
+    {
+        if(this.props.tabSettings==='Captain'){
+            this.props.navigation.navigate("CaptainDashboardScreen");    
+        }
+        else if(this.props.tabSettings==='User'){
+            this.props.navigation.navigate('BeforeModeSelectionStack');
+        }
+    }
+    else{
+        this.props.navigation.navigate("UserSelectionStack");
+    }
+  }
+}
 changeCaptainId(input){
   if(this.props.captainDetails.MobileNumber.length === 10 && /^[0-9]{1,10}$/.test(this.props.captainDetails.MobileNumber)){
       this.props.dispatch({type: ReduxActions.SET_COLOR_ID, color: "#039be5"})  
@@ -47,7 +71,6 @@ registerCaptain(){
       if(this.props.captainDetails.Name.length>0){
           if(this.props.captainDetails.Password.length>=8){
               if(this.props.confPass===this.props.captainDetails.Password){
-                debugger;
                   let tempObj=Object.assign({},this.props.captainDetails);
                   tempObj.Password=Base64.stringify(hmacSHA512(sha256(tempObj.Password), "thanos"));
                   this.props.dispatch({type: SagaActions.CREATE_CAPTAIN, captainDetails: tempObj})
@@ -170,6 +193,8 @@ const mapStateToProps = (state) => {
     captainIdValid:state.loginReducer.captainIdValid,
     nameValid:state.loginReducer.nameValid,
     passValid:state.loginReducer.passValid,
+    tabSettings:state.loginReducer.tabSettings,
+    loginSuccessfully:state.loginReducer.loginSuccessfully,
     confPassValid:state.loginReducer.confPassValid
   }
 }

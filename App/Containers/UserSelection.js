@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import ImageSlider from 'react-native-image-slider';
-import { Text, View, Image, TouchableOpacity } from 'react-native';
-import { Images } from '../Themes';
+import { Text, View, AsyncStorage, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux'
-import AppSettingsScreen from "../Containers/AppSettings";
 import Icon from 'react-native-vector-icons/Entypo';
 import Icon1 from 'react-native-vector-icons/MaterialCommunityIcons';
 import comStyles, { plusMinusIconColor } from './Styles/CommonStyles';
@@ -46,10 +43,12 @@ class UserSelection extends Component {
     );
     // setTimeout(this.props.navigation.navigate('ExistingOrderStack'), 2000);
   }
-  captianDashboard() {
+ async captianDashboard() {
+    await AsyncStorage.setItem('USED_FOR', 'Captain');
     this.props.navigation.navigate("CaptainDashboardScreen");
   }
-  userDashboard() {
+ async userDashboard() {
+    await AsyncStorage.setItem('USED_FOR', 'User');
     this.props.navigation.navigate('BeforeModeSelectionStack');
   }
 }

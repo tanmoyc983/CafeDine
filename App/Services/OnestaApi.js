@@ -20,6 +20,23 @@ export const getCustomer = (mobileNumber) => {
       });
 }
 
+export const LoginCaptain = (loginDetails) => {
+ return fetch(baseUrl+'onesta/captain/Login', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(loginDetails),
+  }).then((response) => {
+    return response.json();
+  }).then(responseJson => {  
+    return responseJson;     
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
 export const saveNewCustomer = (objUser) => {
   return fetch(baseUrl+'onesta/customer/create', {
         method: 'POST',
@@ -38,7 +55,6 @@ export const saveNewCustomer = (objUser) => {
     }
 
 export const RegisterCaptain = (objUser) => {
-  debugger;
   return fetch(baseUrl+'onesta/captain/create', {
         method: 'POST',
         headers: {

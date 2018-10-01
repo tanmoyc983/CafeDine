@@ -3,7 +3,6 @@ import {RegisterCaptain} from '../../Services/OnestaApi';
 import ReduxActions from "../../Redux/ActionTypes/Action";
 
 export const registerCaptain = function * (action) {
-  debugger;
   const  captainDetails  = action.captainDetails;
   // make the call to the api
   const response = yield call(RegisterCaptain, captainDetails);

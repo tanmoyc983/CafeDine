@@ -25,20 +25,7 @@ class CaptainDashboardComponent extends Component {
   //   }
   // }
 
-  ValidateAPIEndpoint(event, val) {
-    if (isNullOrUndefined(this.props.ipAddress) || isNullOrUndefined(this.props.port)
-      || this.props.ipAddress === "" || this.props.port === "") {
-      // Toast.show({
-      //   text: "Please provide ip details before proceeding!",
-      //   textStyle: { fontSize: 25, fontFamily: 'Avenir-Black' },
-      //   duration: 2000,
-      //   position: "bottom",
-      //   buttonTextStyle: { fontSize: 20, fontFamily: 'Avenir-Black' },
-      //   buttonText: "Ok",
-      //   type: "danger"
-      // });
-      this.props.navigation.navigate('AppSettingsStack');
-    } else {
+  ValidateAPIEndpoint(event, val) { 
       if (val === "NewOrder") {
         this.props.navigation.navigate('BeforeModeSelectionStack');
       }
@@ -48,7 +35,6 @@ class CaptainDashboardComponent extends Component {
       else if (val === "ModifyUser") {
         this.props.navigation.navigate('CaptainStack')
       }
-    }
   }
 
 

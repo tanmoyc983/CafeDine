@@ -9,7 +9,6 @@ const INITIAL_STATE = Immutable({
 export const RealtimeReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case ReduxActions.UPDATE_NOTIFICATON_COUNT:
-        debugger;
         return Object.assign({}, state, { notificatioCount: action.count });
 
         case ReduxActions.RESET_NOTIFICATON_COUNT:
