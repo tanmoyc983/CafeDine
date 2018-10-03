@@ -9,7 +9,7 @@ export const loginCaptain = function * (action) {
   if (response) {
    
     // do data conversion here if needed
-    yield put({type: ReduxActions.SUCCESSFULLY_LOGIN});
+    yield put({type: ReduxActions.SUCCESSFULLY_LOGIN,response});
   } else {
     yield put({type: ReduxActions.FAILED_TO_LOGIN});
   }

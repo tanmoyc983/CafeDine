@@ -14,10 +14,6 @@ import {Toast} from 'native-base';
 import comStyles from './Styles/CommonStyles';
 
 class CheckoutOrderComponent extends React.Component {
-    constructor() {
-        super();
-    }
-
     componentDidUpdate(prevProps, prevState){
         if (this.props.isCheckedOut){
             this.props.dispatch({type:ReduxActions.RESET_TABLE_DATA});

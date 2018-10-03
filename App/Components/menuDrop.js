@@ -1,9 +1,6 @@
 import React from 'react';
-import { Button } from 'native-base';
 import { Text, TouchableOpacity } from 'react-native';
-import { View } from 'react-native-animatable';
-// import Menu, { MenuContext, MenuOptions, MenuOption, MenuTrigger } from 'react-native-menu';
-import { ouchableOpacity } from 'react-native';
+import {NavigationActions } from 'react-navigation';
 import comStyles, { backgroundColor } from '../Containers/Styles/CommonStyles';
 import Modal from "react-native-modal";
 import ReduxActions from "../Redux/ActionTypes/Action";
@@ -36,7 +33,16 @@ class MenuDrop extends React.Component {
     );
   }
   setModalVisible(visible) {
-    this.props.dispatch({ type: ReduxActions.SHOW_MODAL, visible: visible })
+    this.props.dispatch({ type: ReduxActions.SHOW_MODAL, visible: visible });
+    this.props.dispatch({ type:ReduxActions.RESET_LOGIN_DATA});
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      key: null,
+      actions: [
+          NavigationActions.navigate({routeName: 'LoginStack'})
+      ]
+  });
+  this.props.navigation.dispatch(resetAction);
   }
 
 }

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import SagaActions from "../Sagas/ActionTypes/Action";
 import comStyles, { backgroundColor } from './Styles/CommonStyles';
 import Icon from 'react-native-vector-icons/Entypo';
+import ReduxActions from "../Redux/ActionTypes/Action";
 
 class PendingOrder extends React.Component {
 
@@ -23,6 +24,14 @@ class PendingOrder extends React.Component {
   navigateToFLoor() {
     this.props.navigation.navigate("FloorScreen");
   }
+
+  OrderDetails(selectedTable){
+    let visible=false;
+    this.props.dispatch({ type: ReduxActions.SHOW_ALERT, visible: visible });
+    this.props.dispatch({type:ReduxActions.GET_ORDER_DETAILS_FOR_CAPTAIN, selectedTable});
+    this.props.navigation.navigate('CaptainOrderView')
+  }
+
   render() {
     let floorsArr = [];
     let orderIDArr = [];
@@ -46,8 +55,12 @@ class PendingOrder extends React.Component {
                   </View>
                 </View>
                 <View style={{justifyContent: 'flex-end', alignContent: 'flex-end', flexDirection: 'row'}}>
-                  <View >
-                    <Icon style={{fontSize: 35, color: '#1C227E'}} name="arrow-with-circle-right"></Icon>
+                  <View>
+                  {/* <Button style={comStyles.smButtonStyle} onPress={this.OrderDetails.bind(this,table)}>
+                  <Icon active name="arrow-with-circle-right"></Icon> */}
+                  <Icon onPress={this.OrderDetails.bind(this,table)} style={{fontSize: 35, color: '#1C227E'}} name="arrow-with-circle-right"></Icon>
+                    {/* <Text style={comStyles.whiteTxtStyle}>View Orderdetails</Text>*/}
+                     {/* </Button> */}
                   </View>
                 </View>
               </View>
