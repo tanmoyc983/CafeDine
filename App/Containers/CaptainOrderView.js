@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, Image } from 'react-native';
+import { StyleSheet, View, ScrollView,ActivityIndicator, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Accordion from 'react-native-collapsible/Accordion';
 import { connect } from "react-redux";
@@ -12,7 +12,7 @@ import OrderMode from "./EditOrder/OrderMode";
 import { NavigationActions } from 'react-navigation';
 import {Toast} from 'native-base';
 import __  from "lodash";
-import comStyles, {customerIconColor, borderColor, orderColor, dropdownColor, accountStarIconColor} from './Styles/CommonStyles';
+import comStyles, {customerIconColor, borderColor, orderColor, dropdownColor, accountStarIconColor, backgroundColor} from './Styles/CommonStyles';
 import Icon2 from 'react-native-vector-icons/FontAwesome';
 
 class MenuItemsComponent extends React.Component {
@@ -71,6 +71,7 @@ class MenuItemsComponent extends React.Component {
     }
 
     checkoutOrder() {
+        this.props.dispatch({type: ReduxActions.CHECKOUT_PRESSED})
         let checkoutOrder;
         if (this.props.tableWithOrderDetails.orderDetails) {
             checkoutOrder = Object.assign({}, this.props.tableWithOrderDetails.orderDetails);
@@ -151,7 +152,9 @@ class MenuItemsComponent extends React.Component {
         return (
             <View style={styles.mainContainer}>
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
-                {this.props.tableWithOrderDetails.orderDetails !== undefined && 
+                {this.props.isCheckoutPressed && <View style={[comStyles.rowContainer, comStyles.horizontal]} >
+                    <ActivityIndicator size="large" color="red" /></View>}
+                    {!this.props.isCheckoutPressed &&  <View>{this.props.tableWithOrderDetails.orderDetails !== undefined && 
                 <ScrollView>
                     <Content padder>
                         <Card>
@@ -178,12 +181,14 @@ class MenuItemsComponent extends React.Component {
                 </ScrollView>}
 
                 <View style={{ flex: 1, flexDirection: 'row', marginRight: 10, alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+                
                   {this.isOrderApproved(this.props.tableWithOrderDetails.isApproved) && <Button style={{ height: 50, width: 200, justifyContent: 'center' }} onPress={() => this.checkoutOrder()}>
                         <Icon active name="check-all" size={24} color= {customerIconColor} />
                         <Text style={comStyles.whiteTxtStyle}>Checkout</Text>
                     </Button>}
+                   </View>
+                   </View>}
                 </View>
-            </View>
         );
     }
 }
@@ -194,7 +199,8 @@ const mapStateToProps = (state) => {
         orderStatus: state.tableReducer.orderStatus,
         isCheckedOut: state.OrderReducer.isCheckedOut,
         isOrderApproved:state.tableReducer.isOrderApproved,
-        approvedOrders: state.tableReducer.approvedOrders
+        approvedOrders: state.tableReducer.approvedOrders,
+        isCheckoutPressed: state.OrderReducer.isCheckoutPressed
     }
 }
 

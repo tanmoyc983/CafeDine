@@ -30,7 +30,7 @@ class CheckoutOrderComponent extends React.Component {
                 index: 0,
                 key: null,
                 actions: [
-                    NavigationActions.navigate({routeName: 'CaptainDashboardScreen'})
+                    NavigationActions.navigate({routeName: 'BeforeModeSelectionStack'})
                 ]
             });
             this.props.navigation.dispatch(resetAction);
@@ -44,6 +44,7 @@ class CheckoutOrderComponent extends React.Component {
     }
 
     checkoutOrder() { 
+        this.props.dispatch({type: ReduxActions.CHECKOUT_PRESSED})
         let checkoutOrder=Object.assign({},this.props.CheckOrderDetails);
         checkoutOrder.finalCheckout=true;
         this.props.dispatch({type:SagaActions.CHECKOUT_FINAL_ORDER,checkoutOrder:checkoutOrder});;
@@ -80,7 +81,7 @@ class CheckoutOrderComponent extends React.Component {
         return (
             <View style={styles.mainContainer}>
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
-                {!__.isEmpty(this.props.CheckOrderDetails) && <View style={{ flex: 1, flexDirection: 'column' }}>
+                 {!this.props.isCheckoutPressed && !__.isEmpty(this.props.CheckOrderDetails) && <View style={{ flex: 1, flexDirection: 'column' }}>
                     <ScrollView>
                         <Card title={userName} textStyle={{fontsize:25}}>
                             {myOrders}
@@ -101,6 +102,8 @@ class CheckoutOrderComponent extends React.Component {
                 </View>}
                 {__.isEmpty(this.props.CheckOrderDetails) && <View style={[comStyles.rowContainer, comStyles.horizontal]}>
                     <ActivityIndicator size="large" color="red" /></View>}
+                    {this.props.isCheckoutPressed && <View style={[comStyles.rowContainer, comStyles.horizontal]}>
+                    <ActivityIndicator size="large" color="red" /></View>}
             </View>
         )
     }
@@ -111,7 +114,8 @@ const mapStateToProps=(state)=>{
     return{
         OrderID:state.OrderReducer.OrderID,
         CheckOrderDetails:state.OrderReducer.CheckOrderDetails,
-        isCheckedOut:state.OrderReducer.isCheckedOut
+        isCheckedOut:state.OrderReducer.isCheckedOut,
+        isCheckoutPressed: state.OrderReducer.isCheckoutPressed
     }
 }
 export default connect(mapStateToProps,null) (CheckoutOrderComponent);

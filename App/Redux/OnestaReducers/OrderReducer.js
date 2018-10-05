@@ -18,7 +18,8 @@ const INITIAL_STATE ={
     ReviewOrderDetails:{},
     CheckOrderDetails:{},
     isCheckedOut: false,
-    isModalOpen: false  
+    isModalOpen: false,
+    isCheckoutPressed : false 
 };
 
 export const OrderReducer = (state = INITIAL_STATE, action) => {
@@ -134,8 +135,8 @@ export const OrderReducer = (state = INITIAL_STATE, action) => {
                         buttonText: "Okay",
                         type: "success"
                     })
-        } 
-        return Object.assign({},state,{OrderID:action.response,SelectedMenuItems:resetSelectedMenu, isCheckedOut:orderCheckedOut})
+        }
+        return Object.assign({},state,{OrderID:action.response,SelectedMenuItems:resetSelectedMenu, isCheckedOut:orderCheckedOut, isCheckoutPressed : false})
         break;
 
         case ReduxActions.RESET_ORDER_DATA:
@@ -150,6 +151,9 @@ export const OrderReducer = (state = INITIAL_STATE, action) => {
         let modalstate=state.isModalOpen?false:true;
         return Object.assign({},state,{isModalOpen:modalstate})
         break;
+
+        case ReduxActions.CHECKOUT_PRESSED:
+        return Object.assign({}, state, {isCheckoutPressed: true})
 
         default:
         return Object.assign({},state);

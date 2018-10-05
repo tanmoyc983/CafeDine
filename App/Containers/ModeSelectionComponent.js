@@ -50,6 +50,9 @@ class ModeSelectionComponent extends Component {
     submitModes(){ 
         let selectedMode=[];
         this.props.modeDetails.forEach(element => {
+            if(element.modeName==="Ala Carte"&&element.quantity===0){
+                selectedMode.push(element);
+            }
             if(element.quantity>0){
                 selectedMode.push(element);
             }
