@@ -131,6 +131,16 @@ class OrderComponent extends React.Component {
         //     ordersType.push(<CheckoutItems orders={data}/>);
         // });
         this.props.modeDetails.map((element) => {
+            if(element.modeName==="Ala Carte"&&element.quantity===0){
+                btns.push(<Card title={element.modeName} containerStyle={comStyles.mdCardStyle} image={getImageonType(element.modeType)}>
+                    <Text style={[comStyles.smTxtStyle, comStyles.marginBottom]}> Quantity: {element.quantity}</Text>
+                    <Button style={comStyles.xsButtonStyle} onPress={() => this.changeMode(element)}>
+                        <Icon active name="restaurant-menu" size={17} color={customerIconColor} />
+                        <Text style={comStyles.smWhiteTxtStyle}>View Menu</Text>
+                    </Button>
+                </Card>);
+            }
+
             if (element.quantity > 0) {
                 btns.push(<Card title={element.modeName} containerStyle={comStyles.mdCardStyle} image={getImageonType(element.modeType)}>
                     <Text style={[comStyles.smTxtStyle, comStyles.marginBottom]}> Quantity: {element.quantity}</Text>
@@ -140,12 +150,13 @@ class OrderComponent extends React.Component {
                     </Button>
                 </Card>);
             }
-        })
+        }
+    )
         return (
             <View style={styles.mainContainer}>
                 {this.props.modeDetails.length === 0 &&
                     <View style={[comStyles.rowContainer, comStyles.horizontal]}>
-                        <ActivityIndicator size="{large}" color="red" />
+                        <ActivityIndicator size="large" color="red" />
                     </View>}
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
                 {
@@ -187,7 +198,7 @@ class OrderComponent extends React.Component {
                     </ScrollView>
                     <View style={{flex: 1, flexDirection: "row", justifyContent: 'space-evenly', alignItems: 'center'}}>
                         <TouchableOpacity onPress={this.updateOrder.bind(this)} style={comStyles.smButtonStyle} >
-                            <Text style={comStyles.whiteTxtStyle}>Cancle</Text>
+                            <Text style={comStyles.whiteTxtStyle}>Cancel</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={this.placeOrder.bind(this)} style={comStyles.smButtonStyle} >
                             <Text style={comStyles.whiteTxtStyle}>Place order</Text>

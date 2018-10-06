@@ -50,6 +50,7 @@ class CheckoutOrderComponent extends React.Component {
     }
 
     checkoutOrder() { 
+        this.props.dispatch({type: ReduxActions.CHECKOUT_PRESSED})
         let checkoutOrder=Object.assign({},this.props.CheckOrderDetails);
         checkoutOrder.finalCheckout=true;
         this.props.dispatch({type:SagaActions.CHECKOUT_FINAL_ORDER,checkoutOrder:checkoutOrder});;
@@ -86,7 +87,7 @@ class CheckoutOrderComponent extends React.Component {
         return (
             <View style={styles.mainContainer}>
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
-                {!__.isEmpty(this.props.CheckOrderDetails) && <View style={{ flex: 1, flexDirection: 'column' }}>
+                 {!this.props.isCheckoutPressed && !__.isEmpty(this.props.CheckOrderDetails) && <View style={{ flex: 1, flexDirection: 'column' }}>
                     <ScrollView>
                         <Card title={userName} textStyle={{fontsize:25}}>
                             {myOrders}
@@ -106,7 +107,9 @@ class CheckoutOrderComponent extends React.Component {
                     </TouchableOpacity>
                 </View>}
                 {__.isEmpty(this.props.CheckOrderDetails) && <View style={[comStyles.rowContainer, comStyles.horizontal]}>
-                    <ActivityIndicator size={large} color="red" /></View>}
+                    <ActivityIndicator size="large" color="red" /></View>}
+                    {this.props.isCheckoutPressed && <View style={[comStyles.rowContainer, comStyles.horizontal]}>
+                    <ActivityIndicator size="large" color="red" /></View>}
             </View>
         )
     }
@@ -118,6 +121,7 @@ const mapStateToProps=(state)=>{
         OrderID:state.OrderReducer.OrderID,
         CheckOrderDetails:state.OrderReducer.CheckOrderDetails,
         isCheckedOut:state.OrderReducer.isCheckedOut,
+        isCheckoutPressed: state.OrderReducer.isCheckoutPressed,
         tabSettings:state.loginReducer.tabSettings,
     }
 }
