@@ -16,17 +16,27 @@ import comStyles from './Styles/CommonStyles';
 class CheckoutOrderComponent extends React.Component {
     componentDidUpdate(prevProps, prevState){
         if (this.props.isCheckedOut){
+            let RouteName="";
             this.props.dispatch({type:ReduxActions.RESET_TABLE_DATA});
             this.props.dispatch({type:ReduxActions.RESET_FLOOR_DATA});
             this.props.dispatch({type:ReduxActions.RESET_MODE_DATA});
             this.props.dispatch({type:ReduxActions.RESET_USER_DATA});
             this.props.dispatch({type:ReduxActions.RESET_CUSTOMER_DATA});
             this.props.dispatch({type:ReduxActions.RESET_ORDER_DATA});
+            if(this.props.tabSettings)
+            {
+                if(this.props.tabSettings==='Captain'){
+                    RouteName="CaptainDashboardScreen";    
+                }
+                else if(this.props.tabSettings==='User'){
+                    RouteName='BeforeModeSelectionStack';
+                }
+            }
             const resetAction = NavigationActions.reset({
                 index: 0,
                 key: null,
                 actions: [
-                    NavigationActions.navigate({routeName: 'CaptainDashboardScreen'})
+                    NavigationActions.navigate({routeName: RouteName})
                 ]
             });
             this.props.navigation.dispatch(resetAction);
@@ -96,7 +106,7 @@ class CheckoutOrderComponent extends React.Component {
                     </TouchableOpacity>
                 </View>}
                 {__.isEmpty(this.props.CheckOrderDetails) && <View style={[comStyles.rowContainer, comStyles.horizontal]}>
-                    <ActivityIndicator size="large" color="red" /></View>}
+                    <ActivityIndicator size={large} color="red" /></View>}
             </View>
         )
     }
@@ -107,7 +117,8 @@ const mapStateToProps=(state)=>{
     return{
         OrderID:state.OrderReducer.OrderID,
         CheckOrderDetails:state.OrderReducer.CheckOrderDetails,
-        isCheckedOut:state.OrderReducer.isCheckedOut
+        isCheckedOut:state.OrderReducer.isCheckedOut,
+        tabSettings:state.loginReducer.tabSettings,
     }
 }
 export default connect(mapStateToProps,null) (CheckoutOrderComponent);

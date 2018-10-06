@@ -128,7 +128,7 @@ startRealTimeNotification(ipAddress,port){
       this.props.navigation.navigate('LoginStack');
     } else{
       this.props.navigation.navigate('AppSettingsStack');
-    }},5000
+    }},3000
   )
   }
 

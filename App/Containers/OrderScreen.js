@@ -145,7 +145,7 @@ class OrderComponent extends React.Component {
             <View style={styles.mainContainer}>
                 {this.props.modeDetails.length === 0 &&
                     <View style={[comStyles.rowContainer, comStyles.horizontal]}>
-                        <ActivityIndicator size="largecomStyles" color="red" />
+                        <ActivityIndicator size="{large}" color="red" />
                     </View>}
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
                 {
