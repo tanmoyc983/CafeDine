@@ -1,11 +1,9 @@
 import React from 'react';
-// import { Text, View } from 'react-native';
 import { Button } from 'native-base';
 import { Text } from 'react-native';
 import comStyles, { customerIconColor, backgroundColor } from '../Containers/Styles/CommonStyles';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import IconPush from 'react-native-vector-icons/Ionicons';
-// import IconAlert from 'react-native-vector-icons/Entypo';
 import { View } from 'react-native-animatable';
 import MenuDrop from './menuDrop';
 import PendingOrder from '../Containers/PendingOrder';
@@ -28,6 +26,7 @@ class RightHeader extends React.Component {
     this.props.dispatch({ type: ReduxActions.SHOW_ALERT, visible: visible })
   }
   render() {
+    console.log(this.props.captainDetails);    
     return (
       <View style={{ flexDirection: 'row' }}>
         <Button style={{ backgroundColor: '#1C227E' }} onPress={this.showPage.bind(this)}>
@@ -37,17 +36,16 @@ class RightHeader extends React.Component {
           </IconPush>
         </Button>
         <Button style={comStyles.smButtonStyle} onPress={this.setModalVisible.bind(this)}>
-          <Text style={comStyles.smWhiteTxtStyle}>Hi {this.props.captainName}</Text>
+          <Text style={comStyles.smWhiteTxtStyle}>Hi {this.props.captainDetails.loggedInUserName}</Text>
           <Icon name="user" size={42} color={customerIconColor} />
         </Button>
-        {this.props.modalVisible && <MenuDrop></MenuDrop>}
+        {(this.props.modalVisible && this.props.captainDetails.mobileNo !='') && <MenuDrop navigation={this.props.navigation}></MenuDrop>}
         {this.props.alertModalVisible && 
         <Modal backdropColor="black" backdropOpacity="0.4"  style={{
                 backgroundColor: backgroundColor, borderRadius: 5,}}
                 visible={this.props.alertModalVisible} onBackdropPress={() => { this.setAlertModalVisible(false) }}
                 onRequestClose={() => { this.setAlertModalVisible(false) }}>
-                <PendingOrder></PendingOrder>
-           
+                <PendingOrder navigation={this.props.navigation}></PendingOrder>           
         </Modal>}
       </View>
     );
@@ -57,7 +55,8 @@ const mapStateToProps = (state) => {
   return {
     modalVisible: state.userReducer.modalVisible,
     alertModalVisible: state.userReducer.alertModalVisible,
-    notificationCount: state.RealtimeReducer.notificatioCount
+    notificationCount: state.RealtimeReducer.notificatioCount,
+    captainDetails:state.loginReducer.captainloginDetils
   }
 }
 

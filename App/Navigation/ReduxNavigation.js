@@ -14,8 +14,15 @@ class ReduxNavigation extends React.Component {
     BackHandler.addEventListener('hardwareBackPress', () => {
       const { dispatch, nav } = this.props;
       // change to whatever is your first screen, otherwise unpredictable results may occur
-      if (nav.routes[nav.routes.length-1].routes[nav.routes[nav.routes.length-1].routes.length-1].routeName === 'LaunchScreen'||
-      nav.routes[nav.routes.length-1].routes[nav.routes[nav.routes.length-1].routes.length-1].routeName === 'CaptainDashboardScreen') {
+      if (nav.routes[nav.routes.length-1].routeName === 'CaptainDashboardScreen') {
+          Alert.alert('Exit App','Do you want to exit?',
+        [{text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: 'Yes', onPress: () => {BackHandler.exitApp()}}],
+        { cancelable: false });
+        //dispatch({ type: 'Navigation/BACK' })
+        return true;
+      }
+      else if (nav.routes[nav.routes.length-1].routes[nav.routes[nav.routes.length-1].routes.length-1].routeName === 'LaunchScreen') {
           Alert.alert('Exit App','Do you want to exit?',
         [{text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
         {text: 'Yes', onPress: () => {BackHandler.exitApp()}}],

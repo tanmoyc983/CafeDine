@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container,Content, Header, Tab, Tabs, TabHeading, View,AsyncStorage } from 'native-base';
+import { Container,Content, Header, Tab, Tabs, TabHeading, View,Button } from 'native-base';
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import TextBoxMaterial from "../Components/TextboxMaterial";
 import { connect } from "react-redux";
@@ -28,7 +28,7 @@ onButtonPress() {
     {
         let LoginDetails=   {
                 "mobileNo": parseInt(this.props.userID),
-                "password": this.props.adminPassword
+                "password": Base64.stringify(hmacSHA512(sha256(this.props.adminPassword), "thanos"))
             }
         this.props.dispatch({type:SagaActions.LOGIN_CAPTAIN,loginDetails:LoginDetails});
     }
@@ -70,7 +70,7 @@ registerCaptain(){
   if(this.props.captainDetails.MobileNumber.length === 10 && /^[0-9]{1,10}$/.test(this.props.captainDetails.MobileNumber)){
       if(this.props.captainDetails.Name.length>0){
           if(this.props.captainDetails.Password.length>=8){
-              if(this.props.confPass===this.props.captainDetails.Password){
+              if(this.props.captainDetails.ConfirmPassword===this.props.captainDetails.Password){
                   let tempObj=Object.assign({},this.props.captainDetails);
                   tempObj.Password=Base64.stringify(hmacSHA512(sha256(tempObj.Password), "thanos"));
                   this.props.dispatch({type: SagaActions.CREATE_CAPTAIN, captainDetails: tempObj})
@@ -86,8 +86,11 @@ changePassword(input){
   this.props.dispatch({type: ReduxActions.SET_LOGIN_ID, tempObj: tempObj})
 }
 changeConfirmPassword(input){
-  this.props.dispatch({type:ReduxActions.SET_CONFIRM_PASS, input: input })
+  let tempObj=Object.assign({},this.props.captainDetails);
+  tempObj.ConfirmPassword=input;
+  this.props.dispatch({type:ReduxActions.SET_CONFIRM_PASS, input: tempObj })
 }
+
   render() {
     if(this.props.captainDetails.MobileNumber.length === 10 && /^[0-9]{1,10}$/.test(this.props.captainDetails.MobileNumber)){
       captainIdColor="#039be5";
@@ -104,7 +107,7 @@ changeConfirmPassword(input){
   else{
       passColor="#D50000";
   }
-  if (this.props.confPass.length===0 || this.props.captainDetails.Password===this.props.confPass){
+  if (this.props.captainDetails.ConfirmPassword.length===0 || this.props.captainDetails.Password===this.props.captainDetails.ConfirmPassword){
       confPassColor="#039be5";
   }
   else{
@@ -130,9 +133,11 @@ changeConfirmPassword(input){
                             changeField={this.changeField.bind(this)}
                             type="password" 
                             secureTextEntry={true}/>
-
-                        <TouchableOpacity style={styles.buttonContainer}
+                    {/* <Button style={comStyles.smButtonStyle} disabled={this.loginDisabled.bind(this)}
                             onPress={this.onButtonPress.bind(this)}>
+                            <Text style={comStyles.whiteTxtStyle}>LOGIN</Text>
+                        </Button> */}
+                          <TouchableOpacity style={styles.buttonContainer} onPress={this.onButtonPress.bind(this)}>
                             <Text style={styles.buttonText}>LOGIN</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={{justifyContent:'center', paddingVertical: 25}}>
@@ -148,7 +153,7 @@ changeConfirmPassword(input){
               <TextBoxMaterial label="Mobile Number" tintColor={captainIdColor} baseColor={this.props.captainIdValid?"#039be5":"#D50000"} keyboardTextType="numeric"  value= {this.props.captainDetails.MobileNumber} changeField = {this.changeCaptainId.bind(this)} />
               <TextBoxMaterial label="Name" tintColor={"#039be5"} baseColor={this.props.nameValid?"#039be5":"#D50000"}keyboardTextType="default" value= {this.props.captainDetails.Name} changeField = {this.changeName.bind(this)} />
               <TextBoxMaterial label="Password" tintColor={this.props.passValid?passColor:"#D50000"} baseColor={this.props.passValid?passColor:"#D50000"} value= {this.props.captainDetails.Password} changeField = {this.changePassword.bind(this)}  secureTextEntry={true}/>
-              <TextBoxMaterial label="Confirm Password" tintColor={this.props.confPassValid?confPassColor:"#D50000"} baseColor={this.props.confPassValid?confPassColor:"#D50000"} value= {this.props.captainDetails} changeField = {this.changeConfirmPassword.bind(this)} secureTextEntry={true}/>
+              <TextBoxMaterial label="Confirm Password" tintColor={this.props.confPassValid?confPassColor:"#D50000"} baseColor={this.props.confPassValid?confPassColor:"#D50000"} value= {this.props.captainDetails.ConfirmPassword} changeField = {this.changeConfirmPassword.bind(this)} secureTextEntry={true}/>
               <TouchableOpacity style={styles.buttonContainer}
               onPress={this.registerCaptain.bind(this)}>
               <Text style={styles.buttonText}>Register</Text>
@@ -186,8 +191,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    userID: state.DashBoardReducer.userID,
-    adminPassword: state.DashBoardReducer.adminPassword,
+    userID: state.loginReducer.userID,
+    adminPassword: state.loginReducer.adminPassword,
     captainDetails: state.loginReducer.captainDetails,
     confPass:state.loginReducer.confPass,
     captainIdValid:state.loginReducer.captainIdValid,

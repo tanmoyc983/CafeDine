@@ -14,23 +14,29 @@ import {Toast} from 'native-base';
 import comStyles from './Styles/CommonStyles';
 
 class CheckoutOrderComponent extends React.Component {
-    constructor() {
-        super();
-    }
-
     componentDidUpdate(prevProps, prevState){
         if (this.props.isCheckedOut){
+            let RouteName="";
             this.props.dispatch({type:ReduxActions.RESET_TABLE_DATA});
             this.props.dispatch({type:ReduxActions.RESET_FLOOR_DATA});
             this.props.dispatch({type:ReduxActions.RESET_MODE_DATA});
             this.props.dispatch({type:ReduxActions.RESET_USER_DATA});
             this.props.dispatch({type:ReduxActions.RESET_CUSTOMER_DATA});
             this.props.dispatch({type:ReduxActions.RESET_ORDER_DATA});
+            if(this.props.tabSettings)
+            {
+                if(this.props.tabSettings==='Captain'){
+                    RouteName="CaptainDashboardScreen";    
+                }
+                else if(this.props.tabSettings==='User'){
+                    RouteName='BeforeModeSelectionStack';
+                }
+            }
             const resetAction = NavigationActions.reset({
                 index: 0,
                 key: null,
                 actions: [
-                    NavigationActions.navigate({routeName: 'BeforeModeSelectionStack'})
+                    NavigationActions.navigate({routeName: RouteName})
                 ]
             });
             this.props.navigation.dispatch(resetAction);
@@ -115,7 +121,8 @@ const mapStateToProps=(state)=>{
         OrderID:state.OrderReducer.OrderID,
         CheckOrderDetails:state.OrderReducer.CheckOrderDetails,
         isCheckedOut:state.OrderReducer.isCheckedOut,
-        isCheckoutPressed: state.OrderReducer.isCheckoutPressed
+        isCheckoutPressed: state.OrderReducer.isCheckoutPressed,
+        tabSettings:state.loginReducer.tabSettings,
     }
 }
 export default connect(mapStateToProps,null) (CheckoutOrderComponent);

@@ -6,9 +6,7 @@ const INITIAL_STATE = Immutable({
     getipAddress: '',
     getport: '',
     setipAddress: '',
-    setPort: '',
-    userID: '',
-    adminPassword: ''
+    setPort: ''    
 });
 
 
@@ -28,14 +26,7 @@ export const DashBoardReducer = (state = INITIAL_STATE, action) => {
             break;
         case ReduxActions.GET_PORT:
             return Object.assign({}, state, { getport: action.PortAddress });
-            break;
-
-        case ReduxActions.SETADMIN_USERID:
-            return Object.assign({}, state, { userID: action.userID });
-            break;
-        case ReduxActions.SETADMIN_PASSWORD:
-            return Object.assign({}, state, { adminPassword: action.adminPassword });
-            break;
+            break;        
         default:
             return Object.assign({}, state);
     }
