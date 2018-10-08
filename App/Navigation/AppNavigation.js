@@ -212,7 +212,6 @@ const CaptainStack = StackNavigator({
         shadowOffset:{width: 0, height: 3},
         shadowOpacity: 0.3 },
         headerTitle: 'Existing Order Details',
-        headerRight: (<RightHeader navigation={navigation}  ></RightHeader>),
         headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
         headerTintColor: 'white',
         headerLeft: null
@@ -225,7 +224,6 @@ const CaptainStack = StackNavigator({
         shadowOffset:{width: 0, height: 3},
         shadowOpacity: 0.3 },
         headerTitle: 'Order Details',
-        headerRight: (<RightHeader navigation={navigation}  ></RightHeader>),
         headerTitleStyle: { alignSelf: 'flex-end', color: 'white', marginBottom: 14, fontWeight: 'bold', fontSize: 30 },
         headerTintColor: 'white',
       })

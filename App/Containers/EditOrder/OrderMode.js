@@ -16,7 +16,8 @@ export default class OrderMode extends React.Component {
             let Modeinfo="  Price:"+this.props.mode.defaultItemPrice+"X"+this.props.mode.quantity+"="+
             this.props.mode.defaultItemPrice*this.props.mode.quantity;
             this.props.mode.orders.map((element,itemIndex)=>{
-                ordersType.push(<OrderItem orders={element} itemIndex={itemIndex} updateQuantity={this.props.updateQuantity} suborderNo={this.props.suborderNumber} modeIndex ={this.props.modeIndex}/>);
+                ordersType.push(<OrderItem orders={element} SubOrderApproved={this.props.SubOrderApproved} itemIndex={itemIndex} updateQuantity={this.props.updateQuantity} suborderNo={this.props.suborderNumber} modeIndex ={this.props.modeIndex}/>);
+                // isSubOrderApproved={this.props.isSubOrderApproved}
             });
             return (
                 

@@ -25,7 +25,7 @@ class PendingOrder extends React.Component {
     this.props.navigation.navigate("FloorScreen");
   }
 
-  OrderDetails(selectedTable){
+  ViewOrderDetails(selectedTable){
     let visible=false;
     this.props.dispatch({ type: ReduxActions.SHOW_ALERT, visible: visible });
     this.props.dispatch({type:ReduxActions.GET_ORDER_DETAILS_FOR_CAPTAIN, selectedTable});
@@ -39,11 +39,11 @@ class PendingOrder extends React.Component {
     this.props.allTableArray.forEach(floors => {   
       counter = 0;
       floors.tables.forEach(table => {    
-          if(table.orderDetails) { 
+          if(table.orderDetails && !table.isApproved) { 
             counter = 1;
             orderIDArr.push(
               <View style={[comStyles.contextgroundStyle, comStyles.borderStyle]}>
-                <View style={{justifyContent: 'flex-start', alignContent: 'flex-start', flexDirection: 'row'}}>
+                <View style={{width: 90 + '%',justifyContent: 'flex-start', alignContent: 'flex-start', flexDirection: 'row'}}>
                   <View style={{marginLeft: 10}}>
                     <Text style={comStyles.tableTxtStyle}>tableId: {table.tableID}</Text>
                   </View>
@@ -54,17 +54,13 @@ class PendingOrder extends React.Component {
                     <Text style={comStyles.tableTxtStyle}>Customer: {table.orderDetails.customer.customerName}</Text>
                   </View>
                 </View>
-                <View style={{justifyContent: 'flex-end', alignContent: 'flex-end', flexDirection: 'row'}}>
-                  <View>
-                  {/* <Button style={comStyles.smButtonStyle} onPress={this.OrderDetails.bind(this,table)}>
-                  <Icon active name="arrow-with-circle-right"></Icon> */}
-                  <Icon onPress={this.OrderDetails.bind(this,table)} style={{fontSize: 35, color: '#1C227E'}} name="arrow-with-circle-right"></Icon>
-                    {/* <Text style={comStyles.whiteTxtStyle}>View Orderdetails</Text>*/}
-                     {/* </Button> */}
+                <View style={{width: 10 + '%',justifyContent: 'flex-start', alignContent: 'flex-start', flexDirection: 'row'}}>
+                  <View >
+                    <Icon onPress={this.ViewOrderDetails.bind(this,table)} style={{fontSize: 35, color: '#1C227E'}} name="arrow-with-circle-right"></Icon>
                   </View>
                 </View>
               </View>
-            )
+            )            
           }
       });
       if(counter === 1) {

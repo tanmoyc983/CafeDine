@@ -1,18 +1,18 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView,ActivityIndicator, Image } from 'react-native';
+import { View, ScrollView,ActivityIndicator, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Accordion from 'react-native-collapsible/Accordion';
 import { connect } from "react-redux";
 import { Images } from '../Themes';
 import styles from './Styles/LaunchScreenStyles';
-import { Button, Content, Card, CardItem, Text,H1,H2, H3 } from 'native-base';
+import { Button, Content, Card, CardItem, Text,H2, H3 } from 'native-base';
 import ReduxActions from "../Redux/ActionTypes/Action";
 import SagaActions from "../Sagas/ActionTypes/Action";
 import OrderMode from "./EditOrder/OrderMode";
 import { NavigationActions } from 'react-navigation';
 import {Toast} from 'native-base';
 import __  from "lodash";
-import comStyles, {customerIconColor, borderColor, orderColor, dropdownColor, accountStarIconColor, backgroundColor} from './Styles/CommonStyles';
+import comStyles, {customerIconColor, borderColor, orderColor, dropdownColor, accountStarIconColor} from './Styles/CommonStyles';
 import Icon2 from 'react-native-vector-icons/FontAwesome';
 
 class MenuItemsComponent extends React.Component {
@@ -99,8 +99,15 @@ class MenuItemsComponent extends React.Component {
 
         isSubOrderApproved(round){
             if(!this.props.isOrderApproved){
-                 if(!round.isApproved && this.props.approvedOrders.indexOf(round.subOrderNumber)==-1 ){
-                     return true;
+                 if(!round.isApproved){
+                     if(this.props.approvedOrders.length===0){
+                       return true;
+                     }
+                     else if(this.props.approvedOrders.length>0){
+                         if(this.props.approvedOrders.indexOf(round.subOrderNumber)==-1)
+                         {return true;}
+                         else{return false;}
+                     }
                  }
                  else{
                     return false;
@@ -112,12 +119,14 @@ class MenuItemsComponent extends React.Component {
         }
 
     _renderContent(section) {
-        let myOrders = [];
+        let myOrders = []; 
+        let subOrderApproved=this.isSubOrderApproved(section);
         section.modes.map((item, modeIndex) => {
             myOrders.push(
             <React.Fragment>
             <View style={{flex:6,flexDirection:'row', justifyContent:'flex-start',alignItems:'flex-start'}}>
-                <OrderMode mode={item} updateQuantity={this.updateQuantity.bind(this)} suborderNumber={section.subOrderNumber} modeIndex ={modeIndex}/>
+           {/* isSubOrderApproved={SubOrderApproved} */}
+            <OrderMode mode={item} SubOrderApproved={subOrderApproved} updateQuantity={this.updateQuantity.bind(this)} suborderNumber={section.subOrderNumber} modeIndex ={modeIndex}/>
             </View>           
             </React.Fragment>);                     
                 })
@@ -154,7 +163,7 @@ class MenuItemsComponent extends React.Component {
                 <Image source={Images.background} style={styles.backgroundImage} resizeMode='cover' />
                 {this.props.isCheckoutPressed && <View style={[comStyles.rowContainer, comStyles.horizontal]} >
                     <ActivityIndicator size="large" color="red" /></View>}
-                    {!this.props.isCheckoutPressed &&  <View>{this.props.tableWithOrderDetails.orderDetails !== undefined && 
+                {!this.props.isCheckoutPressed &&  <View>{this.props.tableWithOrderDetails.orderDetails !== undefined && 
                 <ScrollView>
                     <Content padder>
                         <Card>
